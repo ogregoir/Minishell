@@ -103,7 +103,8 @@ Les fonctions de terminal un argument vers une structure "termios_p" avec ces va
 
 
                         Fonctions diverses :
-wait3 / wait 4 : similaire à wait_pid mais renvoie des informations sur l'utilisation des ressources stocker dans la structure rusage (qui faut mettre en dernier argument) (Mais d'après ce que j’ai vu ces fonctions n’ont pas trop d'intérêt vu que waitpid est similaire)
+wait3 / wait 4 : similaire à wait_pid mais renvoie des informations sur l'utilisation des ressources stocker dans la structure rusage (qui faut mettre en dernier argument) 
+(Mais d'après ce que j’ai vu ces fonctions n’ont pas trop d'intérêt vu que waitpid est similaire)
 
 
 getcwd : permet d'obtenir le chemin absolu du répertoire de travail dans la chaîne pointée par buf
@@ -126,10 +127,10 @@ Permet de ce deplacer pendant l'execution du porgramme
 
 
 unlink : détruit un nom dans le système de fichiers et donc supprime ce fichier
-strerror : renvoi la chaîne de caractère associée a un code erreur, strerror renvoi un char*, mais ne malloc pas
-        Utilisation 
-                unlink(“Nom du fichier”);
+	Utilisation : 
+		unlink("Nom du fichier");
 
+strerror : renvoi la chaîne de caractère associée a un code erreur, strerror renvoi un char*, mais ne malloc pas
 
 isatty : permet de vérifier sur un descripteur de fichier est connecté à un terminal ( renvoie 1 si oui, aussi non 0)
 
