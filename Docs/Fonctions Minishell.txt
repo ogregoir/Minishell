@@ -107,14 +107,22 @@ wait3 / wait 4 : similaire à wait_pid mais renvoie des informations sur l'utili
 
 
 getcwd : permet d'obtenir le chemin absolu du répertoire de travail dans la chaîne pointée par buf
-Utilisation :
-char *str;
-str = malloc(sizeof(str) * buf_size);
-getcwd(str, buf_size);
-printf(str); /*/Users/rgreiner/Desktop/Minishell*/
+	Utilisation :
+		char *str;
+		str = malloc(sizeof(str) * buf_size);
+		getcwd(str, buf_size);
+		printf(str); /* /Users/rgreiner/Desktop/Minishell */
 
 
 chdir : remplace le répertoire de travail par celui indique dans path (sers pour cd)
+Permet de ce deplacer pendant l'execution du porgramme
+	Utilisation : 
+		getcwd(str, 100);
+		ft_putstr_fd(str, 0); /* /Users/rgreiner/Desktop/Minishell */
+		chdir("/Users/rgreiner/");
+		printf("\n");
+		getcwd(str, 100); 
+		ft_putstr_fd(str, 0);  /* /Users/rgreiner */
 
 
 unlink : détruit un nom dans le système de fichiers et donc supprime ce fichier
