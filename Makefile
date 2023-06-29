@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/06/29 14:53:51 by ogregoir         ###   ########.fr        #
+#    Updated: 2023/06/29 18:20:03 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	= 
+SRCS	=	main.c
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -22,6 +22,8 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Werror -Wextra
 
+LIBS	=	-lreadline -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+
 LIBFT	=	utils/libft/libft.a
 
 #----------------------------------------#
@@ -29,7 +31,7 @@ LIBFT	=	utils/libft/libft.a
 all		:	$(NAME)
 
 $(NAME)	: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(LIBFT) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(LIBFT) $(OBJS) ${LIBS} -o $(NAME)
 
 clean	:
 	$(RM)   $(OBJS)
