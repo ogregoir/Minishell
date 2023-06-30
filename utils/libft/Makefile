@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 23:03:49 by ogregoir          #+#    #+#              #
-#    Updated: 2022/11/30 19:01:27 by ogregoir         ###   ########.fr        #
+#    Updated: 2023/06/30 14:18:46 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,6 @@ SRCS	=	ft_bzero.c \
 			get_next_line.c \
 			ft_strchri.c \
 			ft_putnbr.c \
-			../ft_printf.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

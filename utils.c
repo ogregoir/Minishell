@@ -1,32 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 14:17:02 by rgreiner         ###   ########.fr       */
+/*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
+/*   Updated: 2023/06/30 14:17:37 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include"minishell.h"
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <stdarg.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "utils/libft/libft.h"
+int	ft_check_nbr(char **str)
+{
+	int	i;
+	int	j;
+	
+	i = 1;
+	while(str[i])
+	{
+		j = 0;
+		while(str[i][j])
+		{
+			if(str[i][j] < '0' || str[i][j] > '9')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
-	/*Builtins*/
-void	ft_exit(char **line);
+void	ft_free_split(char **split)
+{
+	int		i;
 
-	/*Utils*/
-void	ft_free_split(char **split);
-int		ft_check_nbr(char **str);
-
-#endif
+	i = 0;
+	while (split[i] != '\0')
+	{
+		i++;
+		free(split[i]);
+	}
+	free(split);
+	split = NULL;
+}
