@@ -6,13 +6,13 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/06/30 14:20:13 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/06/30 14:43:41 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	=	main.c \
 			utils.c \
-			exit.c
+			builtins.c
 
 OBJS	=	$(SRCS:.c=.o)
 
