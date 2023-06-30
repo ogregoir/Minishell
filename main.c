@@ -6,14 +6,14 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 14:54:37 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:44:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void	check_line(char *rl_line_buffer)
+void	check_line(char *rl_line_buffer, char **env)
 {
 	char **line;
 	
@@ -22,14 +22,14 @@ void	check_line(char *rl_line_buffer)
 		ft_echo();
 	else if(ft_strncmp(line, "cd", 2) == 0)
 		ft_cd();*/
-	if(ft_strncmp(line[0], "pwd", 3) == 0)
+	if(ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
 		ft_pwd();
 	/*else if(ft_strncmp(line, "export", 6) == 0)
 		ft_export();
 	else if(ft_strncmp(line, "unset", 5) == 0)
-		ft_unset();
-	else if(ft_strncmp(line, "env", 3) == 0)
-		ft_env();*/
+		ft_unset();*/
+	if(ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
+		ft_env(line, env);
 	if(ft_strncmp(line[0], "exit", 4) == 0 && ft_strlen(line[0]) == 4)
 		ft_exit(line);
 	//else
@@ -41,12 +41,13 @@ int	main(int argc, char **argv, char **env)
 {
 	argc = 0;
 	argv = NULL;
-	env = NULL;
 
-	readline("minishell : ");	
+	if(!env[0])
+		exit(1);
+	readline("minishell : ");
 	while(rl_line_buffer != NULL)
 	{
-		check_line(rl_line_buffer);
+		check_line(rl_line_buffer, env);
 		readline("minishell : ");
 	}
 	return (0);

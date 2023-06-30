@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 14:50:12 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:27:49 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 	/*Builtins*/
 void	ft_exit(char **line);
 void	ft_pwd(void);
+void	ft_env(char **line, char **env);
 
 
 	/*Utils*/
