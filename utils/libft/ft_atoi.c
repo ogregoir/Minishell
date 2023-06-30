@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 13:50:40 by ogregoir          #+#    #+#             */
-/*   Updated: 2022/11/23 22:59:40 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:41:59 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_atoi(char *str)
 		while (str[i] > 47 && str[i] < 58)
 		{
 			n = 10 * n + str[i] - 48;
-				i++;
+			i++;
 		}
 		return (n * sign);
 	}

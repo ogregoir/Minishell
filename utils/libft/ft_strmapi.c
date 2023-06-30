@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 02:21:57 by ogregoir          #+#    #+#             */
-/*   Updated: 2022/11/23 23:09:43 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:43:04 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	if (!str)
 		return (NULL);
 	while (s[i] && i < lens)
-	{	
+	{
 		str[i] = f(i, s[i]);
 		i++;
 	}

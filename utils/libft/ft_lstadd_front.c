@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 18:48:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/03/23 18:48:48 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:45:53 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	{
 		new->next = *lst;
 		*lst = new;
-	}	
+	}
 }

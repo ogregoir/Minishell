@@ -6,24 +6,24 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/06/30 14:55:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:41:48 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 int	ft_check_nbr(char **str)
 {
 	int	i;
 	int	j;
-	
+
 	i = 1;
-	while(str[i])
+	while (str[i])
 	{
 		j = 0;
-		while(str[i][j])
+		while (str[i][j])
 		{
-			if(str[i][j] < '0' || str[i][j] > '9')
+			if (str[i][j] < '0' || str[i][j] > '9')
 				return (1);
 			j++;
 		}

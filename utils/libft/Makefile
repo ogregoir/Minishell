@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 23:03:49 by ogregoir          #+#    #+#              #
-#    Updated: 2023/06/30 14:18:46 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/06/30 17:48:18 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRCS	=	ft_bzero.c \
 			ft_isprint.c \
 			ft_memcmp.c \
 			ft_memcpy.c \
-			ft_memmove.c \
 			ft_memset.c \
 			ft_putchar_fd.c \
 			ft_putendl_fd.c \

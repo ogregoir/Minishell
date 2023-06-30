@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:58:52 by ogregoir          #+#    #+#             */
-/*   Updated: 2022/11/23 23:02:53 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/06/30 17:45:34 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_digit(long int n)
 	while (n)
 	{
 		n = n / 10;
-			j++;
+		j++;
 	}
 	return (j);
 }

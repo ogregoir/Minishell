@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 15:27:49 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:49:43 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
@@ -26,7 +27,7 @@
 void	ft_exit(char **line);
 void	ft_pwd(void);
 void	ft_env(char **line, char **env);
-
+void	ft_echo(char **line);
 
 	/*Utils*/
 void	ft_free_split(char **split);
