@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/01 18:11:52 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:53:38 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_check_type(char *str)
 		i++;
 		
 	}
+	return (0);
 }
 char** ft_lexer(char **line, t_lex *lex)
 {
@@ -32,5 +33,6 @@ char** ft_lexer(char **line, t_lex *lex)
 	i = 0;
 	while(line[i])
 		lex->type = ft_check_type(line[i]);
+	return (0);
 	
 }

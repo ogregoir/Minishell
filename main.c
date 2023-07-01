@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 18:42:21 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:53:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**line;
+	lex = NULL;
 
 	line = ft_split(rl_line_buffer, ' ');
-	lex = ft_lexer(line, lex);
+	//lex = ft_lexer(line, lex);
 	if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)
 		ft_echo(line, 0, data);
 	/*else if(ft_strncmp(line, "cd", 2) == 0)
@@ -52,8 +53,9 @@ int	main(int argc, char **argv, char **env)
 	readline("minishell : ");
 	while (rl_line_buffer != NULL)
 	{
-		check_line(rl_line_buffer, env);
+		check_line(rl_line_buffer, env, &data, &lex);
 		ft_variables_env(rl_line_buffer);
+		add_history(rl_line_buffer);
 		readline("minishell : ");
 	}
 	return (0);
