@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 17:45:50 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:43:06 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_lex
 	struct s_lex	*next;
 }t_lex;
 
+
+void ft_variables_env(char *line);
 	/*Builtins*/
 void	ft_exit(char **line, t_data *data);
 void	ft_pwd(t_data *data);

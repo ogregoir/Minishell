@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 17:55:09 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:42:21 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	main(int argc, char **argv, char **env)
 	readline("minishell : ");
 	while (rl_line_buffer != NULL)
 	{
-		check_line(rl_line_buffer, env, &data, &lex);
+		check_line(rl_line_buffer, env);
+		ft_variables_env(rl_line_buffer);
 		readline("minishell : ");
 	}
 	return (0);
