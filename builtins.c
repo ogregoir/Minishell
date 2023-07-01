@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:58 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/06/30 18:14:39 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 13:43:34 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,51 @@ void	ft_env(char **line, char **env)
 	}
 }
 
-void	ft_echo(char **line)
+void	ft_echo_2(char **line, int i, int nl)
+{
+	int	j;
+
+	j = 0;
+	while (line[i])
+	{
+		if (line[i][j] == '$')
+			j++;
+		if (getenv(line[i] + j) != NULL)
+			printf("%s", getenv(line[i] + j));
+		else
+			printf("%s", line[i]);
+		if (line[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+	if (nl == 0)
+		printf("\n");
+}
+
+void	ft_echo(char **line, int nl)
 {
 	int	i;
-	int	nl;
+	int	j;
 
 	i = 1;
-	nl = 0;
+	j = 2;
 	if (line[1] == NULL)
 	{
 		printf("\n");
 		return ;
 	}
-	while (line [i] && ft_strncmp(line[i], "-n", 2) == 0 && ft_strlen(line[i]) == 2)
+	while (line [i] && ft_strncmp(line[i], "-n", 2) == 0)
 	{
-		i++;
-		nl = 1;
+		while (line[i][j] == 'n')
+			j++;
+		if (line[i][j] == '\0')
+		{
+			i++;
+			nl = 1;
+		}
+		else
+			break ;
+		j = 2;
 	}
-	while (line[i])
-	{
-		printf("%s", line[i]);
-		printf(" ");
-		i++;
-	}
-	if (nl == 0)
-		printf("\n");
+	ft_echo_2(line, i, nl);
 }

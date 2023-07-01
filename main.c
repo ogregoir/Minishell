@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 18:05:13 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 13:33:14 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_line(char *rl_line_buffer, char **env)
 
 	line = ft_split(rl_line_buffer, ' ');
 	if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)
-		ft_echo(line);
+		ft_echo(line, 0);
 	/*else if(ft_strncmp(line, "cd", 2) == 0)
 		ft_cd();*/
 	if (ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
