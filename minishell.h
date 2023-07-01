@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 13:35:51 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 17:45:50 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,23 @@
 # include <readline/history.h>
 # include "utils/libft/libft.h"
 
+typedef struct s_data
+{
+	int	exit_status;
+}t_data;
+
+typedef struct s_lex
+{
+	char	*content;
+	int		type;
+	struct s_lex	*next;
+}t_lex;
+
 	/*Builtins*/
-void	ft_exit(char **line);
-void	ft_pwd(void);
-void	ft_env(char **line, char **env);
-void	ft_echo(char **line, int nl);
+void	ft_exit(char **line, t_data *data);
+void	ft_pwd(t_data *data);
+void	ft_env(char **line, char **env, t_data *data);
+void	ft_echo(char **line, int nl, t_data *data);
 
 	/*Utils*/
 void	ft_free_split(char **split);

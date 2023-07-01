@@ -6,17 +6,17 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:58 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/01 13:43:34 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 16:53:00 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(char **line)
+void	ft_exit(char **line, t_data *data)
 {
 	printf("exit\n");
 	if (line[1] == NULL)
-		exit (EXIT_SUCCESS);
+		exit (data->exit_status);
 	if (ft_check_nbr(line) == 1)
 	{
 		printf("minishell: exit: %s numeric argument required\n", line[1]);
@@ -26,7 +26,7 @@ void	ft_exit(char **line)
 		exit (ft_atoi(line[1]));
 }
 
-void	ft_pwd(void)
+void	ft_pwd(t_data *data)
 {
 	char	*buf;
 	int		i;
@@ -36,9 +36,10 @@ void	ft_pwd(void)
 	buf = getcwd(buf, 100);
 	printf("%s\n", buf);
 	free(buf);
+	data->exit_status = 0;
 }
 
-void	ft_env(char **line, char **env)
+void	ft_env(char **line, char **env, t_data *data)
 {
 	int	i;
 
@@ -46,6 +47,7 @@ void	ft_env(char **line, char **env)
 	if (line[1] != NULL)
 	{
 		printf("env: %s: No such file or directory\n", line[1]);
+		data->exit_status = 127;
 		return ;
 	}
 	while (env[i] != NULL)
@@ -53,6 +55,7 @@ void	ft_env(char **line, char **env)
 		printf("%s\n", env[i]);
 		i++;
 	}
+	data->exit_status = 0;
 }
 
 void	ft_echo_2(char **line, int i, int nl)
@@ -63,9 +66,11 @@ void	ft_echo_2(char **line, int i, int nl)
 	while (line[i])
 	{
 		if (line[i][j] == '$')
+			{
 			j++;
-		if (getenv(line[i] + j) != NULL)
-			printf("%s", getenv(line[i] + j));
+			if (getenv(line[i] + j) != NULL)
+				printf("%s", getenv(line[i] + j));
+			}
 		else
 			printf("%s", line[i]);
 		if (line[i + 1] != NULL)
@@ -76,7 +81,7 @@ void	ft_echo_2(char **line, int i, int nl)
 		printf("\n");
 }
 
-void	ft_echo(char **line, int nl)
+void	ft_echo(char **line, int nl, t_data *data)
 {
 	int	i;
 	int	j;
@@ -102,4 +107,5 @@ void	ft_echo(char **line, int nl)
 		j = 2;
 	}
 	ft_echo_2(line, i, nl);
+	data->exit_status = 0;
 }
