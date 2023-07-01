@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
+#    By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/06/30 14:43:41 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/07/01 14:42:35 by ogregoir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	=	main.c \
 			utils.c \
-			builtins.c
+			builtins.c \
+			variables_environnement.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

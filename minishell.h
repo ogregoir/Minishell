@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 16:49:43 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 14:53:31 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # include <readline/history.h>
 # include "utils/libft/libft.h"
 
+typedef struct s_historical
+{
+	char	**str;
+	int		j;
+}	t_historical;
+
+void ft_variables_env(char *line);
 	/*Builtins*/
 void	ft_exit(char **line);
 void	ft_pwd(void);

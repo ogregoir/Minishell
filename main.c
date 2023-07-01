@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/30 18:05:13 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/01 14:53:07 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	check_line(char *rl_line_buffer, char **env)
 	/*else if(ft_strncmp(line, "cd", 2) == 0)
 		ft_cd();*/
 	if (ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
+	{
 		ft_pwd();
+		add_history(rl_line_buffer);
+	}
 	/*else if(ft_strncmp(line, "export", 6) == 0)
 		ft_export();
 	else if(ft_strncmp(line, "unset", 5) == 0)
@@ -46,6 +49,8 @@ int	main(int argc, char **argv, char **env)
 	while (rl_line_buffer != NULL)
 	{
 		check_line(rl_line_buffer, env);
+		add_history(rl_line_buffer);
+		ft_variables_env(rl_line_buffer);
 		readline("minishell : ");
 	}
 	return (0);
