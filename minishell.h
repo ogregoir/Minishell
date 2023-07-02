@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 18:43:06 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 14:03:05 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,25 @@ typedef struct s_data
 	int	exit_status;
 }t_data;
 
+
+typedef	enum
+{
+	TOKEN_TEXT,
+	TOKEN_DOLLAR,
+	TOKEN_PIPE,
+	TOKEN_REDI_IN,
+	TOKEN_REDI_EXIT,
+	TOKEN_REDI_HERE_DOC,
+	TOKEN_REDI_EXIT_APPEND,
+	TOKEN_QUOTES,
+	TOKEN_DB_QUOTES,
+	TOKEN_NULL
+}e_token_type;
+
 typedef struct s_lex
 {
 	char	*content;
-	int		type;
+	e_token_type		type;
 	struct s_lex	*next;
 }t_lex;
 
