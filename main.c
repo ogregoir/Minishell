@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 14:18:50 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 15:25:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 	argc = 0;
 	argv = NULL;
 	data.exit_status = 0;
+	printf("%u\n",token[0].type);
 	if (!env[0])
 		exit(1);
 	readline("minishell : ");

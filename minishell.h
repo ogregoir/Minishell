@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 14:27:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 15:22:18 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_data
 {
 	int	exit_status;
 }t_data;
-
 
 typedef	enum
 {
@@ -51,7 +50,23 @@ typedef struct s_lex
 	
 }t_lex;
 
+typedef struct{
+	const char *token;
+	int	len;
+	e_token_type type;
+}t_listtest;
 
+static const t_listtest token[] =
+{	
+	{"<<", 2, TOKEN_REDI_HERE_DOC},
+	{">>", 2, TOKEN_REDI_EXIT_APPEND},
+	{"$", 1, TOKEN_DOLLAR},
+	{"|", 1, TOKEN_PIPE},
+	{"<", 1, TOKEN_REDI_IN},
+	{">", 1, TOKEN_REDI_EXIT},
+	{NULL, 1, 0}
+
+};
 
 	/*Lexer*/
 void	ft_lexer(char **line, t_lex *lex);
