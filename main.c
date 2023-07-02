@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/01 18:53:16 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 14:18:50 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**line;
-	lex = NULL;
 
 	line = ft_split(rl_line_buffer, ' ');
-	//lex = ft_lexer(line, lex);
+	ft_lexer(line, lex);
 	if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)
 		ft_echo(line, 0, data);
 	/*else if(ft_strncmp(line, "cd", 2) == 0)
@@ -38,6 +37,7 @@ void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 	//else
 	//	ft_not_builtin();
 	ft_free_split(line);
+	return ;
 }
 
 int	main(int argc, char **argv, char **env)

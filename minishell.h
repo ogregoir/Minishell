@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 14:03:05 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 14:27:48 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_data
 
 typedef	enum
 {
-	TOKEN_TEXT,
 	TOKEN_DOLLAR,
 	TOKEN_PIPE,
 	TOKEN_REDI_IN,
@@ -40,6 +39,7 @@ typedef	enum
 	TOKEN_REDI_EXIT_APPEND,
 	TOKEN_QUOTES,
 	TOKEN_DB_QUOTES,
+	TOKEN_TEXT,
 	TOKEN_NULL
 }e_token_type;
 
@@ -48,7 +48,13 @@ typedef struct s_lex
 	char	*content;
 	e_token_type		type;
 	struct s_lex	*next;
+	
 }t_lex;
+
+
+
+	/*Lexer*/
+void	ft_lexer(char **line, t_lex *lex);
 
 
 void ft_variables_env(char *line);
