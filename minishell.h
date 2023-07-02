@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:27:26 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 21:12:36 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_data
 	int	exit_status;
 }t_data;
 
-typedef	enum
+typedef	enum s_test
 {
 	TOKEN_DOLLAR,
 	TOKEN_PIPE,
@@ -44,10 +44,9 @@ typedef	enum
 
 typedef struct s_lex
 {
-	char	*content;
-	e_token_type		type;
 	struct s_lex	*next;
-	
+	char			*content;
+	e_token_type	type;
 }t_lex;
 
 typedef struct{
@@ -81,5 +80,11 @@ void	ft_echo(char **line, int nl, t_data *data);
 	/*Utils*/
 void	ft_free_split(char **split);
 int		ft_check_nbr(char **str);
+t_lex	*ft_lstnew(char *content, e_token_type i);
+void	addcontent(t_lex *list, char *content, e_token_type i);
+
+	/*TESTS*/
+char	*check_space(char *str, int	j);
+
 
 #endif

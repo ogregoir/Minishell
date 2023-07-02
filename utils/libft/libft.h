@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:09:24 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/06/13 15:05:11 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/07/02 19:10:58 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ char	*get_next_line(int fd);
 int		ft_strchri(const char *str, int s);
 int		ft_putnbr(int nb);
 int		ft_printf(const char *str, ...);
+char	*ft_strndup(const char *src, int n);
 
 #endif

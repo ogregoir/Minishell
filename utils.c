@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/06/30 17:41:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 21:12:52 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,41 @@ void	ft_free_split(char **split)
 	}
 	free(split);
 	split = NULL;
+}
+
+t_lex	*ft_lstnew(char *content, e_token_type i)
+{
+	t_lex	*list;
+
+	list = malloc(sizeof(t_list));
+	if (!list)
+		return (0);
+	list -> content = content;
+	list -> type = i;
+	printf("%u\n", list->type);
+	list -> next = NULL;
+	return (list);
+}
+
+void	addcontent(t_lex *list, char *content, e_token_type i)
+{
+	t_lex	*new;
+	t_lex	*temp;
+
+	new = malloc(sizeof(new));
+	if (list == NULL || new == NULL)
+		return ;
+	new->content = content;
+	new->type = i;
+	new->next = NULL;
+	printf("nt %u\n", new->type);
+	if (list->next != NULL)
+	{
+		temp = list->next;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new;
+	}
+	else
+		list->next = new;
 }

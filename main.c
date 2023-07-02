@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:27:44 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:57:37 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	print_lexer(t_lex *lex)
 	}
 }
 
-void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
+static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**line;
+	//char *temp;
 
 	line = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(line, lex);
@@ -70,7 +71,7 @@ int	main(int argc, char **argv, char **env)
 	while (rl_line_buffer != NULL)
 	{
 		check_line(rl_line_buffer, env, &data, &lex);
-		ft_variables_env(rl_line_buffer);
+		//ft_variables_env(rl_line_buffer);
 		add_history(rl_line_buffer);
 		readline("minishell : ");
 	}

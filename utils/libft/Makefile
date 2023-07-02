@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
+#    By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 23:03:49 by ogregoir          #+#    #+#              #
-#    Updated: 2023/06/30 17:48:18 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/07/02 18:56:23 by ogregoir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS	=	ft_bzero.c \
 			ft_strlcat.c \
 			ft_strlcpy.c \
 			ft_strlen.c \
+			ft_strndup.c \
 			ft_strncmp.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
