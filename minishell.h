@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 15:22:18 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:27:26 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_lex
 }t_lex;
 
 typedef struct{
-	const char *token;
+	char *token;
 	int	len;
 	e_token_type type;
 }t_listtest;
@@ -65,11 +65,10 @@ static const t_listtest token[] =
 	{"<", 1, TOKEN_REDI_IN},
 	{">", 1, TOKEN_REDI_EXIT},
 	{NULL, 1, 0}
-
 };
 
 	/*Lexer*/
-void	ft_lexer(char **line, t_lex *lex);
+t_lex	*ft_lexer(char **line, t_lex *lex);
 
 
 void ft_variables_env(char *line);
