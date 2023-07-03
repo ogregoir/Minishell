@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 21:12:36 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:58:14 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static const t_listtest token[] =
 	{"|", 1, TOKEN_PIPE},
 	{"<", 1, TOKEN_REDI_IN},
 	{">", 1, TOKEN_REDI_EXIT},
-	{NULL, 1, 0}
+	{NULL, 1, TOKEN_NULL}
 };
 
 	/*Lexer*/
 t_lex	*ft_lexer(char **line, t_lex *lex);
-
+char	*check_next(char *str, int j);
 
 void ft_variables_env(char *line);
 	/*Builtins*/

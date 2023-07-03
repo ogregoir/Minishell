@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 11:06:03 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:47:39 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	print_lexer(t_lex *lex)
 static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**line;
-	//char *temp;
 
 	line = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(line, lex);
