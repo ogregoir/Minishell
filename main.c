@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/02 20:57:37 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:06:03 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_lexer(t_lex *lex)
 	{
 		printf("-------------------\n");
 		printf("%s\n", tmp->content);
-		printf("%d\n", tmp->type);
+		printf("%u\n", tmp->type);
 		printf("-------------------\n");
 		tmp = tmp -> next;
 	}

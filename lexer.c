@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/02 21:12:27 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:56:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ void	check_type(char	*str, char c)
 			tmp->
 }*/
 
+void	check_next(char *str, int j)
+{
+	int i;
+	int l;
+	char *s;
+
+	i = token[j].len;
+	l = 0;
+	s = ft_substr(str, i, ft_strlen(str));
+	while(s[l])
+	{
+		if(ft_isalnum(s[l]) == 0)
+			break;
+		l++;
+	}
+	free(s);
+	s = ft_substr(str, l + 1, ft_strlen(str));
+	printf("substr = %s\n", s);
+	
+}
+
 t_lex	*ft_check_type(char *str, t_lex *lex)
 {
 	int	i;
@@ -55,15 +76,16 @@ t_lex	*ft_check_type(char *str, t_lex *lex)
 
 	i = 0;
 	j = 0;
-	while(j < 6)
+	while(token[j].token != NULL)
 	{
 		if(ft_strncmp(str, token[j].token, token[j].len) == 0)
 			{
+				check_next(str, j);
 				s = ft_strdup(str);
 				if (!lex)
-					lex = ft_lstnew(s, j);
+					lex = ft_lstnew(s, token[j].type);
 				else
-					addcontent(lex, s, j);
+					addcontent(lex, s, token[j].type);
 				return(lex) ;
 			}
 		j++;
@@ -84,8 +106,6 @@ t_lex	*ft_lexer(char **line, t_lex *lex)
 	while(line[i])
 	{
 		lex = ft_check_type(line[i], lex);
-		//printf("%s\n", lex->content);
-		//printf("%d\n",lex->type);
 		i++;
 	}
 	return(lex) ;
