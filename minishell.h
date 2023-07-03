@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 19:53:55 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:05:46 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef struct s_lex
 	t_token_type	type;
 }t_lex;
 
-typedef struct s_listtest{
-	char			*token;
-	int				len;
-	t_token_type	type;
+typedef struct{
+	char *token;
+	int	len;
+	t_token_type type;
 }t_listtest;
 
 	/*Lexer*/
@@ -59,7 +59,7 @@ t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 
 	/*TESTS*/
-char	*check_space(char *str, int j);
+t_lex	*ft_check_type(char *str, t_lex *lex);
 
 typedef enum s_test
 {
