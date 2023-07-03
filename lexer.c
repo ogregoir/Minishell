@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/03 16:51:51 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 18:53:26 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ char	*go_next(char *str, char *s)
 	
 	i = 0;
 	ret = NULL;
+	if(str == NULL)
+		return(ret);
 	while (str[i] && str[i] == s[i])
 		i++;
-	//if (i >= 1)
-		ret = ft_substr(str, i, ft_strlen(str));
+	ret = ft_substr(str, i, ft_strlen(str));
 	return (ret);
 }
 
@@ -76,29 +77,35 @@ t_lex	*ft_check_type(char *str, t_lex *lex)
 				s = check_next(str, j);
 				if(s == NULL)
 					return (lex);
+				str = go_next(str, s);
+				if(str == NULL)
+					return (lex);
 				if (!lex)
 					lex = ft_lstnew(s, token[j].type);
 				else
 					addcontent(lex, s, token[j].type);
-				str = go_next(str, s);
-				printf("next = %s\n", str);
-				if (str != NULL || s != NULL)
-					lex = ft_check_type(str, lex);
+				lex = ft_check_type(str, lex);
 				return (lex);
 			}
 		j++;
 	}
 	s = check_next(str, j);
-	if(s == NULL)
+	if(s == NULL && str != NULL)
+		{
+		if (!lex)
+			lex = ft_lstnew(str, TOKEN_TEXT);
+		else
+			addcontent(lex, str, TOKEN_TEXT);
+		return (lex);
+		}
+	str = go_next(str, s);
+	if(str == NULL)
 		return (lex);
 	if (!lex)
-		lex = ft_lstnew(str, TOKEN_TEXT);
+		lex = ft_lstnew(s, TOKEN_TEXT);
 	else
-		addcontent(lex, str, TOKEN_TEXT);
-	str = go_next(str, s);
-	printf("next = %s\n", str);
-	if (str != NULL || s != NULL)
-		lex = ft_check_type(str, lex);
+		addcontent(lex, s, TOKEN_TEXT);
+	lex = ft_check_type(str, lex);
 	return(lex) ;
 }
 
@@ -110,6 +117,7 @@ char	*check_next(char *str, int j)
 
 	i = token[j].len;
 	l = 0;
+	s = NULL;
 	while(str[l])
 	{
 		if(ft_isalnum(str[l]) == 0)
@@ -118,12 +126,10 @@ char	*check_next(char *str, int j)
 				s = ft_substr(str, 0, l + 1);
 			else
 				s = ft_substr(str, 0, l);
-			printf("check_next = %s\n", s);
 			return (s);
 		}
 		l++;
 	}
-	s = NULL;
 	return (s);
 }
 
