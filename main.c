@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 14:47:39 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:42:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_lexer(t_lex *lex)
 {
-	t_lex *tmp;
+	t_lex	*tmp;
 	
 	tmp = lex;
 	while(tmp)
