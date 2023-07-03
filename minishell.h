@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 14:58:14 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:35:47 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef	enum s_test
 	TOKEN_DB_QUOTES,
 	TOKEN_TEXT,
 	TOKEN_NULL
-}e_token_type;
+}t_token_type;
 
 typedef struct s_lex
 {
@@ -55,7 +55,7 @@ typedef struct{
 	e_token_type type;
 }t_listtest;
 
-static const t_listtest token[] =
+static const t_listtest g_token[] =
 {	
 	{"<<", 2, TOKEN_REDI_HERE_DOC},
 	{">>", 2, TOKEN_REDI_EXIT_APPEND},
