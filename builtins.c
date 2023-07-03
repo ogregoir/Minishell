@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:58 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/01 16:53:00 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:03:05 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ void	ft_echo_2(char **line, int i, int nl)
 	while (line[i])
 	{
 		if (line[i][j] == '$')
-			{
+		{
 			j++;
 			if (getenv(line[i] + j) != NULL)
 				printf("%s", getenv(line[i] + j));
-			}
+		}
 		else
 			printf("%s", line[i]);
 		if (line[i + 1] != NULL)

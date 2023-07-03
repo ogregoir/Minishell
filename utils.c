@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/03 11:17:29 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:49:28 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_free_split(char **split)
 	split = NULL;
 }
 
-t_lex	*ft_lstnew(char *content, e_token_type i)
+t_lex	*ft_lstnew(char *content, t_token_type i)
 {
 	t_lex	*list;
 
@@ -61,7 +61,7 @@ t_lex	*ft_lstnew(char *content, e_token_type i)
 	return (list);
 }
 
-void	addcontent(t_lex *list, char *content, e_token_type i)
+void	addcontent(t_lex *list, char *content, t_token_type i)
 {
 	t_lex	*new;
 	t_lex	*temp;
