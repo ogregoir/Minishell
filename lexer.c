@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/03 18:53:26 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:40:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*check_space(char *str, int	j)
 	}
 	return (str);
 }
+
 /*
 void	check_type(char	*str, char c)
 {
@@ -58,7 +59,8 @@ char	*go_next(char *str, char *s)
 		return(ret);
 	while (str[i] && str[i] == s[i])
 		i++;
-	ret = ft_substr(str, i, ft_strlen(str));
+	if (i >= 1)
+		ret = ft_substr(str, i, ft_strlen(str));
 	return (ret);
 }
 
@@ -70,50 +72,59 @@ t_lex	*ft_check_type(char *str, t_lex *lex)
 
 	i = 0;
 	j = 0;
+	if (str == NULL)
+		return(lex);
 	while(token[j].token != NULL)
 	{
 		if(ft_strncmp(str, token[j].token, token[j].len) == 0)
-			{	
-				s = check_next(str, j);
-				if(s == NULL)
-					return (lex);
-				str = go_next(str, s);
-				if(str == NULL)
-					return (lex);
-				if (!lex)
-					lex = ft_lstnew(s, token[j].type);
-				else
-					addcontent(lex, s, token[j].type);
+		{	
+			s = check_next(str, j);
+			if (!lex)
+				lex = ft_lstnew(s, token[j].type);
+			else
+				addcontent(lex, s, token[j].type);
+			str = go_next(str, s);
+			printf("next = %s\n", str);
+			if (str != NULL || s != NULL)
 				lex = ft_check_type(str, lex);
-				return (lex);
-			}
+			return (lex);
+		}
 		j++;
 	}
 	s = check_next(str, j);
-	if(s == NULL && str != NULL)
-		{
-		if (!lex)
-			lex = ft_lstnew(str, TOKEN_TEXT);
-		else
-			addcontent(lex, str, TOKEN_TEXT);
-		return (lex);
-		}
-	str = go_next(str, s);
-	if(str == NULL)
+	if (s == NULL)
 		return (lex);
 	if (!lex)
 		lex = ft_lstnew(s, TOKEN_TEXT);
 	else
 		addcontent(lex, s, TOKEN_TEXT);
-	lex = ft_check_type(str, lex);
+	str = go_next(str, s);
+	printf("s %s\n", s);
+	printf("next = %s\n", s);
+	if (str != NULL || s != NULL)
+		lex = ft_check_type(str, lex);
 	return(lex) ;
+}
+
+static int	copy_text(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isalnum(str[i]) == 0)
+			return (i);
+		i++;
+	}
+	return (0);
 }
 
 char	*check_next(char *str, int j)
 {
-	int i;
 	int l;
 	char *s;
+	int	i;
 
 	i = token[j].len;
 	l = 0;
@@ -122,10 +133,20 @@ char	*check_next(char *str, int j)
 	{
 		if(ft_isalnum(str[l]) == 0)
 		{
-			if(l == 0)
-				s = ft_substr(str, 0, l + 1);
+			s = ft_substr(str, 0, l +1);
+			return (s);
+		}
+		else if (str[l] == ' ')
+			l++;
+		else
+		{
+			l = copy_text(str);
+			if (l == 0)
+				return (str);
 			else
+			{
 				s = ft_substr(str, 0, l);
+			printf("check_next = %s\n", s);
 			return (s);
 		}
 		l++;
