@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/03 20:07:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:30:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ char	*check_next(char *str, int j)
 	{
 		if (ft_isalnum(str[l]) == 0)
 		{
+			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
+				l++;
 			s = ft_substr(str, 0, l +1);
 			return (s);
 		}
-		else if (str[l] == ' ')
-			l++;
 		else
 		{
 			l = copy_text(str);

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:09:24 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 17:20:31 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:09:43 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_free(char *s1, char *s2);
-int		ft_strlen(const char *str);
+size_t	ft_strlen(const char *str);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strnstr(const char *hs, const char *n, size_t len);
 char	*ft_strrchr(const char *str, int s);

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 20:05:46 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:10:52 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,37 @@
 # include <readline/history.h>
 # include "utils/libft/libft.h"
 
+typedef enum s_test
+{
+	TOKEN_DOLLAR,
+	TOKEN_PIPE,
+	TOKEN_REDI_IN,
+	TOKEN_REDI_EXIT,
+	TOKEN_REDI_HERE_DOC,
+	TOKEN_REDI_EXIT_APPEND,
+	TOKEN_QUOTES,
+	TOKEN_DB_QUOTES,
+	TOKEN_TEXT,
+	TOKEN_NULL
+}t_token_type;
+
+typedef struct{
+	char *token;
+	int	len;
+	t_token_type type;
+}t_listtest;
+
+
+static const t_listtest	g_token[] = \
+	{
+{"<<", 2, TOKEN_REDI_HERE_DOC},
+{">>", 2, TOKEN_REDI_EXIT_APPEND},
+{"$", 1, TOKEN_DOLLAR},
+{"|", 1, TOKEN_PIPE},
+{"<", 1, TOKEN_REDI_IN},
+{">", 1, TOKEN_REDI_EXIT},
+{NULL, 1, TOKEN_NULL}
+};
 typedef struct s_data
 {
 	int	exit_status;
@@ -34,12 +65,6 @@ typedef struct s_lex
 	char			*content;
 	t_token_type	type;
 }t_lex;
-
-typedef struct{
-	char *token;
-	int	len;
-	t_token_type type;
-}t_listtest;
 
 	/*Lexer*/
 t_lex	*ft_lexer(char **line, t_lex *lex);
@@ -61,28 +86,4 @@ void	addcontent(t_lex *list, char *content, t_token_type i);
 	/*TESTS*/
 t_lex	*ft_check_type(char *str, t_lex *lex);
 
-typedef enum s_test
-{
-	TOKEN_DOLLAR,
-	TOKEN_PIPE,
-	TOKEN_REDI_IN,
-	TOKEN_REDI_EXIT,
-	TOKEN_REDI_HERE_DOC,
-	TOKEN_REDI_EXIT_APPEND,
-	TOKEN_QUOTES,
-	TOKEN_DB_QUOTES,
-	TOKEN_TEXT,
-	TOKEN_NULL
-}t_token_type;
-
-static const t_listtest	g_token[] = \
-	{
-{"<<", 2, TOKEN_REDI_HERE_DOC},
-{">>", 2, TOKEN_REDI_EXIT_APPEND},
-{"$", 1, TOKEN_DOLLAR},
-{"|", 1, TOKEN_PIPE},
-{"<", 1, TOKEN_REDI_IN},
-{">", 1, TOKEN_REDI_EXIT},
-{NULL, 1, TOKEN_NULL}
-};
 #endif
