@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 20:10:52 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:58:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ typedef enum s_test
 	TOKEN_NULL
 }t_token_type;
 
-typedef struct{
-	char *token;
-	int	len;
-	t_token_type type;
+typedef struct s_listtest{
+	char			*token;
+	int				len;
+	t_token_type	type;
 }t_listtest;
-
 
 static const t_listtest	g_token[] = \
 	{
@@ -70,6 +69,9 @@ typedef struct s_lex
 t_lex	*ft_lexer(char **line, t_lex *lex);
 char	*check_next(char *str, int j);
 void	ft_variables_env(char *line);
+t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
+t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
+char	*go_next(char *str, char *s);
 
 	/*Builtins*/
 void	ft_exit(char **line, t_data *data);
@@ -83,7 +85,7 @@ int		ft_check_nbr(char **str);
 t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 
-	/*TESTS*/
-t_lex	*ft_check_type(char *str, t_lex *lex);
+	/*EXEC*/
+void	ft_not_builtin(t_lex *lex, t_data *data, char **env);
 
 #endif

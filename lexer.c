@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/04 17:30:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:37:55 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*go_next(char *str, char *s)
 
 	i = 0;
 	ret = NULL;
-	if(str == NULL)
-		return(ret);
+	if (str == NULL)
+		return (ret);
 	while (str[i] && str[i] == s[i])
 		i++;
 	if (i >= 1)
@@ -28,14 +28,11 @@ char	*go_next(char *str, char *s)
 	return (ret);
 }
 
-t_lex	*ft_check_type(char *str, t_lex *lex)
+t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j)
 {
-	int		i;
-	int		j;
 	char	*s;
 
-	i = 0;
-	j = 0;
+	s = NULL;
 	if (str == NULL)
 		return (lex);
 	while (g_token[j].token != NULL)
@@ -49,21 +46,12 @@ t_lex	*ft_check_type(char *str, t_lex *lex)
 				addcontent(lex, s, g_token[j].type);
 			str = go_next(str, s);
 			if (str != NULL || s != NULL)
-				lex = ft_check_type(str, lex);
+				lex = ft_check_type(str, lex, i, 0);
 			return (lex);
 		}
 		j++;
 	}
-	s = check_next(str, j);
-	if (s == NULL)
-		return (lex);
-	if (!lex)
-		lex = ft_lstnew(s, TOKEN_TEXT);
-	else
-		addcontent(lex, s, TOKEN_TEXT);
-	str = go_next(str, s);
-	if (str != NULL || s != NULL)
-		lex = ft_check_type(str, lex);
+	lex = ft_text(s, str, j, lex);
 	return (lex);
 }
 
@@ -74,7 +62,8 @@ static int	copy_text(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (ft_isalnum(str[i]) == 0)
+		if (ft_isalnum(str[i]) == 0 && str[i] \
+		!= ' ' && str[i] != 47 && str[i] != '-')
 			return (i);
 		i++;
 	}
@@ -92,7 +81,8 @@ char	*check_next(char *str, int j)
 	s = NULL;
 	while (str[l])
 	{
-		if (ft_isalnum(str[l]) == 0)
+		if (ft_isalnum(str[l]) == 0 && str[l] != ' ' \
+		&& str[l] != 47 && str[l] != '-')
 		{
 			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
 				l++;
@@ -123,7 +113,7 @@ t_lex	*ft_lexer(char **line, t_lex *lex)
 	lex = NULL;
 	while (line[i])
 	{
-		lex = ft_check_type(line[i], lex);
+		lex = ft_check_type(line[i], lex, 0, 0);
 		i++;
 	}
 	return (lex);

@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/01 13:02:42 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/05 17:27:00 by rgreiner         ###   ########.fr       */
+/*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
+/*   Updated: 2023/07/05 17:57:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_history(t_historical *historic, char **line)
+t_lex	*ft_text(char *s, char *str, int j, t_lex *lex)
 {
-	int	j;
-	int	i;
-
-	i = 0;
-	j = historic->j;
-	if (!historic->str)
-		ft_strlcpy(historic->str[j], line[1], ft_strlen(line[1]));
+	s = check_next(str, j);
+	if (s == NULL)
+		return (lex);
+	if (!lex)
+		lex = ft_lstnew(s, TOKEN_TEXT);
 	else
-		ft_strjoin_free(historic->str[j], line[1]);
-	historic->str[j][ft_strlen(line[1] + 1)] = '\n';
-	j++;
-	historic->j = j;
+		addcontent(lex, s, TOKEN_TEXT);
+	str = go_next(str, s);
+	if (str != NULL || s != NULL)
+		lex = ft_check_type(str, lex, 0, 0);
+	return (lex);
 }

@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/07/01 18:43:32 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/07/05 17:35:56 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,10 @@ SRCS	=	main.c \
 			utils.c \
 			builtins.c \
 			lexer.c \
+			lexer_2.c \
 			variables_environnement.c \
-
+			exec.c \
+			
 OBJS	=	$(SRCS:.c=.o)
 
 NAME	=	minishell
