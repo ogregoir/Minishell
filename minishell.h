@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/05 17:58:45 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:48:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_lex
 
 	/*Lexer*/
 t_lex	*ft_lexer(char **line, t_lex *lex);
-char	*check_next(char *str, int j);
+char	*check_next(char *str, int j, int l);
 void	ft_variables_env(char *line);
 t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
