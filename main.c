@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/05 16:35:51 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:33:05 by ogregoir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void	print_lexer(t_lex *lex)
 static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**line;
+	char	**str;
 	int	i;
 
 	i = 0;
 	line = ft_split(rl_line_buffer, ' ');
-	lex = ft_lexer(line, lex);
+	str = ft_quote(rl_line_buffer);
+	lex = ft_lexer(str, lex);
 	print_lexer(lex);
 	/*
 	if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)

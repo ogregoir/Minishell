@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/07 11:48:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:41:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,10 @@ void	addcontent(t_lex *list, char *content, t_token_type i);
 
 	/*EXEC*/
 void	ft_not_builtin(t_lex *lex, t_data *data, char **env);
+
+	/*quotes*/
+char	**ft_quote(char *line);
+char	*ft_check_quote(char *line, int i);
+char	*ft_search_quote(char *line, char c);
 
 #endif
