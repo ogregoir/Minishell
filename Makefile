@@ -37,20 +37,20 @@ LIBFT	=	utils/libft/libft.a
 
 all		:	$(NAME)
 
-$(NAME)	: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(LIBFT) $(OBJS) ${LIBS} -o $(NAME)
+$(NAME)	:  $(LIBFT) $(OBJS) 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) ${LIBS} -o $(NAME) 
 
-clean	:
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean :
 	$(RM)   $(OBJS)
-	make 	clean -C utils/libft
+	make	clean -C utils/libft
 
 fclean : clean
 	$(RM) $(NAME)
 	$(RM) $(LIBFT)
 	make fclean -C utils/libft
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT) :
 	make -C utils/libft

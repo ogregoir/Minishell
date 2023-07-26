@@ -29,9 +29,7 @@ void	ft_exit(char **line, t_data *data)
 void	ft_pwd(t_data *data)
 {
 	char	*buf;
-	int		i;
 
-	i = 0;
 	buf = NULL;
 	buf = getcwd(buf, 100);
 	printf("%s\n", buf);

@@ -51,7 +51,7 @@ char	*ft_find_path(char *arg, char **envp, int i)
 			break ;
 		i = 0;
 	}
-	if (envp[j] == '\0')
+	if (envp[j] == NULL)
 	{
 		perror("Didn't find a path");
 		exit (EXIT_FAILURE);

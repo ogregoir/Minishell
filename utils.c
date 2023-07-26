@@ -38,7 +38,7 @@ void	ft_free_split(char **split)
 	char	*tmp;
 
 	i = 0;
-	while (split[i] != '\0')
+	while (split[i] != NULL)
 	{
 		tmp = split[i];
 		i++;

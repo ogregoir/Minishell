@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <signal.h>
+ #include <sys/wait.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"

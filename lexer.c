@@ -73,9 +73,7 @@ static int	copy_text(char *str)
 char	*check_next(char *str, int j, int l)
 {
 	char	*s;
-	int		i;
 
-	i = g_token[j].len;
 	s = NULL;
 	while (str[l])
 	{
