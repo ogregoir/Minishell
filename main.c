@@ -76,19 +76,22 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 	char	**str;
 	pid_t	pid;
 
+
+	if (ft_detect_quotes(rl_line_buffer) == 1)
+	{
+	str = ft_quote(rl_line_buffer);
+	if(str[1] != NULL)
+		str = ft_join(str);
+	}
+	else
+		str = ft_split(rl_line_buffer, ' ');
+	lex = ft_lexer(str, lex);
+	print_lexer(lex);
+	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
+		exit(0);
 	pid = fork();
 	if (pid == 0)
-	{
-		if (ft_detect_quotes(rl_line_buffer) == 1)
 		{
-		str = ft_quote(rl_line_buffer);
-		if(str[1] != NULL)
-			str = ft_join(str);
-		}
-		else
-			str = ft_split(rl_line_buffer, ' ');
-		lex = ft_lexer(str, lex);
-		print_lexer(lex);
 		/*if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)
 			ft_echo(line, 0, data);
 		//else if(ft_strncmp(line, "cd", 2) == 0)
@@ -100,11 +103,10 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 		else if(ft_strncmp(line, "unset", 5) == 0)
 			ft_unset();
 		if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
-			ft_env(line, env, data);
-		if (ft_strncmp(line[0], "exit", 4) == 0 && ft_strlen(line[0]) == 4)
-			ft_exit(line, data);
-		if(ft_strncmp(line[0], "$?", 2) == 0 && ft_strlen(line[0]) == 2)
-			printf("minishell: %d: command not found\n", data->exit_status);*/
+			ft_env(line, env, data);*/
+			//ft_exit(lex->content, data);
+		//if(ft_strncmp(line[0], "$?", 2) == 0 && ft_strlen(line[0]) == 2)
+		//	printf("minishell: %d: command not found\n", data->exit_status);
 		ft_not_builtin(lex, data, env);
 		//ft_free_split(line);
 	}
@@ -117,19 +119,26 @@ int	main(int argc, char **argv, char **env)
 {	
 	t_data data;
 	t_lex lex;
+	char	*input;
 
 	(void)argc;
 	(void)argv;
 	data.exit_status = 0;
 	if (!env[0])
 		exit(1);
-	readline("minishell: ");
+	non_canonique();
+	signal(SIGINT, ft_controles);
+    signal(SIGQUIT, ft_controles);
+	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
-	{
-		check_line(rl_line_buffer, env, &data, &lex);
-		//ft_variables_env(rl_line_buffer);
+	{	
 		add_history(rl_line_buffer);
-		readline("minishell: ");
+		free (input);
+		if (input == NULL)
+			exit(0);
+		check_line(rl_line_buffer, env, &data, &lex);
+		input = readline("minishell: ");
+		//ft_variables_env(rl_line_buffer);
 	}
 	return (0);
 }

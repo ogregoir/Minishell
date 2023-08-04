@@ -1,3 +1,4 @@
+
 #include "minishell.h"
 
 void    non_canonique(void)
