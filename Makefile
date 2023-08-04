@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/07/10 13:51:12 by ogregoir         ###   ########.fr        #
+#    Updated: 2023/07/28 18:18:51 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	=	main.c \
 			variables_environnement.c \
 			exec.c \
 			quotes.c \
+			controles.c \
 			
 OBJS	=	$(SRCS:.c=.o)
 

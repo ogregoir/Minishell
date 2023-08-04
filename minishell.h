@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/10 15:41:24 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/04 01:45:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <signal.h>
- #include <sys/wait.h> 
+#include <sys/wait.h> 
+#include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
@@ -66,6 +67,7 @@ typedef struct s_lex
 	t_token_type	type;
 }t_lex;
 
+
 	/*Lexer*/
 t_lex	*ft_lexer(char **line, t_lex *lex);
 char	*check_next(char *str, int j, int l);
@@ -93,5 +95,8 @@ void	ft_not_builtin(t_lex *lex, t_data *data, char **env);
 char	**ft_quote(char *line);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
+
+void    non_canonique(void);
+void    ft_controles(int sig);
 
 #endif
