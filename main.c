@@ -74,7 +74,6 @@ char **ft_join(char **str)
 static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
 {
 	char	**str;
-	pid_t	pid;
 
 
 	if (ft_detect_quotes(rl_line_buffer) == 1)
@@ -86,32 +85,27 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 	else
 		str = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(str, lex);
-	print_lexer(lex);
+	//print_lexer(lex);
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		exit(0);
-	pid = fork();
-	if (pid == 0)
-		{
-		/*if (ft_strncmp(line[0], "echo", 4) == 0 && ft_strlen(line[0]) == 4)
-			ft_echo(line, 0, data);
-		//else if(ft_strncmp(line, "cd", 2) == 0)
-			//	ft_cd();
-		if (ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
-			ft_pwd(data);
-		else if(ft_strncmp(line, "export", 6) == 0)
-			ft_export();
-		else if(ft_strncmp(line, "unset", 5) == 0)
-			ft_unset();
-		if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
-			ft_env(line, env, data);*/
-			//ft_exit(lex->content, data);
+	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
+		ft_echo(lex);
+	/*else if(ft_strncmp(line, "cd", 2) == 0)
+		//	ft_cd();
+	if (ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
+		ft_pwd(data);
+	else if(ft_strncmp(line, "export", 6) == 0)
+		ft_export();
+	else if(ft_strncmp(line, "unset", 5) == 0)
+		ft_unset();
+	if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
+		ft_env(line, env, data);*/
+	//ft_exit(lex->content, data);
 		//if(ft_strncmp(line[0], "$?", 2) == 0 && ft_strlen(line[0]) == 2)
 		//	printf("minishell: %d: command not found\n", data->exit_status);
+	else
 		ft_not_builtin(lex, data, env);
 		//ft_free_split(line);
-	}
-	while (wait(0) > 0)
-		;
 	return ;
 }
 

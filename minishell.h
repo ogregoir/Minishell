@@ -80,7 +80,7 @@ char	*go_next(char *str, char *s);
 void	ft_exit(char **line, t_data *data);
 void	ft_pwd(t_data *data);
 void	ft_env(char **line, char **env, t_data *data);
-void	ft_echo(char **line, int nl, t_data *data);
+void	ft_echo(t_lex *lex);
 
 	/*Utils*/
 void	ft_free_split(char **split);

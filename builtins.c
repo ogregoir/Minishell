@@ -56,54 +56,50 @@ void	ft_env(char **line, char **env, t_data *data)
 	data->exit_status = 0;
 }
 
-void	ft_echo_2(char **line, int i, int nl)
+int	ft_echo_nl(t_lex **lex)
 {
-	int	j;
+	int i;
 
-	j = 0;
-	while (line[i])
-	{
-		if (line[i][j] == '$')
+	if(ft_strncmp((*lex)->content, "-n", 2) != 0)
+			return (0);
+	while(*lex)
+	{	
+		i = 1;
+		if(ft_strncmp((*lex)->content, "-n", 2) != 0)
+			break;
+		while((*lex)->content[i])
 		{
-			j++;
-			if (getenv(line[i] + j) != NULL)
-				printf("%s", getenv(line[i] + j));
+			if((*lex)->content[i] != 'n')
+				return (0);
+			i++;
 		}
-		else
-			printf("%s", line[i]);
-		if (line[i + 1] != NULL)
-			printf(" ");
-		i++;
+		if(i != 1)
+			(*lex) = (*lex)->next;
 	}
-	if (nl == 0)
-		printf("\n");
+	return (1);
 }
 
-void	ft_echo(char **line, int nl, t_data *data)
+void	ft_echo(t_lex *lex)
 {
-	int	i;
-	int	j;
+	int nl;
 
-	i = 1;
-	j = 2;
-	if (line[1] == NULL)
+	nl = 0;
+	if (!lex->next)
 	{
 		printf("\n");
 		return ;
 	}
-	while (line [i] && ft_strncmp(line[i], "-n", 2) == 0)
+	lex = lex->next;
+	nl = ft_echo_nl(&lex);
+	if (!lex)
+		return ;
+	while(lex && lex->type == 8)
 	{
-		while (line[i][j] == 'n')
-			j++;
-		if (line[i][j] == '\0')
-		{
-			i++;
-			nl = 1;
-		}
-		else
-			break ;
-		j = 2;
+		printf("%s",lex->content);
+		if(lex->next)
+			printf(" ");
+		lex = lex->next;
 	}
-	ft_echo_2(line, i, nl);
-	data->exit_status = 0;
+	if(nl == 0)
+		printf("\n");
 }
