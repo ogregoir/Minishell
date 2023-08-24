@@ -26,7 +26,7 @@ void	ft_exit(char **line, t_data *data)
 		exit (ft_atoi(line[1]));
 }
 
-void	ft_pwd(t_data *data)
+int		ft_pwd(void)
 {
 	char	*buf;
 
@@ -34,7 +34,7 @@ void	ft_pwd(t_data *data)
 	buf = getcwd(buf, 100);
 	printf("%s\n", buf);
 	free(buf);
-	data->exit_status = 0;
+	return(0);
 }
 
 void	ft_env(char **line, char **env, t_data *data)
@@ -79,7 +79,7 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-void	ft_echo(t_lex *lex)
+int		ft_echo(t_lex *lex)
 {
 	int nl;
 
@@ -87,12 +87,12 @@ void	ft_echo(t_lex *lex)
 	if (!lex->next)
 	{
 		printf("\n");
-		return ;
+		return(0) ;
 	}
 	lex = lex->next;
 	nl = ft_echo_nl(&lex);
 	if (!lex)
-		return ;
+		return(0) ;
 	while(lex && lex->type == 8)
 	{
 		printf("%s",lex->content);
@@ -102,4 +102,5 @@ void	ft_echo(t_lex *lex)
 	}
 	if(nl == 0)
 		printf("\n");
+	return (0);
 }

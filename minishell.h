@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/04 01:45:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/08/24 18:30:55 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdarg.h>
@@ -24,6 +23,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
+
+extern int error_code;
 
 typedef enum s_test
 {
@@ -78,9 +79,9 @@ char	*go_next(char *str, char *s);
 
 	/*Builtins*/
 void	ft_exit(char **line, t_data *data);
-void	ft_pwd(t_data *data);
+int		ft_pwd(void);
 void	ft_env(char **line, char **env, t_data *data);
-void	ft_echo(t_lex *lex);
+int		ft_echo(t_lex *lex);
 
 	/*Utils*/
 void	ft_free_split(char **split);
@@ -100,5 +101,6 @@ char	*ft_search_quote(char *line, char c);
 
 void    non_canonique(void);
 void    ft_controles(int sig);
+void	ft_dollar(t_lex *lex);
 
 #endif

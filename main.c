@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/10 15:33:05 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:38:46 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+int error_code = 0;
 
 void	print_lexer(t_lex *lex)
 {
@@ -75,7 +76,6 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 {
 	char	**str;
 
-
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
 	str = ft_quote(rl_line_buffer);
@@ -89,20 +89,20 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		exit(0);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		ft_echo(lex);
-	/*else if(ft_strncmp(line, "cd", 2) == 0)
-		//	ft_cd();
-	if (ft_strncmp(line[0], "pwd", 3) == 0 && ft_strlen(line[0]) == 3)
-		ft_pwd(data);
-	else if(ft_strncmp(line, "export", 6) == 0)
+		error_code = ft_echo(lex);
+	//else if(ft_strncmp(line, "cd", 2) == 0)
+	//		ft_cd();
+	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
+		error_code = ft_pwd();
+	/*else if(ft_strncmp(line, "export", 6) == 0)
 		ft_export();
 	else if(ft_strncmp(line, "unset", 5) == 0)
 		ft_unset();
 	if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
 		ft_env(line, env, data);*/
 	//ft_exit(lex->content, data);
-		//if(ft_strncmp(line[0], "$?", 2) == 0 && ft_strlen(line[0]) == 2)
-		//	printf("minishell: %d: command not found\n", data->exit_status);
+	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
+			ft_dollar(lex);
 	else
 		ft_not_builtin(lex, data, env);
 		//ft_free_split(line);
@@ -117,7 +117,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	data.exit_status = 0;
 	if (!env[0])
 		exit(1);
 	non_canonique();
