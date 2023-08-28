@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/24 18:38:46 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:28:00 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char **ft_join(char **str)
 	return(ret);
 }
 
-static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *lex)
+static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 {
 	char	**str;
 
@@ -104,14 +104,13 @@ static void	check_line(char *rl_line_buffer, char **env, t_data *data, t_lex *le
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
 			ft_dollar(lex);
 	else
-		ft_not_builtin(lex, data, env);
+		ft_not_builtin(lex, env);
 		//ft_free_split(line);
 	return ;
 }
 
 int	main(int argc, char **argv, char **env)
 {	
-	t_data data;
 	t_lex lex;
 	char	*input;
 
@@ -129,7 +128,7 @@ int	main(int argc, char **argv, char **env)
 		free (input);
 		if (input == NULL)
 			exit(0);
-		check_line(rl_line_buffer, env, &data, &lex);
+		check_line(rl_line_buffer, env, &lex);
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}

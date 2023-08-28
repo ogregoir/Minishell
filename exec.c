@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/05 17:22:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:50:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*ft_find_cmd(char **cmd, char *arg)
 		free(tmp2);
 	}
 	printf("minishell: %s: command not found\n", arg);
-	exit(EXIT_FAILURE);
 	return (NULL);
 }
 
@@ -78,7 +77,7 @@ int	ft_nbr_text(t_lex *lex)
 	return (i);
 }
 
-void	ft_check_cmd(t_lex *lex, char **envp)
+int	ft_check_cmd(t_lex *lex, char **envp)
 {
 	char	*cmd;
 	char	**arg;
@@ -97,21 +96,36 @@ void	ft_check_cmd(t_lex *lex, char **envp)
 	{
 		cmd = ft_find_path(arg[0], envp, 0);
 		if (cmd == NULL)
-			exit(EXIT_FAILURE);
+				return(127);
 		execve(cmd, arg, envp);
+		return(126);
 	}
 	execve(arg[0], arg, envp);
-	exit(EXIT_FAILURE);
+	return(126);
 }
 
-void	ft_not_builtin(t_lex *lex, t_data *data, char **envp)
+void ft_not_builtin(t_lex *lex, char **envp)
 {
 	pid_t	pid;
+	int		ret;
+	int		fd[2];
 
+	ret = 0;
+	if(lex->type != 8)
+		return ;
+	pipe(fd);
 	pid = fork();
-	if (pid == 0 && lex->type == 8)
-		ft_check_cmd(lex, envp);
+	if (pid == 0)
+			{
+				close(fd[0]);
+				ret = ft_check_cmd(lex, envp);
+				write(fd[1], &ret, sizeof(ret));
+				close(fd[1]);
+			}
+	close(fd[1]);
 	while (wait(0) > 0)
 		;
-	data->exit_status = 0;
+	read(fd[0], &ret, sizeof(ret));
+	close(fd[0]);
+	error_code = ret;
 }
