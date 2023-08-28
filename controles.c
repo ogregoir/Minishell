@@ -22,7 +22,7 @@ void    ft_controles(int sig)
     if (sig == SIGINT)
         ft_ctrlc();
     else if (sig == SIGQUIT)/*ne fait rien*/
-        exit(EXIT_SUCCESS);
+        printf("cc");
     else
         return ;
 }
