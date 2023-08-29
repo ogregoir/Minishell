@@ -17,12 +17,19 @@ void    ft_ctrlc(void)
     rl_redisplay();
 }
 
+void    ft_ctrld(void)
+{
+    rl_replace_line("", 0);
+    rl_redisplay(); 
+    printf("minishell: ");
+}
+
 void    ft_controles(int sig)
 {
     if (sig == SIGINT)
         ft_ctrlc();
-    else if (sig == SIGQUIT)/*ne fait rien*/
-        printf("cc");
+    if (sig == SIGQUIT)/*ne fait rien*/
+        ft_ctrld();
     else
         return ;
 }

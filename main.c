@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/28 14:28:00 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/29 02:59:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,16 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
-	str = ft_quote(rl_line_buffer);
-	if(str[1] != NULL)
-		str = ft_join(str);
+		str = ft_quote(rl_line_buffer);
+		if(str[1] != NULL)
+			str = ft_join(str);
 	}
 	else
 		str = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(str, lex);
 	//print_lexer(lex);
+	if (rl_line_buffer[0] == '\0')
+		return;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		exit(0);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
@@ -104,7 +106,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
 			ft_dollar(lex);
 	else
-		ft_not_builtin(lex, env);
+		ft_not_builtin(lex, data, env);
 		//ft_free_split(line);
 	return ;
 }

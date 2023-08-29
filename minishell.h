@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/28 14:21:45 by rgreiner         ###   ########.fr       */
+=======
+/*   Updated: 2023/08/29 02:49:58 by marvin           ###   ########.fr       */
+>>>>>>> 018a7a8 (controles fix + segfault entree)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +103,10 @@ char	**ft_quote(char *line);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
 
+	/*CONTROLES*/
 void    non_canonique(void);
 void    ft_controles(int sig);
+
 void	ft_dollar(t_lex *lex);
 
 #endif
