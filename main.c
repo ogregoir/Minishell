@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/28 14:28:00 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/31 10:46:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	else
 		str = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(str, lex);
-	//print_lexer(lex);
+	print_lexer(lex);
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
-		exit(0);
+		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		error_code = ft_echo(lex);
 	//else if(ft_strncmp(line, "cd", 2) == 0)
@@ -97,15 +97,13 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	/*else if(ft_strncmp(line, "export", 6) == 0)
 		ft_export();
 	else if(ft_strncmp(line, "unset", 5) == 0)
-		ft_unset();
-	if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
-		ft_env(line, env, data);*/
-	//ft_exit(lex->content, data);
+		ft_unset();*/
+	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
+		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
 			ft_dollar(lex);
 	else
 		ft_not_builtin(lex, env);
-		//ft_free_split(line);
 	return ;
 }
 
