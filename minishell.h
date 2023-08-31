@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/31 10:37:55 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/31 10:55:11 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,10 @@ char	**ft_quote(char *line);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
 
+	/*CONTROLES*/
 void    non_canonique(void);
 void    ft_controles(int sig);
+
 void	ft_dollar(t_lex *lex);
 
 #endif
