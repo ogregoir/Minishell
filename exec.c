@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/08/28 14:50:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:18:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ void ft_not_builtin(t_lex *lex, char **envp)
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
-			{
-				close(fd[0]);
-				ret = ft_check_cmd(lex, envp);
-				write(fd[1], &ret, sizeof(ret));
-				close(fd[1]);
-			}
+	{
+		close(fd[0]);
+		ret = ft_check_cmd(lex, envp);
+		write(fd[1], &ret, sizeof(ret));
+		close(fd[1]);
+	}
 	close(fd[1]);
 	while (wait(0) > 0)
 		;

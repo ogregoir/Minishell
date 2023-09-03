@@ -6,13 +6,10 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/08/28 14:21:45 by rgreiner         ###   ########.fr       */
-=======
-/*   Updated: 2023/08/29 02:49:58 by marvin           ###   ########.fr       */
->>>>>>> 018a7a8 (controles fix + segfault entree)
+/*   Updated: 2023/09/02 18:17:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -60,6 +57,12 @@ static const t_listtest	g_token[] = \
 {">", 1, TOKEN_REDI_EXIT},
 {NULL, 1, TOKEN_NULL}
 };
+
+typedef struct s_cd
+{
+	char *old_buf;
+}t_cd;
+
 typedef struct s_data
 {
 	int	exit_status;
@@ -71,6 +74,7 @@ typedef struct s_lex
 	char			*content;
 	t_token_type	type;
 }t_lex;
+
 
 
 	/*Lexer*/
@@ -86,6 +90,7 @@ void	ft_exit(char **line, t_data *data);
 int		ft_pwd(void);
 void	ft_env(char **line, char **env, t_data *data);
 int		ft_echo(t_lex *lex);
+void	ft_cd(char **str, char *buf, t_cd * path);
 
 	/*Utils*/
 void	ft_free_split(char **split);
