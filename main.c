@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/02 18:58:37 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/03 02:16:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 	if (rl_line_buffer[0] == '\0')
 		return;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
-		exit(0);
+		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		error_code = ft_echo(lex);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
@@ -102,10 +102,9 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 	/*else if(ft_strncmp(line, "export", 6) == 0)
 		ft_export();
 	else if(ft_strncmp(line, "unset", 5) == 0)
-		ft_unset();
-	if (ft_strncmp(line[0], "env", 3) == 0 && ft_strlen(line[0]) == 3)
-		ft_env(line, env, data);*/
-	//ft_exit(lex->content, data);
+		ft_unset();*/
+	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
+		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
 			ft_dollar(lex);
 	else

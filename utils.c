@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/05 17:27:10 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/31 10:37:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,15 @@ int ft_detect_quotes(char *line)
 	return(0);
 }
 
-int	ft_check_nbr(char **str)
+int	ft_check_nbr(char *str)
 {
 	int	i;
-	int	j;
 
-	i = 1;
+	i = 0;
 	while (str[i])
 	{
-		j = 0;
-		while (str[i][j])
-		{
-			if (str[i][j] < '0' || str[i][j] > '9')
-				return (1);
-			j++;
-		}
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
 		i++;
 	}
 	return (0);

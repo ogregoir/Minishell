@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/02 18:17:07 by marvin           ###   ########.fr       */
+/*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
+/*   Updated: 2023/09/03 02:20:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -86,15 +85,15 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
 char	*go_next(char *str, char *s);
 
 	/*Builtins*/
-void	ft_exit(char **line, t_data *data);
+void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
-void	ft_env(char **line, char **env, t_data *data);
+int		ft_env(t_lex *lex, char **env);
 int		ft_echo(t_lex *lex);
 void	ft_cd(char **str, char *buf, t_cd * path);
 
 	/*Utils*/
 void	ft_free_split(char **split);
-int		ft_check_nbr(char **str);
+int		ft_check_nbr(char *str);
 t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);

@@ -3,27 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:58 by rgreiner          #+#    #+#             */
 /*   Updated: 2023/09/01 13:20:55 by marvin           ###   ########.fr       */
+=======
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/30 14:17:58 by rgreiner          #+#    #+#             */
+/*   Updated: 2023/08/31 10:41:13 by rgreiner         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(char **line, t_data *data)
+void	ft_exit(t_lex *lex)
 {
 	printf("exit\n");
-	if (line[1] == NULL)
-		exit (data->exit_status);
-	if (ft_check_nbr(line) == 1)
+	if (lex->next == NULL)
+		exit (error_code);
+	if (ft_check_nbr(lex->next->content) == 1)
 	{
-		printf("minishell: exit: %s numeric argument required\n", line[1]);
+		printf("minishell: exit: %s numeric argument required\n", lex->next->content);
 		exit (EXIT_FAILURE);
 	}
 	else
-		exit (ft_atoi(line[1]));
+		exit (ft_atoi(lex->next->content));
 }
 
 int		ft_pwd(void)
@@ -37,23 +44,22 @@ int		ft_pwd(void)
 	return(0);
 }
 
-void	ft_env(char **line, char **env, t_data *data)
+int	ft_env(t_lex *lex, char **env)
 {
 	int	i;
 
 	i = 0;
-	if (line[1] != NULL)
+	if (lex->next != NULL)
 	{
-		printf("env: %s: No such file or directory\n", line[1]);
-		data->exit_status = 127;
-		return ;
+		printf("env: %s: No such file or directory\n", lex->next->content);
+		return(127) ;
 	}
 	while (env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
 		i++;
 	}
-	data->exit_status = 0;
+	return(0);
 }
 
 int	ft_echo_nl(t_lex **lex)
