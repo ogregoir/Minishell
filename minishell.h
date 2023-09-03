@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 15:02:25 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/31 10:55:11 by rgreiner         ###   ########.fr       */
+/*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
+/*   Updated: 2023/09/03 02:20:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ static const t_listtest	g_token[] = \
 {">", 1, TOKEN_REDI_EXIT},
 {NULL, 1, TOKEN_NULL}
 };
+
+typedef struct s_cd
+{
+	char *old_buf;
+}t_cd;
+
 typedef struct s_data
 {
 	int	exit_status;
@@ -67,6 +73,7 @@ typedef struct s_lex
 	char			*content;
 	t_token_type	type;
 }t_lex;
+
 
 
 	/*Lexer*/
@@ -82,6 +89,7 @@ void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
 int		ft_echo(t_lex *lex);
+void	ft_cd(char **str, char *buf, t_cd * path);
 
 	/*Utils*/
 void	ft_free_split(char **split);
