@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/08/31 10:53:12 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/08/31 10:55:40 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 			ft_dollar(lex);
 	else
 		ft_not_builtin(lex, env);
-		//ft_free_split(line);
 	return ;
 }
 
