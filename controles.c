@@ -1,35 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   controles.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 17:53:23 by marvin            #+#    #+#             */
+/*   Updated: 2023/09/04 17:53:23 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void    non_canonique(void)
+void	non_canonique(void)
 {
-    struct termios original;
-    tcgetattr(STDIN_FILENO, &original);
-    original.c_lflag &= ~ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &original);
+	struct termios	original;
+
+	tcgetattr(STDIN_FILENO, &original);
+	original.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &original);
 }
 
-void    ft_ctrlc(void)
+void	ft_ctrlc(void)
 {
-    ft_putstr_fd("\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	ft_putstr_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void    ft_ctrld(void)
+void	ft_ctrld(void)
 {
-    rl_replace_line("", 0);
-    rl_redisplay(); 
-    printf("minishell: ");
+	rl_replace_line("", 0);
+	rl_redisplay();
+	printf("minishell: ");
 }
 
-void    ft_controles(int sig)
+void	ft_controles(int sig)
 {
-    if (sig == SIGINT)
-        ft_ctrlc();
-    if (sig == SIGQUIT)/*ne fait rien*/
-        ft_ctrld();
-    else
-        return ;
+	if (sig == SIGINT)
+		ft_ctrlc();
+	if (sig == SIGQUIT)
+		ft_ctrld();
+	else
+		return ;
 }
