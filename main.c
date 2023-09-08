@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/07 19:19:15 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/08 02:10:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	non_canonique();
 	signal(SIGINT, ft_controles);
-    signal(SIGQUIT, ft_controles);
+	signal(SIGQUIT, ft_controles);
 	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
 	{	
