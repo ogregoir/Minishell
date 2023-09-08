@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/06 20:40:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/08 09:52:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 		ft_cd(str, buf, path);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_pwd();
-	/*else if(ft_strncmp(line, "export", 6) == 0)
-		ft_export();
-	else if(ft_strncmp(line, "unset", 5) == 0)
-		ft_unset();*/
+	else if(ft_strncmp(lex->content, "export", 6) == 0)
+		ft_export(str, env);
+	else if(ft_strncmp(lex->content, "unset", 5) == 0)
+		ft_unset(str, env);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	non_canonique();
 	signal(SIGINT, ft_controles);
-    signal(SIGQUIT, ft_controles);
+	signal(SIGQUIT, ft_controles);
 	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
 	{	

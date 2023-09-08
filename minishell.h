@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/03 15:15:41 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/08 09:54:01 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
 int		ft_echo(t_lex *lex);
 void	ft_cd(char **str, char *buf, t_cd * path);
+void    ft_export(char **line, char **env);
+void	ft_unset(char **line, char **env);
 
 	/*Utils*/
 void	ft_free_split(char **split);

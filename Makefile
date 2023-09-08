@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/08/29 03:41:33 by marvin           ###   ########.fr        #
+#    Updated: 2023/09/06 19:06:39 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS	=	main.c \
 			quotes.c \
 			controles.c \
 			dollar.c \
+			cd.c \
 			
 OBJS	=	$(SRCS:.c=.o)
 
