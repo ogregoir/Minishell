@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 14:09:24 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/07/03 20:09:43 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:16:46 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stddef.h>
+
 
 typedef struct s_list	t_list;
 struct s_list
