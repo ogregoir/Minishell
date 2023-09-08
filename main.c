@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/03 02:16:27 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/07 19:19:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 		ft_cd(str, buf, path);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_pwd();
-	/*else if(ft_strncmp(line, "export", 6) == 0)
-		ft_export();
-	else if(ft_strncmp(line, "unset", 5) == 0)
-		ft_unset();*/
+	else if(ft_strncmp(lex->content, "export", 6) == 0)
+		ft_export(str, env);
+	else if(ft_strncmp(lex->content, "unset", 5) == 0)
+		ft_unset(str, env);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
