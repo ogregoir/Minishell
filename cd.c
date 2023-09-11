@@ -47,7 +47,7 @@ char	*ft_forward(char *buf, char **line)
 	return (newbuf);
 }
 
-void	ft_access_cd(char **line, t_cd *path, char *temp, char *buf)
+void	ft_access_cd(t_cd *path, char *temp, char *buf)
 {
 	if (access(buf, X_OK | F_OK) == 0 && buf != NULL)
 	{
@@ -80,5 +80,5 @@ void	ft_cd(char **line, char *buf, t_cd *path)
 		else
 			buf = ft_substr(path->old_buf, 0, ft_strlen(path->old_buf));
 	}
-	ft_access_cd(line, path, temp, buf);
+	ft_access_cd(path, temp, buf);
 }

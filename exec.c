@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/03 02:18:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/11 14:43:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ int	ft_check_cmd(t_lex *lex, char **envp)
 	while (lex && lex->type == 8)
 	{
 		arg[i] = ft_strdup(lex->content);
+		if(i > 1)
+			arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
 		i++;
 		lex = lex->next;
-	}
+	}	
 	arg[i] = NULL;
 	if (access(arg[0], X_OK | F_OK) != 0)
 	{
@@ -112,6 +114,8 @@ void ft_not_builtin(t_lex *lex, char **envp)
 
 	ret = 0;
 	if(lex->type != 8)
+		return ;
+	if(detect_pipe(lex, envp) == 1)
 		return ;
 	pipe(fd);
 	pid = fork();

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/07 11:48:12 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:55:29 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	copy_text(char *str)
 	while (str[i] != '\0')
 	{
 		if (ft_isalnum(str[i]) == 0 && str[i] \
-		!= ' ' && str[i] != 47 && str[i] != '-')
+		!= ' ' && str[i] != 47 && check_text(str[i] == 1))
 			return (i);
 		i++;
 	}
@@ -78,7 +78,7 @@ char	*check_next(char *str, int j, int l)
 	while (str[l])
 	{
 		if (ft_isalnum(str[l]) == 0 && str[l] != ' ' \
-		&& str[l] != 47 && str[l] != '-')
+		&& str[l] != 47 && check_text(str[l]) == 1)
 		{
 			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
 				l++;

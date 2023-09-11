@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/08 09:54:01 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:50:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	ft_variables_env(char *line);
 t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
 char	*go_next(char *str, char *s);
+int		check_text(char text);
+
 
 	/*Builtins*/
 void	ft_exit(t_lex *lex);
@@ -104,6 +106,11 @@ int     ft_detect_quotes(char *line);
 
 	/*EXEC*/
 void	ft_not_builtin(t_lex *lex, char **env);
+int	detect_pipe(t_lex *lex, char **envp);
+int		ft_check_cmd(t_lex *lex, char **envp);
+
+
+
 
 	/*quotes*/
 char	**ft_quote(char *line);
@@ -115,5 +122,6 @@ void    non_canonique(void);
 void    ft_controles(int sig);
 
 void	ft_dollar(t_lex *lex);
+
 
 #endif
