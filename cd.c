@@ -106,7 +106,12 @@ int	ft_cd(char **env, char **line)
 	else if (ft_isalnum(line[1][0]) != 0)
 		buf = ft_forward(buf, line);
 	else if (line[1][0] == 45)
-
+	{
+		if (path->old_buf == NULL)
+			printf("-minishell: cd: OLDPWD not set\n");
+		else
+			buf = ft_substr(path->old_buf, 0, ft_strlen(path->old_buf));
+	}
 	j = ft_access_cd(env, buf, line, j);
 	return (j);
 }
