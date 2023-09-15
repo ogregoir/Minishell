@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/11 14:57:11 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/15 03:48:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ char **ft_join(char **str)
 	return(ret);
 }
 
-static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
+static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 {
 	char	**str;
-	char	*buf;
 
-	buf = NULL;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
 		str = ft_quote(rl_line_buffer);
@@ -88,7 +86,6 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 		str = ft_split(rl_line_buffer, ' ');
 	lex = ft_lexer(str, lex);
 	//print_lexer(lex);
-	buf = getcwd(buf, 100);
 	if (rl_line_buffer[0] == '\0')
 		return;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
@@ -96,13 +93,13 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex, t_cd	*path)
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		error_code = ft_echo(lex);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-		ft_cd(str, buf, path);
+		error_code = ft_cd(env, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_pwd();
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
-		ft_export(str, env);
+		error_code = ft_export(str, env);
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
-		ft_unset(str, env);
+		error_code= ft_unset(str, env);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
@@ -117,12 +114,10 @@ int	main(int argc, char **argv, char **env)
 {	
 	t_lex lex;
 	char	*input;
-	t_cd	*path;
 	
 	(void)argc;
 	(void)argv;
 
-	path = malloc(sizeof(t_cd));
 	if (!env[0])
 		exit(1);
 	non_canonique();
@@ -135,7 +130,7 @@ int	main(int argc, char **argv, char **env)
 		free (input);
 		if (input == NULL)
 			exit(0);
-		check_line(rl_line_buffer, env, &lex, path);
+		check_line(rl_line_buffer, env, &lex);
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}

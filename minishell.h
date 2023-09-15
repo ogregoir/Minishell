@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/11 14:50:24 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/15 03:50:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,6 @@ static const t_listtest	g_token[] = \
 {NULL, 1, TOKEN_NULL}
 };
 
-typedef struct s_cd
-{
-	char *old_buf;
-}t_cd;
-
 typedef struct s_data
 {
 	int	exit_status;
@@ -92,9 +87,9 @@ void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
 int		ft_echo(t_lex *lex);
-void	ft_cd(char **str, char *buf, t_cd * path);
-void    ft_export(char **line, char **env);
-void	ft_unset(char **line, char **env);
+int		ft_cd(char **env, char **line);
+int		ft_export(char **line, char **env);
+int		ft_unset(char **line, char **env);
 
 	/*Utils*/
 void	ft_free_split(char **split);
@@ -106,7 +101,7 @@ int     ft_detect_quotes(char *line);
 
 	/*EXEC*/
 void	ft_not_builtin(t_lex *lex, char **env);
-int	detect_pipe(t_lex *lex, char **envp);
+int		detect_pipe(t_lex *lex, char **envp);
 int		ft_check_cmd(t_lex *lex, char **envp);
 
 
@@ -122,6 +117,6 @@ void    non_canonique(void);
 void    ft_controles(int sig);
 
 void	ft_dollar(t_lex *lex);
-
+void	ft_oldpwd(char **env, char **line);
 
 #endif

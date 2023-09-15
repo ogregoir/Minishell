@@ -30,41 +30,73 @@ char	*ft_forward(char *buf, char **line)
 	char	*temp;
 	char	*newbuf;
 	char	*bis;
-	int		i;
 
-	i = ft_strlen(buf);
-	temp = malloc(i + ft_strlen(line[1]) + 1);
-	ft_strlcpy(temp, buf, i +1);
-	temp[i] = 47;
-	temp[i +1] = '\0';
+	temp = ft_strjoin(buf, "/");
 	if (line[1][ft_strlen(line[1]) - 1] == 47)
+	{
 		bis = ft_substr(line[1], 0, (ft_strlen(line[1]) - 1));
+		newbuf = ft_strjoin(temp, bis);
+	}
 	else
-		bis = ft_substr(line[1], 0, (ft_strlen(line[1])));
-	newbuf = ft_strjoin(temp, bis);
-	free(temp);
-	free (bis);
+		newbuf = ft_strjoin(temp, line[1]);
 	return (newbuf);
 }
 
-void	ft_access_cd(t_cd *path, char *temp, char *buf)
+int	ft_access_cd(char **env, char *buf, char **line, int j)
 {
-	if (access(buf, X_OK | F_OK) == 0 && buf != NULL)
+	if (access(buf, F_OK | R_OK) == 0 && buf != NULL)
 	{
-		path->old_buf = ft_substr(temp, 0, ft_strlen(temp));
+		ft_oldpwd(env, line);
+		if (line[1] != NULL && line[1][0] == 45)
+			printf("%s\n", buf);
 		chdir(buf);
+		return (j);
+	}
+	else if (line[1][0] == 45)
+	{
+		printf("%s\n", buf);
+		return (1);
 	}
 	else
+	{
 		printf("minishell: cd: %s: No such file or directory\n", buf);
+		return (1);
+	}
 	free(buf);
-	free(temp);
 }
 
-void	ft_cd(char **line, char *buf, t_cd *path)
+char	*ft_oldbuf(char **env, char **line)
 {
-	char	*temp;
+	int		i;
+	char	*buf;
+	char	*newbuf;
 
-	temp = ft_substr(buf, 0, ft_strlen(buf));
+	i = 0;
+	buf = NULL;
+	if (line[1][1] != '\0')
+		return ("-minishell: cd: --: invalid option");
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
+		{
+			buf = ft_substr(env[i], 7, ft_strlen(env[i]));
+			return (buf);
+		}
+		i++;
+	}
+	if (buf == NULL)
+		newbuf = ft_strdup("-minishell: cd: OLDPWD not set");
+	return (newbuf);
+}
+
+int	ft_cd(char **env, char **line)
+{
+	char	*buf;
+	int		j;
+
+	j = 0;
+	buf = NULL;
+	buf = getcwd(buf, 100);
 	if (line[1] == NULL || line[1][0] == 126)
 		buf = getenv("HOME");
 	else if (ft_strncmp(line[1], "..", ft_strlen(line[1])) == 0)
@@ -74,11 +106,7 @@ void	ft_cd(char **line, char *buf, t_cd *path)
 	else if (ft_isalnum(line[1][0]) != 0)
 		buf = ft_forward(buf, line);
 	else if (line[1][0] == 45)
-	{
-		if (path->old_buf == NULL)
-			printf("-minishell: cd: OLDPWD not set\n");
-		else
-			buf = ft_substr(path->old_buf, 0, ft_strlen(path->old_buf));
-	}
-	ft_access_cd(path, temp, buf);
+
+	j = ft_access_cd(env, buf, line, j);
+	return (j);
 }
