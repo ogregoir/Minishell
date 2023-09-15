@@ -12,35 +12,69 @@
 
 #include "minishell.h"
 
-void	ft_export(char **line, char **env)
+int	ft_export2(char **env, char **line, int i)
 {
-	int	i;
+	int	l;
+	int	j;
+	int	m;
 
-	i = 0;
-	while (env[i] != NULL)
-		i++;
-	if (ft_strchr(line[1], '=') != 0)
+	l = 0;
+	j = 0;
+	m = 0;
+	while (env[l] != NULL)
+		l++;
+	while (line[i][j])
 	{
-		env[i] = ft_substr(line[1], 0, ft_strlen(line[1]));
-		env[i + 1] = NULL;
+		if (line[i][j] == '=')
+		{
+			env[l] = ft_substr(line[i], 0, ft_strlen(line[i]));
+			env[l + 1] = NULL;
+			return (m);
+		}
+		j++;
 	}
-	else
-		return ;
+	return (m);
 }
 
-void	ft_unset(char **line, char **env)
+int	ft_export(char **line, char **env)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	j = 0;
+	if (line[1] == NULL)
+		return (j);
+	if (line[i] != NULL)
+	{
+		while (line[i] != NULL)
+		{
+			j = ft_export2(env, line, i);
+			i++;
+		}
+	}
+	return (j);
+}
+
+int	ft_unset(char **line, char **env)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
+	if (line[1] == NULL)
+		return (j);
 	while (env[i])
 	{
 		if (ft_strncmp(line[1], env[i], ft_strlen(line[1])) == 0)
 		{
 			free(env[i]);
 			env[i] = NULL;
+			return (j);
 		}
 		i++;
 	}
+	return (j);
 }
 
