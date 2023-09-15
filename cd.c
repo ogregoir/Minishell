@@ -44,9 +44,10 @@ char	*ft_forward(char *buf, char **line)
 
 int	ft_access_cd(char **env, char *buf, char **line, int j)
 {
+	(void)env;
 	if (access(buf, F_OK | R_OK) == 0 && buf != NULL)
 	{
-		ft_oldpwd(env, line);
+		//ft_oldpwd(env, line);
 		if (line[1] != NULL && line[1][0] == 45)
 			printf("%s\n", buf);
 		chdir(buf);
@@ -65,7 +66,7 @@ int	ft_access_cd(char **env, char *buf, char **line, int j)
 	free(buf);
 }
 
-char	*ft_oldbuf(char **env, char **line)
+char	*ft_oldbuf(char **env)
 {
 	int		i;
 	char	*buf;
@@ -73,8 +74,6 @@ char	*ft_oldbuf(char **env, char **line)
 
 	i = 0;
 	buf = NULL;
-	if (line[1][1] != '\0')
-		return ("-minishell: cd: --: invalid option");
 	while (env[i] != NULL)
 	{
 		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
@@ -100,13 +99,31 @@ int	ft_cd(char **env, char **line)
 	if (line[1] == NULL || line[1][0] == 126)
 		buf = getenv("HOME");
 	else if (ft_strncmp(line[1], "..", ft_strlen(line[1])) == 0)
-		buf = ft_back(buf);
+	{
+		if (ft_strlen(line[1]) == 1)
+			return (0);
+		else
+			buf = ft_back(buf);
+	}
 	else if (line[1][0] == 47)
 		buf = ft_substr(line[1], 0, ft_strlen(line[1]));
 	else if (ft_isalnum(line[1][0]) != 0)
 		buf = ft_forward(buf, line);
 	else if (line[1][0] == 45)
-		buf = ft_oldbuf(env, line);
+	{
+		if (line[1][1] != '\0')
+		{
+			printf("-minishell: %s: invalid option\n", line[1]);
+			return (2);
+		}
+		else
+			buf = ft_oldbuf(env);
+	}
+	else
+	{
+		printf ("-minishell: cd: %s: No such file or directory\n", line[1]);
+		return (1);
+	}
 	j = ft_access_cd(env, buf, line, j);
 	return (j);
 }
