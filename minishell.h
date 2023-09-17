@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/15 03:50:46 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/17 15:21:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int     ft_detect_quotes(char *line);
 void	ft_not_builtin(t_lex *lex, char **env);
 int		detect_pipe(t_lex *lex, char **envp);
 int		ft_check_cmd(t_lex *lex, char **envp);
+
+void	close_pipe(int **fd, int pipenbr);
+int		**create_fd(int pipenbr, int **fd);
+void	ft_pipe_create(int pipenbr, int **fd);
+void	ft_pipex_child2(int **fd, int pipenbr, int i);
 
 
 

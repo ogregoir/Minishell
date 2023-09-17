@@ -6,72 +6,38 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/11 14:58:57 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/17 15:20:07 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void	close_pipe(int **fd, int pipenbr)
-{
-	int	j;
 
-	j = 0;
-	while (j <= pipenbr)
+int		check_redi(t_lex *lex)
+{
+	t_lex *tmp;
+
+	tmp = lex;
+	while(tmp)
 	{
-		close(fd[j][0]);
-		close(fd[j][1]);
-		j++;
+		if(tmp->type == 3)
+			return (1);
+		tmp = tmp->next;
 	}
+	return (0);
 }
-
-int	**create_fd(int pipenbr, int **fd)
+void	ft_pipex_main(int **fd, int pipenbr, int i, t_lex *lex)
 {
-	int	i;
-
-	i = 0;
-	fd = malloc(sizeof(fd) * pipenbr);
-	while (i <= pipenbr)
+	if(check_redi(lex) == 1)
 	{
-		fd[i] = malloc(sizeof(*fd) * 2);
-		i++;
+	while(lex && lex->type == 8)
+		lex = lex->next;
+	if(lex->type == 3)
+		{
+			lex = lex->next;
+			dup2(open(lex->content,O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+		}
 	}
-	return (fd);
-}
-
-void	ft_pipe_create(int pipenbr, int **fd)
-{
-	int	j;
-
-	j = 0;
-	while (j <= pipenbr)
-	{
-		pipe(fd[j]);
-		j++;
-	}
-}
-
-void	ft_pipex_child(int **fd, int pipenbr, int i)
-{
-	dup2(fd[i][0], STDIN_FILENO);
-	dup2(fd[i + 1][1], STDOUT_FILENO);
-	close_pipe(fd, pipenbr);
-}
-
-void	ft_pipex_child2(int **fd, int pipenbr, int i)
-{
-	if (i == 0)
-	{
-		ft_pipex_child(fd, pipenbr, i);
-		return ;
-	}
-	dup2(fd[i][0], STDIN_FILENO);
-	dup2(fd[i + 1][1], STDOUT_FILENO);
-	close_pipe(fd, pipenbr);
-}
-
-void	ft_pipex_main(int **fd, int pipenbr, int i)
-{
 	dup2(fd[i][0], STDIN_FILENO);
 	close_pipe(fd, pipenbr);
 }
@@ -85,7 +51,6 @@ int	pipex(t_lex *lex, char **envp, int pipenbr)
 
 	i = 0;
 	fd = NULL;
-	pipenbr = pipenbr;
 	pid = malloc(sizeof(pid_t) * pipenbr + 1);
 	fd = create_fd(pipenbr, fd);
 	ft_pipe_create(pipenbr, fd);
@@ -97,13 +62,13 @@ int	pipex(t_lex *lex, char **envp, int pipenbr)
 		if (i < pipenbr && pid[i] == 0)
 			ft_pipex_child2(fd, pipenbr, i);
 		else if (i == pipenbr && pid[i] == 0)
-			ft_pipex_main(fd, pipenbr, i);
+			ft_pipex_main(fd, pipenbr, i, lex);
 		if (pid[i] == 0)
 			ret = ft_check_cmd(lex, envp);
 		i++;
 		if(lex->next == NULL)
 			break;
-		while(lex && lex->type != 1)
+		while(lex && lex->type == 8)
 			lex = lex->next;
 	}
 	close_pipe(fd, pipenbr);
@@ -115,6 +80,7 @@ int	pipex(t_lex *lex, char **envp, int pipenbr)
 int detect_pipe(t_lex *lex, char **envp)
 {
 	int i;
+	int	j;
     t_lex *tmp;
     
     tmp =  lex;
@@ -123,9 +89,11 @@ int detect_pipe(t_lex *lex, char **envp)
 	{
 		if(tmp->type == 1)
 			i++;
+		if(tmp->type > 1)
+			j++;
 		tmp = tmp->next;
     }
-	if(i > 0)
+	if(i > 0 || j > 0)
 		{
 			error_code = pipex(lex, envp, i);
 			return (1);
