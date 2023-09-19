@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/17 15:20:07 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/20 00:06:19 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		check_redi(t_lex *lex)
 	tmp = lex;
 	while(tmp)
 	{
-		if(tmp->type == 3)
+		if(tmp->type == 3 || tmp->type == 5)
 			return (1);
 		tmp = tmp->next;
 	}
@@ -35,7 +35,17 @@ void	ft_pipex_main(int **fd, int pipenbr, int i, t_lex *lex)
 	if(lex->type == 3)
 		{
 			lex = lex->next;
-			dup2(open(lex->content,O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+			dup2(open(lex->content, O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+		}
+	if(lex->type == 5)
+		{
+			lex = lex->next;
+			dup2(open(lex->content, O_APPEND | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+		}
+	if(lex->next)
+		{
+		if(lex->next->type == 3 || lex->next->type == 5)
+			ft_pipex_main(fd, pipenbr, i, lex);
 		}
 	}
 	dup2(fd[i][0], STDIN_FILENO);
