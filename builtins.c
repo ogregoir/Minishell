@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/08 10:03:01 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:42:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_env(t_lex *lex, char **env)
 	if (lex->next != NULL)
 	{
 		printf("env: %s: No such file or directory\n", lex->next->content);
-		return(127) ;
+		return (127);
 	}
 	while (env[i] != NULL)
 	{

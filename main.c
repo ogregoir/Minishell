@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/19 23:52:34 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:54:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int error_code = 0;
 
 void	print_lexer(t_lex *lex)
@@ -124,6 +125,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, ft_controles);
 	signal(SIGQUIT, ft_controles);
 	input = readline("minishell: ");
+	ft_free_oldpwd(env);
 	while (rl_line_buffer != NULL)
 	{	
 		add_history(rl_line_buffer);

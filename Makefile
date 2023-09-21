@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/09/17 15:19:31 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/09/21 18:53:24 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,7 @@ SRCS	=	main.c \
 			controles.c \
 			dollar.c \
 			cd.c \
-			pipe.c \
-			pipe2.c
+			pipe.c 
 			
 OBJS	=	$(SRCS:.c=.o)
 

@@ -78,3 +78,51 @@ int	ft_unset(char **line, char **env)
 	return (j);
 }
 
+
+char	*ft_oldpwd(char **env, char **line)
+{
+	int		i;
+	char	*buf;
+
+	i = 0;
+	buf = NULL;
+	if (line[1][1] == '-')
+	{
+		buf = ft_strdup(getenv("HOME"));
+		return (buf);
+	}
+	else
+	{
+		while (env[i] != NULL)
+		{
+			if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
+				buf = ft_substr(env[i], 7, ft_strlen(env[i]));
+			i++;
+		}
+		return (buf);
+	}
+	return (buf);
+}
+
+void	ft_oldpwd2(char **env, char *oldbuf)
+{
+	int		i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
+		{	
+			free(env[i]);
+			env[i] = ft_strjoin("OLDPWD=", oldbuf);
+			env[i + 1] = NULL;
+			return ;
+		}
+		i++;
+	}
+	if (env[i] == NULL)
+	{
+		env[i] = ft_strjoin("OLDPWD=", oldbuf);
+		env[i + 1] = NULL;
+	}
+}
