@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/20 00:06:19 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/22 22:22:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
-
 
 int		check_redi(t_lex *lex)
 {
@@ -26,6 +25,7 @@ int		check_redi(t_lex *lex)
 	}
 	return (0);
 }
+
 void	ft_pipex_main(int **fd, int pipenbr, int i, t_lex *lex)
 {
 	if(check_redi(lex) == 1)

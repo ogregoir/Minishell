@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/21 18:54:25 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/22 22:18:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ void	ft_oldpwd2(char **env, char *oldbuf);
 int error_parentheses(char **line);
 int no_such_directory(char **line);
 int error_arguments(void);
+int	ft_dollar_env(t_lex *lex, char **env);
 
 #endif

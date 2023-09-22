@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/21 18:54:46 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/22 22:18:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,13 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
 	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
+	{
+		if (ft_strncmp(lex->next->content, "?", 1) == 0)
 			ft_dollar(lex);
+		else
+			error_code = ft_dollar_env(lex, env);
+	}
+			
 	else
 		ft_not_builtin(lex, env);
 	return ;

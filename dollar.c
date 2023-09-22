@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/21 18:50:11 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/22 23:36:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,28 @@ void	ft_free_oldpwd(char **env)
 		i++;
 	}
 }
-/*
-int	ft_dollar_env(t_lex *lex)
+
+int	ft_dollar_env(t_lex *lex, char **env)
 {
+	char	*str;
+	char	*s;
 	
-}*/
+	(void)env;
+	s = NULL;
+	str = getenv(lex->next->content);
+	if (access(str, F_OK | R_OK) == 0 && str != NULL)
+	{
+		s = ft_strjoin("minishell: ", str);
+		printf("%s\n", ft_strjoin(s, ": Is a directory"));
+		return (126);
+	}
+	else if (str[0] == '/')
+	{
+		s = ft_strjoin("-minishell: ", str);
+		printf("%s\n", ft_strjoin(s, ": No such file or directory"));
+	}
+	else
+		printf("%s\n", ft_strjoin(str, ": command not found"));
+	return (127);
+	
+}
