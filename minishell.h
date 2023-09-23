@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/17 15:21:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/23 23:05:33 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ static const t_listtest	g_token[] = \
 {NULL, 1, TOKEN_NULL}
 };
 
-typedef struct s_data
+typedef struct s_pipe
 {
-	int	exit_status;
-}t_data;
+	int	in;
+	int pipenbr;
+}t_pipe;
 
 typedef struct s_lex
 {
@@ -107,9 +108,9 @@ int		ft_check_cmd(t_lex *lex, char **envp);
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
-void	ft_pipex_child2(int **fd, int pipenbr, int i);
-
-
+void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
+int		check_redi(t_lex *lex);
+int		check_redi_in(t_lex *lex);
 
 
 	/*quotes*/
