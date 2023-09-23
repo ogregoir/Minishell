@@ -6,12 +6,13 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/23 23:05:33 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/23 23:24:32 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdarg.h>
@@ -123,6 +124,14 @@ void    non_canonique(void);
 void    ft_controles(int sig);
 
 void	ft_dollar(t_lex *lex);
-void	ft_oldpwd(char **env, char **line);
+char	*ft_oldpwd(char **env, char **line);
+void	ft_free_oldpwd(char **env);
+int		ft_oldbuf(char **env, char **line);
+void	ft_oldpwd2(char **env, char *oldbuf);
+
+int error_parentheses(char **line);
+int no_such_directory(char **line);
+int error_arguments(void);
+int	ft_dollar_env(t_lex *lex, char **env);
 
 #endif
