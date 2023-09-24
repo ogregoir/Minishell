@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/15 13:42:00 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/24 16:33:03 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ int		ft_echo(t_lex *lex)
 		printf("%s",lex->content);
 		if(lex->next)
 			printf(" ");
+		lex = lex->next;
+	}
+	if(lex->type == 0)
+	{
+		
 		lex = lex->next;
 	}
 	if(nl == 0)

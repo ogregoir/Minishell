@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/22 22:18:34 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/24 16:45:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,29 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	return ;
 }
 
+char **create_env(char **env)
+{
+	char **envmini;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	envmini = malloc(sizeof(char**) * i + 1);
+	i = 0;	
+	while(env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	return(envmini);
+}
 
 int	main(int argc, char **argv, char **env)
 {	
 	t_lex lex;
 	char	*input;
+	char **envmini;
 	
 	(void)argc;
 	(void)argv;
@@ -130,15 +148,16 @@ int	main(int argc, char **argv, char **env)
 	non_canonique();
 	signal(SIGINT, ft_controles);
 	signal(SIGQUIT, ft_controles);
+	envmini = create_env(env);
 	input = readline("minishell: ");
-	ft_free_oldpwd(env);
+	ft_free_oldpwd(envmini);
 	while (rl_line_buffer != NULL)
 	{	
 		add_history(rl_line_buffer);
 		free (input);
 		if (input == NULL)
 			exit(0);
-		check_line(rl_line_buffer, env, &lex);
+		check_line(rl_line_buffer, envmini, &lex);
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}
