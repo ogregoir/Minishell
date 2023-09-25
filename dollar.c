@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/22 23:36:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/25 14:54:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	ft_dollar_env(t_lex *lex, char **env)
 	(void)env;
 	s = NULL;
 	str = getenv(lex->next->content);
+	//printf("str %s\n", str);
+	//supprimer les espaces
 	if (access(str, F_OK | R_OK) == 0 && str != NULL)
 	{
 		s = ft_strjoin("minishell: ", str);
