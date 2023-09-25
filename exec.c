@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/15 03:49:49 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/25 09:57:23 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 		i++;
 		free(tmp2);
 	}
-	printf("minishell: %s: command not found\n", arg);
+	ft_error(arg);
 	return (NULL);
 }
 
@@ -126,6 +126,7 @@ void ft_not_builtin(t_lex *lex, char **envp)
 		write(fd[1], &ret, sizeof(ret));
 		close(fd[1]);
 		exit(EXIT_FAILURE);
+
 	}
 	close(fd[1]);
 	while (wait(0) > 0)

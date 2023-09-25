@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogregoir <ogregoir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/07/10 15:32:01 by ogregoir         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:20:56 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**ft_quote(char *line)
 		if (line[i] == ' ')
 		{
 			i++;
-			str[j] = ft_calloc(1, 1);
+			str[j] = ft_strdup(" ");
 			j++;
 			line = ft_substr(line, i, ft_strlen(line));
 			i = 0;

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/24 16:45:16 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:35:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ char **ft_join(char **str)
 	ret[0] = ft_strdup(str[0]);
 	while(str[i])
 	{
-		if (str[i][0] == '\0')
+		if (str[i][0] == 32)
 			{
 				j++;
-				ret[j] = ft_strdup(str[i]);
+				ret[j] = ft_strdup2(str[i], 1);
 			}
 		else
 			ret[j] = ft_strjoin_free(ret[j], str[i]);
@@ -92,7 +92,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		error_code = ft_echo(lex);
+		error_code = ft_echo(lex, env);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 		error_code = ft_cd(env, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)

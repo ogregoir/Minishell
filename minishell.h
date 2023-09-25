@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/23 23:24:32 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:27:05 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		check_text(char text);
 void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
-int		ft_echo(t_lex *lex);
+int		ft_echo(t_lex *lex, char **env);
 int		ft_cd(char **env, char **line);
 int		ft_export(char **line, char **env);
 int		ft_unset(char **line, char **env);
@@ -99,6 +99,8 @@ int		ft_check_nbr(char *str);
 t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
+char	*ft_strdup2(const char *src, int n);
+
 
 
 	/*EXEC*/
@@ -133,5 +135,7 @@ int error_parentheses(char **line);
 int no_such_directory(char **line);
 int error_arguments(void);
 int	ft_dollar_env(t_lex *lex, char **env);
+
+void	ft_error(char *arg);
 
 #endif

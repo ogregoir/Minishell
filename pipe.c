@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/23 23:25:38 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:01:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,12 @@ int detect_pipe(t_lex *lex, char **envp)
     
     tmp =  lex;
 	i = 0;
+	j = 0;
 	while(tmp->next)
 	{
 		if(tmp->type == 1)
 			i++;
-		if(tmp->type > 1)
+		if(tmp->type > 1 && tmp->type != 8)
 			j++;
 		tmp = tmp->next;
     }
