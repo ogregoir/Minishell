@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/25 22:11:54 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/26 00:59:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	ft_dollar_env(t_lex *lex, char **env)
 	i = 0;
 	j = ft_strlen(lex->next->content);
 	str = NULL;
+	if (ft_strchr(lex->next->content, 48) != 0)
+	{
+		printf("Command '-minishell' not found\n");
+		return (127);
+	}
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], lex->next->content, j) == 0)
