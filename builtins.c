@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/15 13:42:00 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/25 10:45:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,31 @@
 
 void	ft_exit(t_lex *lex)
 {
+	int i;
+
+	i = 0;
 	printf("exit\n");
 	if (lex->next == NULL)
 		exit (error_code);
-	if (ft_check_nbr(lex->next->content) == 1)
+	if(lex->next->next)
+		{
+			ft_putendl_fd("minishell: exit: too many arguments", 2);
+			error_code = 1;
+			exit(1);
+		}
+	if (ft_check_nbr(lex->next->content) == 1 && lex->next->content[0] != '+' && lex->next->content[0] != '-')
 	{
-		printf("minishell: exit: %s numeric argument required\n", lex->next->content);
-		exit (EXIT_FAILURE);
+		ft_putendl_fd(" numeric argument required", 2);
+		error_code = 2;
+		exit (2);
 	}
-	else
-		exit (ft_atoi(lex->next->content));
+	if(lex->next->content[0] == '-')
+		{
+			i = ft_atoi(lex->next->content);
+			i = 256 + i;
+			exit(i);
+		}
+	exit (ft_atoi(lex->next->content));
 }
 
 int		ft_pwd(void)
@@ -78,7 +93,7 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-int		ft_echo(t_lex *lex)
+int		ft_echo(t_lex *lex, char **env)
 {
 	int nl;
 
@@ -98,6 +113,11 @@ int		ft_echo(t_lex *lex)
 		if(lex->next)
 			printf(" ");
 		lex = lex->next;
+	}
+	if(lex && lex->type == 0)
+	{
+		ft_dollar_env(lex, env);
+		return (0);
 	}
 	if(nl == 0)
 		printf("\n");

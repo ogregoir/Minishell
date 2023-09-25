@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/08/31 10:37:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:26:44 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,28 @@ void	addcontent(t_lex *list, char *content, t_token_type i)
 	}
 	else
 		list->next = new;
+}
+
+void	ft_error(char *arg)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd(" : command not found", STDERR_FILENO);
+}
+
+char	*ft_strdup2(const char *src, int n)
+{
+	char	*tab;
+	int		i;
+
+	i = 0;
+	tab = malloc(sizeof(char *) * (ft_strlen(src) -n + 1));
+	while (src[i])
+	{
+		tab[i] = src[n];
+		i++;
+		n++;
+	}
+	tab[i] = '\0';
+	return (tab);
 }
