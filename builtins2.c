@@ -63,12 +63,10 @@ int	ft_export(char **line, char **env)
 
 	i = 1;
 	j = 0;
-	printf("%s\n", line[0]);
 	if (line[1] == NULL)
-		return (j);
+		return (0);
 	if (line[i] != NULL)
 	{
-
 		while (line[i] != NULL)
 		{
 			if (ft_already_exists(line, env) != 0)

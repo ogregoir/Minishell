@@ -39,7 +39,10 @@ void	ft_ctrld(void)
 void	ft_controles(int sig)
 {
 	if (sig == SIGINT)
+	{
+		//printf("sig %d\n", sig);
 		ft_ctrlc();
+	}
 	if (sig == SIGQUIT)
 		ft_ctrld();
 	else
