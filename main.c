@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/27 21:12:03 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:07:50 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 		error_code= ft_unset(str, env);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
-	else if (ft_strncmp(lex->content, "$", 1) == 0 && ft_strlen(lex->content) == 1)
+	else if (lex->type == 0)
 	{
-		if (ft_strncmp(lex->next->content, "?", 1) == 0)
-			ft_dollar(lex);
-		else
+	//	if (ft_strncmp(lex->next->content, "?", 1) == 0)
+	//		ft_dollar(lex);
+	//	else
 			error_code = ft_dollar_env(lex, env);
 	}
 			

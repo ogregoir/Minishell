@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 18:38:26 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 22:05:32 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ char	*ft_search_quote(char *line, char c)
 				i++;
 				if (line[i] == c)
 				{
-					str = ft_substr(line, j+1, i-1);
+					if(line[j + 1] == '$' && c == 34)
+						str = ft_substr(line, j + 2, i - 2);
+					else
+						str = ft_substr(line, j+1, i-1);
 					return (str);
 				}
 			}
@@ -117,9 +120,9 @@ t_lex	*ft_quote(char *line, t_lex *lex)
 			break;
 		str[j] = ft_check_quote(line, i);
 		if (!lex && line[i] == 39 && str[j][0] == '$')
-			lex = ft_lstnew(str[j], 0);
+			lex = ft_lstnew(str[j] + 1, 0);
 		else if(line[i] == 39 && str[j][0] == '$')
-			addcontent(lex, str[j], 0);
+			addcontent(lex, str[j] + 1, 0);
 		else if(line[i] != 34 && line[i] != 39)
 			lex = ft_lexer_quotes(str[j], lex, i);
 		else if(!lex && str[j])
@@ -132,6 +135,8 @@ t_lex	*ft_quote(char *line, t_lex *lex)
 		else 
 			i = ft_strlen(str[j - 1]);
 		line = ft_substr(line, i, ft_strlen(line));
+		if((line[0] == 34 || line[0] == 39) && ft_strlen(line) == 1)
+			break;
 		i = 0;
 	}
 	str[j] = NULL;

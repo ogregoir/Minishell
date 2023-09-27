@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 17:43:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:50:00 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*check_next(char *str, int j, int l)
 				l++;
 			s = ft_substr(str, 0, l +1);
 			if(j == 2)
-				s = ft_strjoin_free(s, str + 1);
+				return(str + 1);
 			return (s);
 		}
 		else
