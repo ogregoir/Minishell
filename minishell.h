@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/25 11:27:05 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 20:05:54 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
+char *ft_last_ele(t_lex *lex);
 
 
 
@@ -117,9 +118,11 @@ int		check_redi_in(t_lex *lex);
 
 
 	/*quotes*/
-char	**ft_quote(char *line);
+t_lex	*ft_quote(char *line, t_lex *lex);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
+t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i);
+
 
 	/*CONTROLES*/
 void    non_canonique(void);
@@ -137,5 +140,7 @@ int error_arguments(void);
 int	ft_dollar_env(t_lex *lex, char **env);
 
 void	ft_error(char *arg);
+void free_list(t_lex *lex);
+
 
 #endif

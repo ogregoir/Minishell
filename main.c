@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/25 11:35:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 21:04:56 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,48 +45,69 @@ int	ft_nbr_space(char **str)
 		return(j);
 }
 
-char **ft_join(char **str)
+t_lex *ft_join(t_lex *lex)
 {
-	int i;
-	int j;
-	char **ret;
+	t_lex *tmp;
+	char *str;
 
-	i = 1;
-	j = 0;
-
-	ret = malloc(sizeof(char *) * (ft_nbr_space(str) + 1));
-	ret[0] = ft_strdup(str[0]);
-	while(str[i])
+	tmp = NULL;
+	while(lex->next)
 	{
-		if (str[i][0] == 32)
+		while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+			lex = lex->next;
+		if (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1)
 			{
-				j++;
-				ret[j] = ft_strdup2(str[i], 1);
+				if (lex->next && ft_strncmp(lex->next->content, " ", 1) == 0 && ft_strlen(lex->next->content) == 1)
+					{
+					if (!tmp)
+						tmp = ft_lstnew(lex->content, lex->type);
+					else
+						addcontent(tmp, lex->content, lex->type);
+					}
+				else if(lex->next)
+					{
+					str = ft_strjoin(lex->content, lex->next->content);
+					if (!tmp)
+						tmp = ft_lstnew(str, lex->type);
+					else
+						addcontent(tmp, str, lex->type);
+					lex = lex ->next;
+					}
+				while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+					lex = lex->next;
 			}
-		else
-			ret[j] = ft_strjoin_free(ret[j], str[i]);
-		i++;
+			else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1))
+				tmp = ft_lstnew(lex->content, lex->type);
+			else if (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1)
+				addcontent(tmp, lex->content, lex->type);
+			if(lex->next)
+				lex = lex->next;
 	}
-	j++;
-	ret[j] = NULL;
-	free(str);
-	return(ret);
+	if(ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+		return(tmp);
+	if (!tmp && ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
+		tmp = ft_lstnew(lex->content, lex->type);
+	else if(ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
+		addcontent(tmp, lex->content, lex->type);
+	return(tmp);
 }
 
 static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 {
 	char	**str;
-
+	
+	lex = NULL;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
-	{
-		str = ft_quote(rl_line_buffer);
-		if(str[1] != NULL)
-			str = ft_join(str);
-	}
+		{
+			lex = ft_quote(rl_line_buffer, lex);
+			if(lex->next)
+				lex = ft_join(lex);
+		}
 	else
 		str = ft_split(rl_line_buffer, ' ');
-	lex = ft_lexer(str, lex);
-	//print_lexer(lex);
+	if(!lex)
+		lex = ft_lexer(str, lex);
+	print_lexer(lex);
 	if (rl_line_buffer[0] == '\0')
 		return;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)

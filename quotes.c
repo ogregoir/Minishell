@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/25 11:20:56 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:38:26 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*ft_check_quote(char *line, int i)
 	return (line);
 }
 
-char	**ft_quote(char *line)
+t_lex	*ft_quote(char *line, t_lex *lex)
 {
 	char	**str;
 	int		i;
@@ -105,21 +105,35 @@ char	**ft_quote(char *line)
 		{
 			i++;
 			str[j] = ft_strdup(" ");
-			j++;
+			if(!lex)
+				lex = ft_lstnew(str[j], 8);
+			else
+				addcontent(lex, str[j], 8);
+			
 			line = ft_substr(line, i, ft_strlen(line));
 			i = 0;
 		}
 		if (line[i] == '\0')
 			break;
-		str[j] = ft_check_quote(line, i);	
+		str[j] = ft_check_quote(line, i);
+		if (!lex && line[i] == 39 && str[j][0] == '$')
+			lex = ft_lstnew(str[j], 0);
+		else if(line[i] == 39 && str[j][0] == '$')
+			addcontent(lex, str[j], 0);
+		else if(line[i] != 34 && line[i] != 39)
+			lex = ft_lexer_quotes(str[j], lex, i);
+		else if(!lex && str[j])
+			lex = ft_lstnew(str[j], 8);
+		else if(str[j])
+			addcontent(lex, str[j], 8);
 		j++;
 		if (line[i] == 34 || line[i] == 39)
-			i = ft_strlen(str[j - 1]) +2;
+			i = ft_strlen(str[j - 1]) + 2;
 		else 
 			i = ft_strlen(str[j - 1]);
 		line = ft_substr(line, i, ft_strlen(line));
 		i = 0;
 	}
 	str[j] = NULL;
-	return (str);
+	return(lex);
 }

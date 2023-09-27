@@ -3,19 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/09/22 22:22:48 by marvin           ###   ########.fr        #
+#    Updated: 2023/09/27 16:00:46 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	=	main.c \
 			utils.c \
+			utils2.c \
 			builtins.c \
 			builtins2.c \
 			lexer.c \
 			lexer_2.c \
+			lexerquotes.c \
 			variables_environnement.c \
 			exec.c \
 			quotes.c \

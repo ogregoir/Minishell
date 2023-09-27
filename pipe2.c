@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/23 23:15:19 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:49:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,7 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data)
 		}
 	}
 	else
-	{
 		dup2(fd[i][0], STDIN_FILENO);
-		dup2(fd[i + 1][1], STDOUT_FILENO);
-	}
+	dup2(fd[i + 1][1], STDOUT_FILENO);
 	close_pipe(fd, data->pipenbr);
 }
