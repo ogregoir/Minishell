@@ -16,11 +16,9 @@ int	ft_export2(char **env, char **line, int i)
 {
 	int	l;
 	int	j;
-	int	m;
 
 	l = 0;
 	j = 0;
-	m = 0;
 	while (env[l] != NULL)
 		l++;
 	while (line[i][j])
@@ -29,11 +27,33 @@ int	ft_export2(char **env, char **line, int i)
 		{
 			env[l] = ft_substr(line[i], 0, ft_strlen(line[i]));
 			env[l + 1] = NULL;
-			return (m);
+			return (0);
 		}
 		j++;
 	}
-	return (m);
+	return (0);
+}
+
+int	ft_already_exists(char **line, char **env)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (line[1][i] != '=')
+		i++;
+	while (env[j] != NULL)
+	{
+		if (ft_strncmp(line[1], env[j], i) == 0)
+		{
+			env[j] = NULL;
+			env[j] = ft_strdup(line[1]);
+			return (0);
+		}
+		j++;
+	}
+	return (0);
 }
 
 int	ft_export(char **line, char **env)
@@ -44,12 +64,15 @@ int	ft_export(char **line, char **env)
 	i = 1;
 	j = 0;
 	if (line[1] == NULL)
-		return (j);
+		return (0);
 	if (line[i] != NULL)
 	{
 		while (line[i] != NULL)
 		{
-			j = ft_export2(env, line, i);
+			if (ft_already_exists(line, env) != 0)
+				j = ft_export2(env, line, i);
+			else
+				j = ft_already_exists(line, env);
 			i++;
 		}
 	}
