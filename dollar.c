@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/28 13:16:51 by marvin           ###   ########.fr       */
+/*   Updated: 2023/09/29 09:07:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	ft_dollar_env(t_lex *lex, char **env)
 	i = 0;
 	j = ft_strlen(lex->content);
 	str = NULL;
+	if(j == 1 && ft_strncmp(lex->content, "$", 1) == 0)
+		{
+			printf("$: command not found\n");
+			return(127);
+		}
 	if (ft_strchr(lex->content, 48) != 0)
 	{
 		printf("Command '-minishell' not found\n");
