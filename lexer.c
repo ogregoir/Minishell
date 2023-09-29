@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/29 08:55:40 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:26:35 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*check_next(char *str, int j, int l)
 		{
 			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
 				l++;
-			s = ft_substr(str, 0, l +1);
+			s = ft_substr(str, 0, l + 1);
 			if(j == 2 && ft_strlen(str) > 1)
 				return(str + 1);
 			return (s);

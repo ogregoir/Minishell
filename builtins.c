@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/25 10:45:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/29 11:56:05 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,13 @@ int		ft_echo(t_lex *lex, char **env)
 	}
 	if(lex && lex->type == 0)
 	{
-		ft_dollar_env(lex, env);
-		return (0);
+		if(ft_strlen(lex->content) > 1)
+			{
+				ft_dollar_env(lex, env);
+				return (0);
+			}
+		else
+			printf("$");
 	}
 	if(nl == 0)
 		printf("\n");
