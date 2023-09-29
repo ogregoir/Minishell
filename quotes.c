@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 22:05:32 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/29 08:53:37 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_search_quote(char *line, char c)
 				i++;
 				if (line[i] == c)
 				{
-					if(line[j + 1] == '$' && c == 34)
-						str = ft_substr(line, j + 2, i - 2);
+					if(line[j + 1] == '$' && c == 39)
+								str = ft_substr(line, j + 1, i - 1);
 					else
 						str = ft_substr(line, j+1, i-1);
 					return (str);
@@ -119,9 +119,9 @@ t_lex	*ft_quote(char *line, t_lex *lex)
 		if (line[i] == '\0')
 			break;
 		str[j] = ft_check_quote(line, i);
-		if (!lex && line[i] == 39 && str[j][0] == '$')
+		if (!lex && line[i] == 34 && str[j][0] == '$' && ft_strlen(str[j]) > 1)
 			lex = ft_lstnew(str[j] + 1, 0);
-		else if(line[i] == 39 && str[j][0] == '$')
+		else if(line[i] == 34 && str[j][0] == '$' && ft_strlen(str[j]) > 1)
 			addcontent(lex, str[j] + 1, 0);
 		else if(line[i] != 34 && line[i] != 39)
 			lex = ft_lexer_quotes(str[j], lex, i);

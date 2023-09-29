@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/27 22:07:50 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/29 08:56:10 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_lex *ft_join(t_lex *lex)
 	tmp = NULL;
 	while(lex->next)
 	{
-		while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+		while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
 			lex = lex->next;
 		if (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1)
 			{
@@ -73,7 +73,7 @@ t_lex *ft_join(t_lex *lex)
 						addcontent(tmp, str, lex->type);
 					lex = lex ->next;
 					}
-				while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+				while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
 					lex = lex->next;
 			}
 			else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1))
@@ -107,7 +107,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 		str = ft_split(rl_line_buffer, ' ');
 	if(!lex)
 		lex = ft_lexer(str, lex);
-	//print_lexer(lex);
+//	print_lexer(lex);
 	if (rl_line_buffer[0] == '\0')
 		return;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
