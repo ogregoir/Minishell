@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/29 09:07:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 16:54:20 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	ft_dollar_env(t_lex *lex, char **env)
 	i = 0;
 	j = ft_strlen(lex->content);
 	str = NULL;
+	if(j == 1 && ft_strncmp(lex->content, "?", 1) == 0)
+	{
+			printf("%d\n", error_code);
+			return(0);
+	}
 	if(j == 1 && ft_strncmp(lex->content, "$", 1) == 0)
 		{
 			printf("$: command not found\n");

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/29 11:56:05 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:32:39 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-int		ft_echo(t_lex *lex, char **env)
+int		ft_echo(t_lex *lex)
 {
 	int nl;
 
@@ -107,22 +107,31 @@ int		ft_echo(t_lex *lex, char **env)
 	nl = ft_echo_nl(&lex);
 	if (!lex)
 		return(0) ;
-	while(lex && lex->type == 8)
+	while(lex)
 	{
-		printf("%s",lex->content);
-		if(lex->next)
-			printf(" ");
-		lex = lex->next;
-	}
-	if(lex && lex->type == 0)
-	{
-		if(ft_strlen(lex->content) > 1)
+		if(lex->type == 8)
+			printf("%s",lex->content);
+		if(lex && lex->type == 0)
+		{
+		if(ft_strlen(lex->content) > 1 || ft_strncmp(lex->content, "?", 1) == 0)
 			{
-				ft_dollar_env(lex, env);
+			if(ft_strncmp(lex->content, "?", 1) == 0 && ft_strlen(lex->content) >= 1)
+				{
+				if(lex->content[2])
+					printf("%d%s\n", error_code, lex->content + 1);
+				else
+					printf("%d\n", error_code);
+				}
+				else
+					printf("%s\n", getenv(lex->content));
 				return (0);
 			}
 		else
 			printf("$");
+		}
+		if(lex->next)
+			printf(" ");
+		lex = lex->next;
 	}
 	if(nl == 0)
 		printf("\n");

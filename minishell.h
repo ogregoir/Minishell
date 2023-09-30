@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/27 20:05:54 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:04:07 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		check_text(char text);
 void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
-int		ft_echo(t_lex *lex, char **env);
+int		ft_echo(t_lex *lex);
 int		ft_cd(char **env, char **line);
 int		ft_export(char **line, char **env);
 int		ft_unset(char **line, char **env);
@@ -100,7 +100,7 @@ t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
-char *ft_last_ele(t_lex *lex);
+char	*ft_last_ele(t_lex *lex);
 
 
 
@@ -137,7 +137,7 @@ void	ft_oldpwd2(char **env, char *oldbuf);
 int error_parentheses(char **line);
 int no_such_directory(char **line);
 int error_arguments(void);
-int	ft_dollar_env(t_lex *lex, char **env);
+int ft_dollar_env(t_lex *lex, char **env);
 
 void	ft_error(char *arg);
 void free_list(t_lex *lex);

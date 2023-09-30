@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/09/29 11:57:31 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:36:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		error_code = ft_echo(lex, env);
+		error_code = ft_echo(lex);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 		error_code = ft_cd(env, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
@@ -125,13 +125,7 @@ static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env);
 	else if (lex->type == 0)
-	{
-	//	if (ft_strncmp(lex->next->content, "?", 1) == 0)
-	//		ft_dollar(lex);
-	//	else
-			error_code = ft_dollar_env(lex, env);
-	}
-			
+			error_code = ft_dollar_env(lex, env);	
 	else
 		ft_not_builtin(lex, env);
 	return ;
@@ -177,10 +171,10 @@ int	main(int argc, char **argv, char **env)
 		add_history(rl_line_buffer);
 		free (input);
 		if (input == NULL)
-			exit(0);
+			exit(error_code);
 		check_line(rl_line_buffer, envmini, &lex);
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}
-	return (0);
+	return(error_code);
 }

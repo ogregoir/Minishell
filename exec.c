@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 16:18:31 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 15:02:11 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ void ft_not_builtin(t_lex *lex, char **envp)
 	int		fd[2];
 
 	ret = 0;
-	if(lex->type != 8)
+	if (lex->type != 8)
 		return ;
-	if(detect_pipe(lex, envp) == 1)
+	if (detect_pipe(lex, envp) == 1)
 		return ;
 	pipe(fd);
 	pid = fork();
@@ -126,7 +126,6 @@ void ft_not_builtin(t_lex *lex, char **envp)
 		write(fd[1], &ret, sizeof(ret));
 		close(fd[1]);
 		exit(EXIT_FAILURE);
-
 	}
 	close(fd[1]);
 	while (wait(0) > 0)

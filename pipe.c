@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 17:49:08 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:22:11 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,14 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	{
 	while(lex && lex->type == 8)
 		lex = lex->next;
-	if(lex->next && lex->type == 2)
+	if(lex->type == 2)
 		{
 			lex = lex->next;
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
 			if(open(lex->content, O_RDONLY) == -1)
 			{
 				printf("minishell : %s: No such file or directory\n", lex->content);
@@ -64,6 +69,11 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	if(lex->type == 3)
 		{
 			lex = lex->next;
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
 			dup2(open(lex->content, O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
@@ -71,6 +81,11 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	if(lex->type == 5)
 		{
 			lex = lex->next;
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
 			dup2(open(lex->content, O_APPEND | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
@@ -133,7 +148,7 @@ int detect_pipe(t_lex *lex, char **envp)
     tmp =  lex;
 	i = 0;
 	j = 0;
-	while(tmp->next)
+	while(tmp)
 	{
 		if(tmp->type == 1)
 			i++;
