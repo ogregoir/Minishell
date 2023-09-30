@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/11 14:49:12 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:35:41 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_lex	*ft_text(char *s, char *str, int j, t_lex *lex)
 	return (lex);
 }
 
-int	check_text(char text)
+int	check_text(int text)
 {
 	if(text == '<')
 		return(1);

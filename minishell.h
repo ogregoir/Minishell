@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/30 17:04:07 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/09/30 18:35:59 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_variables_env(char *line);
 t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
 char	*go_next(char *str, char *s);
-int		check_text(char text);
+int		check_text(int text);
 
 
 	/*Builtins*/
