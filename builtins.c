@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/30 17:32:39 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:12:54 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,27 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
+int		ft_search_token(t_lex *lex)
+{
+	t_lex *tmp;
+
+	tmp = lex;
+	while(tmp)
+	{
+		if(tmp->type == 1)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+	
+}
 int		ft_echo(t_lex *lex)
 {
 	int nl;
 
 	nl = 0;
+	if(ft_search_token(lex) > 0)
+		return (0);
 	if (!lex->next)
 	{
 		printf("\n");
@@ -109,6 +125,8 @@ int		ft_echo(t_lex *lex)
 		return(0) ;
 	while(lex)
 	{
+		if(lex->next && lex->next->next && lex->type == 2)
+			lex = lex->next->next;
 		if(lex->type == 8)
 			printf("%s",lex->content);
 		if(lex && lex->type == 0)

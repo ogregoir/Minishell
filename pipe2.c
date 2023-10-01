@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 17:49:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:41:09 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int		check_redi_in(t_lex *lex)
 
 void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data)
 {
+	int file;
+	
 	if(check_redi(lex) == 1)
 	{
 	while(lex && lex->type == 8)
@@ -87,14 +89,16 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data)
 		if(lex->type == 3)
 		{
 			lex = lex->next;
-			dup2(open(lex->content, O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+			file = openfile(lex->content);
+			dup2(file ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
 		}
 		if(lex->type == 5)
 		{
 			lex = lex->next;
-			dup2(open(lex->content, O_APPEND | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+			file = openfile(lex->content);
+			dup2(file ,STDOUT_FILENO);
 			if (data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
 		}

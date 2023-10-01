@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/30 15:02:11 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:44:33 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_check_cmd(t_lex *lex, char **envp)
 	return(126);
 }
 
-void ft_not_builtin(t_lex *lex, char **envp)
+void	ft_not_builtin(t_lex *lex, char **envp)
 {
 	pid_t	pid;
 	int		ret;

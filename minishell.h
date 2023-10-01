@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/30 18:35:59 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:43:50 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
+# include "errno.h"
 
 extern int error_code;
 
@@ -115,6 +116,8 @@ void	ft_pipe_create(int pipenbr, int **fd);
 void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
+int		openfile(char *content);
+
 
 
 	/*quotes*/
