@@ -45,11 +45,12 @@ char	*ft_forward(char *buf, char **line)
 	return (newbuf);
 }
 
-int	ft_access_cd(char **env, char *buf, char **line, char *oldbuf)
+int	ft_access_cd(t_global *data, char *buf, char **line, char *oldbuf)
 {
 	if (access(buf, F_OK | R_OK) == 0 && buf != NULL)
 	{
-		ft_oldpwd2(env, oldbuf);
+		ft_moove_env(oldbuf, "OLDPWD=", data);
+		ft_moove_env(buf, "PWD=", data);
 		if (line[1] != NULL && line[1][0] == 45 && line[1][1] == '\0')
 			printf("%s\n", buf);
 		chdir(buf);
@@ -63,7 +64,7 @@ int	ft_access_cd(char **env, char *buf, char **line, char *oldbuf)
 	}
 }
 
-int	ft_oldbuf(char **env, char **line)
+int	ft_oldbuf(t_global *data, char **line)
 {
 	int		i;
 
@@ -77,9 +78,9 @@ int	ft_oldbuf(char **env, char **line)
 	{
 		if (line[1][1] == '-')
 			return (0);
-		while (env[i] != NULL)
+		while (data->envmini[i] != NULL)
 		{
-			if (ft_strncmp(env[i], "OLDPWD=", 7) != 0)
+			if (ft_strncmp(data->envmini[i], "OLDPWD=", 7) != 0)
 				i++;
 			else
 				return (0);
@@ -90,7 +91,7 @@ int	ft_oldbuf(char **env, char **line)
 	return (0);
 }
 
-int	ft_cd(char **env, char **line)
+int	ft_cd(t_global *data, char **line)
 {
 	char	*buf;
 	int		j;
@@ -117,9 +118,9 @@ int	ft_cd(char **env, char **line)
 		buf = ft_forward(buf, line);
 	else if (line[1][0] == 45)
 	{
-		j = ft_oldbuf(env, line);
+		j = ft_oldbuf(data, line);
 		if (j == 0)
-			buf = ft_oldpwd(env, line);
+			buf = ft_oldpwd(data, line);
 		else
 			return (j);
 	}
@@ -127,6 +128,6 @@ int	ft_cd(char **env, char **line)
 		return (error_parentheses(line));
 	else
 		return (no_such_directory(line));
-	j = ft_access_cd(env, buf, line, oldbuf);
+	j = ft_access_cd(data, buf, line, oldbuf);
 	return (j);
 }

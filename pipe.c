@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/27 17:49:08 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/01 03:23:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	while(lex && lex->type == 8)
 		lex = lex->next;
 	if(lex->next && lex->type == 2)
-		{
+	{
 			lex = lex->next;
 			if(open(lex->content, O_RDONLY) == -1)
 			{
@@ -86,7 +86,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	close_pipe(fd, data->pipenbr);
 }
 
-int	pipex(t_lex *lex, char **envp, int nbrpipe)
+int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 {
 	pid_t	*pid;
 	t_pipe	data;
@@ -111,7 +111,7 @@ int	pipex(t_lex *lex, char **envp, int nbrpipe)
 		else if (i == data.pipenbr && pid[i] == 0)
 			ft_pipex_main(fd, i, lex, &data);
 		if (pid[i] == 0)
-			ret = ft_check_cmd(lex, envp);
+			ret = ft_check_cmd(lex, datas);
 		i++;
 		if(lex->next == NULL)
 			break;
@@ -124,7 +124,7 @@ int	pipex(t_lex *lex, char **envp, int nbrpipe)
 	return(ret);
 }
 
-int detect_pipe(t_lex *lex, char **envp)
+int detect_pipe(t_lex *lex, t_global *data)
 {
 	int i;
 	int	j;
@@ -143,7 +143,7 @@ int detect_pipe(t_lex *lex, char **envp)
     }
 	if(i > 0 || j > 0)
 		{
-			error_code = pipex(lex, envp, i);
+			data->error_code = pipex(lex, data, i);
 			return (1);
 		}
 	return(0) ;

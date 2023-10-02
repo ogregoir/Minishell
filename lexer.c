@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/29 11:26:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/02 00:26:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 char	*go_next(char *str, char *s)
 {
 	char	*ret;
@@ -52,6 +51,8 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j)
 		j++;
 	}
 	lex = ft_text(s, str, j, lex);
+	//if(ft_strncmp(lex->content, str, ft_strlen(str)))
+	//	lex = ft_check_type(str, lex, 0, 0);
 	return (lex);
 }
 
@@ -62,8 +63,7 @@ static int	copy_text(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (ft_isalnum(str[i]) == 0 && str[i] \
-		!= ' ' && str[i] != 47 && check_text(str[i] == 1))
+		if (ft_isalnum(str[i]) == 0 && str[i] != ' ' && str[i] != 47 && check_text(str[i]) == 1)
 			return (i);
 		i++;
 	}

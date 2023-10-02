@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/27 20:05:54 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:02:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,23 @@ typedef struct s_lex
 {
 	struct s_lex	*next;
 	char			*content;
-	t_token_type	type;
+	int				type;
 }t_lex;
 
+typedef struct s_structtok{
+	char		*token;
+	int			len;
+	int			type;
+}t_structtok;
+
+typedef struct s_global
+{
+	char		**envmini;
+	t_listtest	*token;
+	int			**fd;
+	int			*pid;
+	int			error_code;
+}t_global;
 
 
 	/*Lexer*/
@@ -81,17 +95,17 @@ void	ft_variables_env(char *line);
 t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
 char	*go_next(char *str, char *s);
-int		check_text(char text);
+int		check_text(int text);
 
 
 	/*Builtins*/
 void	ft_exit(t_lex *lex);
 int		ft_pwd(void);
 int		ft_env(t_lex *lex, char **env);
-int		ft_echo(t_lex *lex, char **env);
-int		ft_cd(char **env, char **line);
-int		ft_export(char **line, char **env);
-int		ft_unset(char **line, char **env);
+int		ft_echo(t_lex *lex);
+int     ft_cd(t_global *data, char **line);
+int     ft_export(char **line, t_global *data);
+int     ft_unset(char **line, t_global *data);
 
 	/*Utils*/
 void	ft_free_split(char **split);
@@ -100,14 +114,14 @@ t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
-char *ft_last_ele(t_lex *lex);
+char	*ft_last_ele(t_lex *lex);
 
 
 
 	/*EXEC*/
-void	ft_not_builtin(t_lex *lex, char **env);
-int		detect_pipe(t_lex *lex, char **envp);
-int		ft_check_cmd(t_lex *lex, char **envp);
+void 	ft_not_builtin(t_lex *lex, t_global *data);
+int 	detect_pipe(t_lex *lex, t_global *data);
+int		ft_check_cmd(t_lex *lex, t_global *data);
 
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
@@ -115,6 +129,8 @@ void	ft_pipe_create(int pipenbr, int **fd);
 void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
+int		openfile(char *content);
+
 
 
 	/*quotes*/
@@ -128,19 +144,21 @@ t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i);
 void    non_canonique(void);
 void    ft_controles(int sig);
 
-void	ft_dollar(t_lex *lex);
-char	*ft_oldpwd(char **env, char **line);
-void	ft_free_oldpwd(char **env);
-int		ft_oldbuf(char **env, char **line);
+void    ft_dollar(t_lex *lex, t_global *data);
+char	*ft_oldpwd(t_global *data, char **line);
+void    ft_free_oldpwd(char **env);
+int		ft_oldbuf(t_global *data, char **line);
 void	ft_oldpwd2(char **env, char *oldbuf);
 
 int error_parentheses(char **line);
 int no_such_directory(char **line);
 int error_arguments(void);
-int	ft_dollar_env(t_lex *lex, char **env);
+int ft_dollar_env(t_lex *lex, char **env);
 
-void	ft_error(char *arg);
-void free_list(t_lex *lex);
-
+void	ft_error(char *arg, char *str, int PID);
+void 	free_list(t_lex *lex);
+void    ft_init_token(t_global *data);
+void	ft_moove_env(char *oldbuf, char *str, t_global *data);
+//void    ft_print_tok(t_global *data);
 
 #endif

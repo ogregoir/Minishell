@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/29 09:10:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:51:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int ft_detect_quotes(char *line)
 {
@@ -24,10 +25,21 @@ int ft_detect_quotes(char *line)
 	while(line[i])
 	{
 		if(line[i] == 34)
+		{
+			i++;
+			while(line[i] && line[i] != 34)
+				i++;
 			nbr_d++;
-		if(line[i] == 39)
+		}
+		else if(line[i] == 39)
+		{
+			i++;
+			while(line[i] && line[i] != 39)
+				i++;
 			nbr_s++;
-		i++;
+		}
+		else
+			i++;
 	}
 	if(nbr_d == 0 && nbr_s == 0)
 		return (0);
@@ -109,12 +121,13 @@ void	addcontent(t_lex *list, char *content, t_token_type i)
 		list->next = new;
 }
 
-void	ft_error(char *arg)
+void	ft_error(char *arg, char *str, int PID)
 {
 	//ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd(": command not found", STDERR_FILENO);
-	exit(1);
+	ft_putendl_fd(str, STDERR_FILENO);
+	if (PID == 0)
+		exit(1);
 }
 
 char	*ft_strdup2(const char *src, int n)
