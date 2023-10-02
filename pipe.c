@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/01 03:23:53 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:19:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,35 @@ int		check_redi(t_lex *lex)
 	}
 	return (0);
 }
+
+int		openfile(char *content)
+{
+	int file;
+
+	file = open(content, O_APPEND | O_WRONLY | O_CREAT, 0644);
+	if(file < 0)
+		{
+			ft_putendl_fd(" Permission denied", 2);
+			exit(1);
+		}
+	return(file);
+}
 void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 {
+	int file;
+	
 	if(check_redi(lex) == 1)
 	{
 	while(lex && lex->type == 8)
 		lex = lex->next;
 	if(lex->next && lex->type == 2)
-	{
+		{
 			lex = lex->next;
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
 			if(open(lex->content, O_RDONLY) == -1)
 			{
 				printf("minishell : %s: No such file or directory\n", lex->content);
@@ -64,14 +84,26 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	if(lex->type == 3)
 		{
 			lex = lex->next;
-			dup2(open(lex->content, O_TRUNC | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
+			file = openfile(lex->content);
+			dup2(file, STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
 		}
 	if(lex->type == 5)
 		{
 			lex = lex->next;
-			dup2(open(lex->content, O_APPEND | O_WRONLY | O_CREAT, 0644) ,STDOUT_FILENO);
+			if(lex == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
+				exit (1);
+			}
+			file = openfile(lex->content);
+			dup2(file ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
 		}
@@ -92,9 +124,10 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	t_pipe	data;
 	int		**fd;
 	int		i;
-	int		ret;
-
+	int		status;
+	
 	i = 0;
+	status = 0;
 	fd = NULL;
 	data.pipenbr = nbrpipe;
 	data.in = 0;
@@ -119,9 +152,13 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 			lex = lex->next;
 	}
 	close_pipe(fd, data.pipenbr);
-	while (wait(0) > 0)
+	while (wait(&status) > 0)
 		;
-	return(ret);
+	if(WEXITSTATUS(status) == 1)
+		error_code = 1;
+	else
+		error_code = 0;
+	return(error_code);
 }
 
 int detect_pipe(t_lex *lex, t_global *data)
@@ -133,7 +170,7 @@ int detect_pipe(t_lex *lex, t_global *data)
     tmp =  lex;
 	i = 0;
 	j = 0;
-	while(tmp->next)
+	while(tmp)
 	{
 		if(tmp->type == 1)
 			i++;

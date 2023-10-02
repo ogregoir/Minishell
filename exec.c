@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 15:48:59 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:19:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void ft_not_builtin(t_lex *lex, t_global *data)
 	int		fd[2];
 
 	ret = 0;
-	if(lex->type != 8)
+	if (lex->type != 8)
 		return ;
 	if(detect_pipe(lex, data) == 1)
 		return ;
@@ -126,7 +126,6 @@ void ft_not_builtin(t_lex *lex, t_global *data)
 		write(fd[1], &ret, sizeof(ret));
 		close(fd[1]);
 		exit(EXIT_FAILURE);
-
 	}
 	close(fd[1]);
 	while (wait(0) > 0)

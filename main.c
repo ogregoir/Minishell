@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/02 17:09:47 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:16:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,5 +216,6 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}
+	return(error_code);
 	return(error_code);
 }
