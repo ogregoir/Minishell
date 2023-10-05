@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 14:00:19 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:09:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		check_text(int text);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
-int		ft_echo(t_lex *lex, t_global *data, int file);
+int		ft_echo(t_lex *lex , int file, t_global *data);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(char **line, t_global *data);
 int		ft_unset(char **line, t_global *data);
