@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/01 13:41:09 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 00:56:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data)
 		if(lex->type == 3)
 		{
 			lex = lex->next;
-			file = openfile(lex->content);
+			file = openfile(lex->content, 0);
 			dup2(file ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
@@ -97,7 +97,7 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data)
 		if(lex->type == 5)
 		{
 			lex = lex->next;
-			file = openfile(lex->content);
+			file = openfile(lex->content, 0);
 			dup2(file ,STDOUT_FILENO);
 			if (data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);

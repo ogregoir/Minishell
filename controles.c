@@ -36,6 +36,15 @@ void	ft_ctrld(void)
 	printf("minishell: ");
 }
 
+void	ft_ctrlb(int sig)
+{
+	(void)sig;
+	//printf("^C\n");
+	rl_replace_line("", 0);
+	rl_redisplay();
+	//printf("minishell: ");
+}
+
 void	ft_controles(int sig)
 {
 	if (sig == SIGINT)
