@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 01:35:44 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:05:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,45 +92,52 @@ t_lex *ft_join(t_lex *lex)
 	return(tmp);
 }
 
-int	ft_builtin(t_lex *lex)
+int	ft_builtin(char *content, int type)
 {
-	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
+	if (ft_strncmp(content, "exit", 4) == 0 && ft_strlen(content) == 4)
 		return (0);
-	if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
+	if (ft_strncmp(content, "echo", 4) == 0 && ft_strlen(content) == 4)
 		return (0);
-	if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
+	if(ft_strncmp(content, "cd", 2) == 0 && ft_strlen(content) == 2)
 		return (0);
-	if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
+	if (ft_strncmp(content, "pwd", 3) == 0 && ft_strlen(content) == 3)
 		return (0);
-	if(ft_strncmp(lex->content, "export", 6) == 0)
+	if(ft_strncmp(content, "export", 6) == 0)
 		return (0);
-	if(ft_strncmp(lex->content, "unset", 5) == 0)
+	if(ft_strncmp(content, "unset", 5) == 0)
 		return (0);
-	if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
+	if (ft_strncmp(content, "env", 3) == 0 && ft_strlen(content) == 3)
 		return (0);
-	if (lex->type == 0)
+	if (type == 0)
 		return (0);
 	return (1);
 }
 
 t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 {
+	int file;
+	int old;
+	
+	file = 1;
+	file = ft_builtin_redi(lex, file);
+	old = dup(STDOUT_FILENO);
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		ft_exit(lex, data);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		data->error_code = ft_echo(lex, data);
+		data->error_code = ft_echo(lex, file, data);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 		data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
-		data->error_code = ft_pwd();
+		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
 		data->error_code = ft_export(str, data);
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
-		data->error_code = ft_env(lex, data);
+		error_code = ft_env(lex, data, file);
 	else if (lex->type == 0)
-		data->error_code = ft_dollar_env(lex, data);
+		error_code = ft_dollar_env(lex, data);
+	close_redi(old, file);
 	return (lex);
 }
 
@@ -156,12 +163,18 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	{
 	if(lex->next && lex->type == 1)
 		lex = lex->next;
-	if(ft_builtin(lex) == 0)
+	if(ft_builtin(lex->content, lex->type) == 0)
+		{
 		ft_builtin_exec(data, lex, str);
+		while(lex && lex->type != 1)
+			lex = lex->next;
+		}
 	else
+		{
 		ft_not_builtin(lex, data);
-	while(lex && lex->type != 1)
-		lex = lex->next;
+		while(lex && ft_builtin(lex->content, lex->type) != 0)
+			lex = lex->next;
+		}
 	}
 	return ;
 }

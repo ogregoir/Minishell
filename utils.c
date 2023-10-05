@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 17:20:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 11:07:01 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ void	addcontent(t_lex *list, char *content, t_token_type i)
 		list->next = new;
 }
 
-void	ft_error(char *arg, char *str, int PID)
+void	ft_error(char *arg, char* str, int pid)
 {
-	//ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putendl_fd(str, STDERR_FILENO);
-	if (PID == 0)
+	if(pid == 0)
 		exit(1);
 }
 
