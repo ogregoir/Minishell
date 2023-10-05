@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/01 13:40:55 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:09:32 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ int		check_redi(t_lex *lex)
 	return (0);
 }
 
-int		openfile(char *content)
+int		openfile(char *content, int mod)
 {
 	int file;
 
-	file = open(content, O_APPEND | O_WRONLY | O_CREAT, 0644);
-	if(file < 0)
+	if(mod == 0)
+		file = open(content, O_APPEND | O_WRONLY | O_CREAT, 0644);
+	if(mod == 1)
+		file = open(content, O_TRUNC | O_WRONLY | O_CREAT, 0644);
+	if(file < 0 )
 		{
 			ft_putendl_fd(" Permission denied", 2);
 			exit(1);
@@ -71,15 +74,14 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 			}
 			if(open(lex->content, O_RDONLY) == -1)
 			{
-				printf("minishell : %s: No such file or directory\n", lex->content);
+				ft_error(lex->content, ": No such file or directory", 1);
 				close_pipe(fd, data->pipenbr);
 				exit(1);
 			}
 			dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
-			dup2(fd[i + 1][1], STDOUT_FILENO);
 			data->in = 1;
 			if(lex->next)
-				lex = lex->next;
+					lex = lex->next;
 		}
 	if(lex->type == 3)
 		{
@@ -89,7 +91,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
 				exit (1);
 			}
-			file = openfile(lex->content);
+			file = openfile(lex->content, 1);
 			dup2(file, STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
@@ -102,7 +104,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
 				exit (1);
 			}
-			file = openfile(lex->content);
+			file = openfile(lex->content, 0);
 			dup2(file ,STDOUT_FILENO);
 			if(data-> in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
