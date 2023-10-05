@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 11:05:54 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:46:35 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 		else if (i == data.pipenbr && pid[i] == 0)
 			ft_pipex_main(fd, i, lex, &data);
 		if (pid[i] == 0)
-			ret = ft_check_cmd(lex, datas);
+			datas->error_code = ft_check_cmd(lex, datas);
 		i++;
 		if(lex->next == NULL)
 			break;

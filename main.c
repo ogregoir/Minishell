@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 11:04:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:45:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,9 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
-		error_code = ft_env(lex, env, file);
+		error_code = ft_env(lex, data->envmini, file);
 	else if (lex->type == 0)
-		error_code = ft_dollar_env(lex, env);
+		error_code = ft_dollar_env(lex, data->envmini);
 	close_redi(old, file);
 	return (lex);
 }
@@ -165,13 +165,13 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		lex = lex->next;
 	if(ft_builtin(lex->content, lex->type) == 0)
 		{
-		ft_builtin_exec(lex, str, env);
+		ft_builtin_exec(data, lex, str);
 		while(lex && lex->type != 1)
 			lex = lex->next;
 		}
 	else
 		{
-		ft_not_builtin(lex, env);
+		ft_not_builtin(lex, data);
 		while(lex && ft_builtin(lex->content, lex->type) != 0)
 			lex = lex->next;
 		}
