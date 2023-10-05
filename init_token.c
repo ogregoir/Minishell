@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-/*
+
 void	ft_print_tok(t_global *data)
 {
 	int	i;
@@ -25,7 +25,7 @@ void	ft_print_tok(t_global *data)
 		printf("tok %d, %d\n", i, data->token[i].type);
 		i++;
 	}
-}*/
+}
 
 static void	ft_init_token2(t_global *data, int j)
 {
@@ -59,6 +59,9 @@ void	ft_init_token(t_global *data)
 	j = 0;
 	data->token = malloc(sizeof(t_structtok));
 	data->error_code = 0;
+	data->envmini = NULL;
+	data->fd = NULL;
+	data->pid = NULL;
 	while (j != 9)
 	{
 		if (j == 0 || j == 1 || j == 2 || j == 3)

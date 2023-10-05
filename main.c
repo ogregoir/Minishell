@@ -6,13 +6,13 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 14:04:00 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:58:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int error_code = 0;
+int error_code = 1000;
 
 void	print_lexer(t_lex *lex)
 {
@@ -126,7 +126,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		data->error_code = ft_echo(lex, file, data);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-		data->error_code = ft_cd(data, str);
+			data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
@@ -194,7 +194,7 @@ char **create_env(char **env)
 		envmini[i] = ft_strdup(env[i]);
 		i++;
 	}
-	//ft_free_oldpwd(envmini);
+	ft_free_oldpwd(envmini);
 	return(envmini);
 }
 
@@ -214,9 +214,9 @@ int	main(int argc, char **argv, char **env)
 	non_canonique();
 	signal(SIGINT, ft_controles);
 	signal(SIGQUIT, ft_controles);
+	ft_init_token(data);
 	data->envmini = create_env(env);
 	input = readline("minishell: ");
-	ft_init_token(data);
 	//ft_print_tok(data);
 	while (rl_line_buffer != NULL)
 	{	

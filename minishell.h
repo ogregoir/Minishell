@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 14:04:18 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:52:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,6 @@ void	ft_error(char *arg, char *str, int PID);
 void 	free_list(t_lex *lex);
 void    ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
-//void    ft_print_tok(t_global *data);
+void    ft_print_tok(t_global *data);
 
 #endif
