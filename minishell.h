@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 17:52:45 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:03:28 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ int		check_text(int text);
 
 
 	/*Builtins*/
-void	ft_exit(t_lex *lex);
+void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
-int		ft_env(t_lex *lex, char **env, int file);
-int		ft_echo(t_lex *lex, int file, t_global *data);
+int		ft_env(t_lex *lex, t_global *data, int file);
+int		ft_echo(t_lex *lex , int file, t_global *data);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(char **line, t_global *data);
 int		ft_unset(char **line, t_global *data);
@@ -120,6 +120,7 @@ void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
 char	*ft_last_ele(t_lex *lex);
+char 	**create_env(char **env);
 
 
 
@@ -151,19 +152,19 @@ void    ft_controles(int sig);
 
 void    ft_dollar(t_lex *lex, t_global *data);
 char	*ft_oldpwd(t_global *data, char **line);
-void    ft_free_oldpwd(char **env);
 int		ft_oldbuf(t_global *data, char **line);
 void	ft_oldpwd2(char **env, char *oldbuf);
 
-int error_parentheses(char **line);
-int no_such_directory(char **line);
-int error_arguments(void);
-int ft_dollar_env(t_lex *lex, char **env, t_global *data);
+int 	error_parentheses(char **line);
+int 	no_such_directory(char **line);
+int 	error_arguments(void);
+int		ft_dollar_env(t_lex *lex, t_global *data);
 
 void	ft_error(char *arg, char *str, int PID);
 void 	free_list(t_lex *lex);
 void    ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
-void    ft_print_tok(t_global *data);
+void	ft_ctrlb(int sig);
+//void    ft_print_tok(t_global *data);
 
 #endif

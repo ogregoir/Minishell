@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 14:01:24 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:17:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		openfile(char *content, int mod)
 		}
 	return(file);
 }
+
 void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 {
 	int file;
@@ -64,7 +65,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 	{
 	while(lex && lex->type == 8)
 		lex = lex->next;
-	if(lex->next && lex->type == 2)
+	if(lex->type == 2)
 		{
 			lex = lex->next;
 			if(lex == NULL)
@@ -156,7 +157,11 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	close_pipe(fd, data.pipenbr);
 	while (wait(&status) > 0)
 		;
-	return(WEXITSTATUS(status));
+	if(WEXITSTATUS(status) == 1)
+		error_code = 1;
+	else
+		error_code = 0;
+	return(error_code);
 }
 
 int detect_pipe(t_lex *lex, t_global *data)

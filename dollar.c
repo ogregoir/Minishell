@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 12:15:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:14:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_dollar(t_lex *lex, t_global *data)
 		printf("$: command not found\n");
 		return ;
 	}
-	if (ft_strncmp(lex->next->content, "?", 1) == 0 
+	if (ft_strncmp(lex->next->content, "?", 1) == 0
 		&& ft_strlen(lex->next->content) == 1)
 	{
 		printf("%d: command not found\n", data->error_code);
@@ -39,6 +39,26 @@ void	ft_free_oldpwd(char **env)
 			env[i] = NULL;
 		i++;
 	}
+}
+
+char **create_env(char **env)
+{
+	char **envmini;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	envmini = malloc(sizeof(char**) * i + 1);
+	i = 0;
+	
+	while(env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ft_free_oldpwd(envmini);
+	return(envmini);
 }
 
 int	ft_dollar_access(char *str)
@@ -62,7 +82,7 @@ int	ft_dollar_access(char *str)
 	return (127);
 }
 
-int	ft_dollar_env(t_lex *lex, char **env, t_global *data)
+int	ft_dollar_env(t_lex *lex, t_global *data)
 {
 	char	*str;
 	int		i;
@@ -71,10 +91,20 @@ int	ft_dollar_env(t_lex *lex, char **env, t_global *data)
 	i = 0;
 	j = ft_strlen(lex->content);
 	str = NULL;
-	if(j == 1 && ft_strncmp(lex->content, "?", 1) == 0)
+	printf("PASS\n");
+	printf("lex %s\n", lex->content);
+	if(ft_strncmp(lex->content, "?", 1) == 0)
 	{
+		if (j == 1)
+		{
 			printf("%d\n", data->error_code);
 			return(0);
+		}
+		else
+		{
+			//addition dollar
+		}
+			
 	}
 	if(j == 1 && ft_strncmp(lex->content, "$", 1) == 0)
 		{
@@ -86,9 +116,9 @@ int	ft_dollar_env(t_lex *lex, char **env, t_global *data)
 		printf("Command '-minishell' not found\n");
 		return (127);
 	}
-	while (env[i])
+	while (data->envmini[i])
 	{
-		if (ft_strncmp(env[i], lex->content, j) == 0)
+		if (ft_strncmp(data->envmini[i], lex->content, j) == 0)
 			str = getenv(lex->content);
 		i++;
 	}
@@ -100,3 +130,4 @@ int	ft_dollar_env(t_lex *lex, char **env, t_global *data)
 	str = ft_substr(str, 0, i);
 	return (ft_dollar_access(str));
 }
+

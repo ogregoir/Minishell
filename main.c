@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 17:58:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:02:41 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	file = ft_builtin_redi(lex, file);
 	old = dup(STDOUT_FILENO);
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
-		ft_exit(lex);
+		ft_exit(lex, data);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		data->error_code = ft_echo(lex, file, data);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
@@ -134,9 +134,9 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
-		error_code = ft_env(lex, data->envmini, file);
+		error_code = ft_env(lex, data, file);
 	else if (lex->type == 0)
-		error_code = ft_dollar_env(lex, data->envmini, data);
+		error_code = ft_dollar_env(lex, data);
 	close_redi(old, file);
 	return (lex);
 }
@@ -200,10 +200,9 @@ char **create_env(char **env)
 
 int	main(int argc, char **argv, char **env)
 {	
-	t_lex lex;
+	t_lex 		lex;
 	t_global	*data;
-	char	*input;
-	//char	**envmini;
+	char		*input;
 	
 	(void)argc;
 	(void)argv;
@@ -212,7 +211,6 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	data = malloc(sizeof(t_global));
 	non_canonique();
-	signal(SIGINT, ft_controles);
 	signal(SIGQUIT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env);
@@ -221,6 +219,9 @@ int	main(int argc, char **argv, char **env)
 	while (rl_line_buffer != NULL)
 	{	
 		add_history(rl_line_buffer);
+		signal(SIGINT, ft_controles);
+		if (ft_strncmp("cat", rl_line_buffer, ft_strlen(rl_line_buffer)) == 0)
+			signal(SIGINT, ft_ctrlb);
 		free (input);
 		if (input == NULL)
 			exit(data->error_code);
@@ -228,6 +229,5 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}
-	return(error_code);
-	return(error_code);
+	return(data->error_code);
 }
