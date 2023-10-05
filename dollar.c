@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 17:19:13 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 12:15:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_dollar_access(char *str)
 	return (127);
 }
 
-int	ft_dollar_env(t_lex *lex, char **env)
+int	ft_dollar_env(t_lex *lex, char **env, t_global *data)
 {
 	char	*str;
 	int		i;
@@ -73,7 +73,7 @@ int	ft_dollar_env(t_lex *lex, char **env)
 	str = NULL;
 	if(j == 1 && ft_strncmp(lex->content, "?", 1) == 0)
 	{
-			printf("%d\n", error_code);
+			printf("%d\n", data->error_code);
 			return(0);
 	}
 	if(j == 1 && ft_strncmp(lex->content, "$", 1) == 0)

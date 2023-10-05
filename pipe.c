@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 11:46:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:01:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,7 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	close_pipe(fd, data.pipenbr);
 	while (wait(&status) > 0)
 		;
-	if(WEXITSTATUS(status) == 1)
-		error_code = 1;
-	else
-		error_code = 0;
-	return(error_code);
+	return(WEXITSTATUS(status));
 }
 
 int detect_pipe(t_lex *lex, t_global *data)
@@ -176,7 +172,7 @@ int detect_pipe(t_lex *lex, t_global *data)
 	{
 		if(tmp->type == 1)
 			i++;
-		if(tmp->type > 1 && tmp->type != 8)
+		if(tmp->type > 1 && tmp->type != 8 && tmp->type != 0)
 			j++;
 		tmp = tmp->next;
     }

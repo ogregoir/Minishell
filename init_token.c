@@ -40,7 +40,7 @@ static void	ft_init_token2(t_global *data, int j)
 	}
 	else if (j == 6 || j == 7 || j == 8)
 	{
-		data->token[j].token = malloc(sizeof(char *) + 1);
+		data->token[j].token = malloc(sizeof(char *) * 1);
 		data->token[j].len = 1;
 		data->token[j].type = j;
 		if (j == 6)
@@ -58,6 +58,7 @@ void	ft_init_token(t_global *data)
 
 	j = 0;
 	data->token = malloc(sizeof(t_structtok));
+	data->error_code = 0;
 	while (j != 9)
 	{
 		if (j == 0 || j == 1 || j == 2 || j == 3)

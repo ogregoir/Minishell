@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 11:09:50 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:04:18 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		check_text(int text);
 void	ft_exit(t_lex *lex);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, char **env, int file);
-int		ft_echo(t_lex *lex, int file);
+int		ft_echo(t_lex *lex, int file, t_global *data);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(char **line, t_global *data);
 int		ft_unset(char **line, t_global *data);
@@ -124,7 +124,7 @@ char	*ft_last_ele(t_lex *lex);
 
 
 	/*EXEC*/
-void 	ft_not_builtin(t_lex *lex, t_global *data);
+int		ft_not_builtin(t_lex *lex, t_global *data);
 int 	detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 
@@ -158,7 +158,7 @@ void	ft_oldpwd2(char **env, char *oldbuf);
 int error_parentheses(char **line);
 int no_such_directory(char **line);
 int error_arguments(void);
-int ft_dollar_env(t_lex *lex, char **env);
+int ft_dollar_env(t_lex *lex, char **env, t_global *data);
 
 void	ft_error(char *arg, char *str, int PID);
 void 	free_list(t_lex *lex);

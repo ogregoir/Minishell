@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 11:01:50 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:03:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int		ft_builtin_redi(t_lex *lex, int file)
 	return(1);
 }
 
-int		ft_echo(t_lex *lex , int file)
+int		ft_echo(t_lex *lex , int file, t_global *data)
 {
 	int nl;
 
@@ -195,11 +195,11 @@ int		ft_echo(t_lex *lex , int file)
 				{
 				if(lex->content[2])
 					{
-					ft_putstr_fd(ft_itoa(error_code), file);
+					ft_putstr_fd(ft_itoa(data->error_code), file);
 					ft_putendl_fd(lex->content + 1, file);
 					}
 				else
-					ft_putendl_fd(ft_itoa(error_code), file);
+					ft_putendl_fd(ft_itoa(data->error_code), file);
 				}
 				else
 					ft_putendl_fd(getenv(lex->content), file);

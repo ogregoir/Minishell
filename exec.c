@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 11:02:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:00:52 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_nbr_text(t_lex *lex)
 
 	i = 0;
 	tmp = lex;
-	while (tmp && tmp->type == 8)
+	while (tmp && (tmp->type == 8 || tmp->type == 0))
 	{
 		i++;
 		tmp = tmp->next;
@@ -85,11 +85,14 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 
 	i = 0;
 	arg = malloc(sizeof(char *) * (ft_nbr_text(lex) + 1));
-	while (lex && lex->type == 8)
+	while (lex && (lex->type == 8 || lex->type == 0))
 	{
 		arg[i] = ft_strdup(lex->content);
-		if(i > 1)
-			arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
+		if(arg[i][0] == '?' && lex->type == 0 && ft_strlen(arg[i]) == 1)
+		{
+			free(arg[i]);
+			arg[i] = ft_itoa(data->error_code);
+		}
 		i++;
 		lex = lex->next;
 	}	
@@ -98,39 +101,36 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	{
 		cmd = ft_find_path(arg[0], 0, data);
 		if (cmd == NULL)
-			return(127);
+			exit(127);
 		execve(cmd, arg, data->envmini);
-		return(126);
+		exit(127);
 	}
 	execve(arg[0], arg, data->envmini);
-	return(126);
+	exit(127);
 }
 
-void ft_not_builtin(t_lex *lex, t_global *data)
+int	ft_not_builtin(t_lex *lex, t_global *data)
 {
 	pid_t	pid;
-	int		ret;
+	int		status;
 	int		fd[2];
 
-	ret = 0;
+	status = 0;
 	if (lex->type != 8)
-		return ;
+		return(data->error_code) ;
 	if(detect_pipe(lex, data) == 1)
-		return ;
+		return(data->error_code) ;
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
-		ret = ft_check_cmd(lex, data);
-		write(fd[1], &ret, sizeof(ret));
+		data->error_code = ft_check_cmd(lex, data);
 		close(fd[1]);
 		exit(EXIT_FAILURE);
 	}
 	close(fd[1]);
-	while (wait(0) > 0)
+	while (wait(&status) > 0)
 		;
-	read(fd[0], &ret, sizeof(ret));
-	close(fd[0]);
-	data->error_code = ret;
+	return(WEXITSTATUS(status));
 }

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 11:45:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:04:00 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		data->error_code = ft_echo(lex, file);
+		data->error_code = ft_echo(lex, file, data);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 		data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
@@ -136,7 +136,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, data->envmini, file);
 	else if (lex->type == 0)
-		error_code = ft_dollar_env(lex, data->envmini);
+		error_code = ft_dollar_env(lex, data->envmini, data);
 	close_redi(old, file);
 	return (lex);
 }
@@ -171,8 +171,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		}
 	else
 		{
-		ft_not_builtin(lex, data);
-		while(lex && ft_builtin(lex->content, lex->type) != 0)
+		data->error_code = ft_not_builtin(lex, data);
+		while(lex && (ft_builtin(lex->content, lex->type) != 0 || lex->type == 0))
 			lex = lex->next;
 		}
 	}
@@ -187,15 +187,14 @@ char **create_env(char **env)
 	i = 0;
 	while(env[i])
 		i++;
-	envmini = malloc(sizeof(char**) * i + 1);
+	envmini = malloc(sizeof(char**) * (i + 1));
 	i = 0;
-	
 	while(env[i])
 	{
 		envmini[i] = ft_strdup(env[i]);
 		i++;
 	}
-	ft_free_oldpwd(envmini);
+	//ft_free_oldpwd(envmini);
 	return(envmini);
 }
 
