@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 14:09:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:13:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char 	**create_env(char **env);
 
 
 	/*EXEC*/
-void 	ft_not_builtin(t_lex *lex, t_global *data);
+int		ft_not_builtin(t_lex *lex, t_global *data);
 int 	detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 

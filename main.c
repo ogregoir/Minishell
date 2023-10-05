@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/05 14:10:01 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:15:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,31 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		}
 	else
 		{
-		ft_not_builtin(lex, data);
-		while(lex && ft_builtin(lex->content, lex->type) != 0)
+		data->error_code = ft_not_builtin(lex, data);
+		while(lex && (ft_builtin(lex->content, lex->type) != 0 || lex->type == 0))
 			lex = lex->next;
 		}
 	}
 	return ;
+}
+
+char **create_env(char **env)
+{
+	char **envmini;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	envmini = malloc(sizeof(char**) * (i + 1));
+	i = 0;
+	while(env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ft_free_oldpwd(envmini);
+	return(envmini);
 }
 
 int	main(int argc, char **argv, char **env)

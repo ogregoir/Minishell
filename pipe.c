@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 14:06:02 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/05 14:17:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,10 @@ int	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	while (wait(&status) > 0)
 		;
 	if(WEXITSTATUS(status) == 1)
-		datas->error_code = 1;
+		error_code = 1;
 	else
-		datas->error_code = 0;
-	return(datas->error_code);
+		error_code = 0;
+	return(error_code);
 }
 
 int detect_pipe(t_lex *lex, t_global *data)
@@ -177,7 +177,7 @@ int detect_pipe(t_lex *lex, t_global *data)
 	{
 		if(tmp->type == 1)
 			i++;
-		if(tmp->type > 1 && tmp->type != 8)
+		if(tmp->type > 1 && tmp->type != 8 && tmp->type != 0)
 			j++;
 		tmp = tmp->next;
     }
