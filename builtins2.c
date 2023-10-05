@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
-int	ft_export2(char **env, char **line, int i)
+int	ft_export2(t_global *data, char **line, int i)
 {
 	int	l;
 	int	j;
 
 	l = 0;
 	j = 0;
-	while (env[l] != NULL)
+	while (data->envmini[l] != NULL)
 		l++;
 	while (line[i][j])
 	{
 		if (line[i][j] == '=')
 		{
-			env[l] = ft_substr(line[i], 0, ft_strlen(line[i]));
-			env[l + 1] = NULL;
+			data->envmini[l] = ft_substr(line[i], 0, ft_strlen(line[i]));
+			data->envmini[l + 1] = NULL;
 			return (0);
 		}
 		j++;
@@ -34,7 +34,7 @@ int	ft_export2(char **env, char **line, int i)
 	return (0);
 }
 
-int	ft_already_exists(char **line, char **env)
+int	ft_already_exists(char **line, t_global *data)
 {
 	int		i;
 	int		j;
@@ -43,12 +43,12 @@ int	ft_already_exists(char **line, char **env)
 	j = 0;
 	while (line[1][i] != '=')
 		i++;
-	while (env[j] != NULL)
+	while (data->envmini[j] != NULL)
 	{
-		if (ft_strncmp(line[1], env[j], i) == 0)
+		if (ft_strncmp(line[1], data->envmini[j], i) == 0)
 		{
-			env[j] = NULL;
-			env[j] = ft_strdup(line[1]);
+			data->envmini[j] = NULL;
+			data->envmini[j] = ft_strdup(line[1]);
 			return (0);
 		}
 		j++;
@@ -56,7 +56,7 @@ int	ft_already_exists(char **line, char **env)
 	return (0);
 }
 
-int	ft_export(char **line, char **env)
+int	ft_export(char **line, t_global *data)
 {
 	int		i;
 	int		j;
@@ -69,17 +69,17 @@ int	ft_export(char **line, char **env)
 	{
 		while (line[i] != NULL)
 		{
-			if (ft_already_exists(line, env) != 0)
-				j = ft_export2(env, line, i);
+			if (ft_already_exists(line, data) != 0)
+				j = ft_export2(data, line, i);
 			else
-				j = ft_already_exists(line, env);
+				j = ft_already_exists(line, data);
 			i++;
 		}
 	}
 	return (j);
 }
 
-int	ft_unset(char **line, char **env)
+int	ft_unset(char **line, t_global *data)
 {
 	int	i;
 	int	j;
@@ -88,12 +88,12 @@ int	ft_unset(char **line, char **env)
 	j = 0;
 	if (line[1] == NULL)
 		return (j);
-	while (env[i])
+	while (data->envmini[i])
 	{
-		if (ft_strncmp(line[1], env[i], ft_strlen(line[1])) == 0)
+		if (ft_strncmp(line[1], data->envmini[i], ft_strlen(line[1])) == 0)
 		{
-			free(env[i]);
-			env[i] = NULL;
+			free(data->envmini[i]);
+			data->envmini[i] = NULL;
 			return (j);
 		}
 		i++;
@@ -102,7 +102,7 @@ int	ft_unset(char **line, char **env)
 }
 
 
-char	*ft_oldpwd(char **env, char **line)
+char	*ft_oldpwd(t_global *data, char **line)
 {
 	int		i;
 	char	*buf;
@@ -116,10 +116,10 @@ char	*ft_oldpwd(char **env, char **line)
 	}
 	else
 	{
-		while (env[i] != NULL)
+		while (data->envmini[i] != NULL)
 		{
-			if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-				buf = ft_substr(env[i], 7, ft_strlen(env[i]));
+			if (ft_strncmp(data->envmini[i], "OLDPWD=", 7) == 0)
+				buf = ft_substr(data->envmini[i], 7, ft_strlen(data->envmini[i]));
 			i++;
 		}
 		return (buf);
@@ -127,25 +127,25 @@ char	*ft_oldpwd(char **env, char **line)
 	return (buf);
 }
 
-void	ft_oldpwd2(char **env, char *oldbuf)
+void	ft_moove_env(char *oldbuf, char *str, t_global *data)
 {
-	int		i;
+	int			i;
 
 	i = 0;
-	while (env[i] != NULL)
+	while (data->envmini[i] != NULL)
 	{
-		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-		{	
-			free(env[i]);
-			env[i] = ft_strjoin("OLDPWD=", oldbuf);
-			env[i + 1] = NULL;
+		if (ft_strncmp(data->envmini[i], str, 7) == 0)
+		{
+			free(data->envmini[i]);
+			data->envmini[i] = ft_strjoin(str, oldbuf);
+			data->envmini[i + 1] = NULL;
 			return ;
 		}
 		i++;
 	}
-	if (env[i] == NULL)
+	if (data->envmini[i] == NULL)
 	{
-		env[i] = ft_strjoin("OLDPWD=", oldbuf);
-		env[i + 1] = NULL;
+		data->envmini[i] = ft_strjoin(str, oldbuf);
+		data->envmini[i + 1] = NULL;
 	}
 }

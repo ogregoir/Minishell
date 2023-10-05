@@ -6,11 +6,12 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 15:30:18 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:07:01 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 int ft_detect_quotes(char *line)
 {

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 15:30:03 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:02:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 	return (NULL);
 }
 
-char	*ft_find_path(char *arg, char **envp, int i)
+char	*ft_find_path(char *arg, int i, t_global *data)
 {
 	char	**cmd;
 	int		j;
@@ -42,17 +42,20 @@ char	*ft_find_path(char *arg, char **envp, int i)
 
 	j = -1;
 	path = "PATH=";
-	while (envp[++j])
+	while (data->envmini[++j])
 	{
-		while (envp[j][i] == path[i])
+		while (data->envmini[j][i] == path[i])
 			i++;
 		if (path[i] == '\0')
 			break ;
 		i = 0;
 	}
-	if (envp[j] == NULL)
-		ft_error(arg,": No such file or directory", 0);
-	cmd = ft_split(envp[j], ':');
+	if (data->envmini[j] == NULL)
+	{
+		perror("Didn't find a path");
+		exit (EXIT_FAILURE);
+	}
+	cmd = ft_split(data->envmini[j], ':');
 	cmd[0] = ft_strtrim(cmd[0], "PATH=");
 	ret = ft_find_cmd(cmd, arg);
 	ft_free_split(cmd);
@@ -74,7 +77,7 @@ int	ft_nbr_text(t_lex *lex)
 	return (i);
 }
 
-int	ft_check_cmd(t_lex *lex, char **envp)
+int	ft_check_cmd(t_lex *lex, t_global *data)
 {
 	char	*cmd;
 	char	**arg;
@@ -93,17 +96,17 @@ int	ft_check_cmd(t_lex *lex, char **envp)
 	arg[i] = NULL;
 	if (access(arg[0], X_OK | F_OK) != 0)
 	{
-		cmd = ft_find_path(arg[0], envp, 0);
+		cmd = ft_find_path(arg[0], 0, data);
 		if (cmd == NULL)
-				return(127);
-		execve(cmd, arg, envp);
+			return(127);
+		execve(cmd, arg, data->envmini);
 		return(126);
 	}
-	execve(arg[0], arg, envp);
+	execve(arg[0], arg, data->envmini);
 	return(126);
 }
 
-void	ft_not_builtin(t_lex *lex, char **envp)
+void ft_not_builtin(t_lex *lex, t_global *data)
 {
 	pid_t	pid;
 	int		ret;
@@ -112,14 +115,14 @@ void	ft_not_builtin(t_lex *lex, char **envp)
 	ret = 0;
 	if (lex->type != 8)
 		return ;
-	if (detect_pipe(lex, envp) == 1)
+	if(detect_pipe(lex, data) == 1)
 		return ;
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
-		ret = ft_check_cmd(lex, envp);
+		ret = ft_check_cmd(lex, data);
 		write(fd[1], &ret, sizeof(ret));
 		close(fd[1]);
 		exit(EXIT_FAILURE);
@@ -129,5 +132,5 @@ void	ft_not_builtin(t_lex *lex, char **envp)
 		;
 	read(fd[0], &ret, sizeof(ret));
 	close(fd[0]);
-	error_code = ret;
+	data->error_code = ret;
 }

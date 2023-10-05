@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/02 22:09:46 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:04:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ int	ft_builtin(char *content, int type)
 		return (0);
 	return (1);
 }
-t_lex	*ft_builtin_exec(t_lex *lex, char **str, char **env)
+
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 {
 	int file;
 	int old;
@@ -123,15 +124,15 @@ t_lex	*ft_builtin_exec(t_lex *lex, char **str, char **env)
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
 		ft_exit(lex);
 	else if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		error_code = ft_echo(lex, file);
+		data->error_code = ft_echo(lex, file);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-		error_code = ft_cd(env, str);
+		data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
-		error_code = ft_pwd(file);
+		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
-		error_code = ft_export(str, env);
+		data->error_code = ft_export(str, data);
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
-		error_code = ft_unset(str, env);
+		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
 		error_code = ft_env(lex, env, file);
 	else if (lex->type == 0)
@@ -139,7 +140,8 @@ t_lex	*ft_builtin_exec(t_lex *lex, char **str, char **env)
 	close_redi(old, file);
 	return (lex);
 }
-static void	check_line(char *rl_line_buffer, char **env, t_lex *lex)
+
+static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
 	char	**str;
 	
@@ -186,41 +188,47 @@ char **create_env(char **env)
 	while(env[i])
 		i++;
 	envmini = malloc(sizeof(char**) * i + 1);
-	i = 0;	
+	i = 0;
+	
 	while(env[i])
 	{
 		envmini[i] = ft_strdup(env[i]);
 		i++;
 	}
+	ft_free_oldpwd(envmini);
 	return(envmini);
 }
 
 int	main(int argc, char **argv, char **env)
 {	
 	t_lex lex;
+	t_global	*data;
 	char	*input;
-	char **envmini;
+	//char	**envmini;
 	
 	(void)argc;
 	(void)argv;
 
 	if (!env[0])
 		exit(1);
+	data = malloc(sizeof(t_global));
 	non_canonique();
 	signal(SIGINT, ft_controles);
 	signal(SIGQUIT, ft_controles);
-	envmini = create_env(env);
+	data->envmini = create_env(env);
 	input = readline("minishell: ");
-	ft_free_oldpwd(envmini);
+	ft_init_token(data);
+	//ft_print_tok(data);
 	while (rl_line_buffer != NULL)
 	{	
 		add_history(rl_line_buffer);
 		free (input);
 		if (input == NULL)
-			exit(error_code);
-		check_line(rl_line_buffer, envmini, &lex);
+			exit(data->error_code);
+		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
 		//ft_variables_env(rl_line_buffer);
 	}
+	return(error_code);
 	return(error_code);
 }

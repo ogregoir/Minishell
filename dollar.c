@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/09/30 16:54:20 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:19:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_dollar(t_lex *lex)
+void	ft_dollar(t_lex *lex, t_global *data)
 {
 	if (!lex->next)
 	{
@@ -22,8 +22,8 @@ void	ft_dollar(t_lex *lex)
 	if (ft_strncmp(lex->next->content, "?", 1) == 0 
 		&& ft_strlen(lex->next->content) == 1)
 	{
-		printf("%d: command not found\n", error_code);
-		error_code = 127;
+		printf("%d: command not found\n", data->error_code);
+		data->error_code = 127;
 		return ;
 	}
 }
