@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 14:14:20 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 16:48:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ void	ft_free_oldpwd(char **env)
 	}
 }
 
-char **create_env(char **env)
-{
-	char **envmini;
-	int	i;
-
-	i = 0;
-	while(env[i])
-		i++;
-	envmini = malloc(sizeof(char**) * i + 1);
-	i = 0;
-	
-	while(env[i])
-	{
-		envmini[i] = ft_strdup(env[i]);
-		i++;
-	}
-	ft_free_oldpwd(envmini);
-	return(envmini);
-}
-
 int	ft_dollar_access(char *str)
 {
 	char	*s;
@@ -82,6 +62,31 @@ int	ft_dollar_access(char *str)
 	return (127);
 }
 
+void	ft_print_dollar(t_lex *lex, t_global *data)
+{
+	int		l;
+	
+	l = 1;
+	if (lex->content[0] == '?' && lex->content[1] != '\0')
+	{
+		printf("%d", data->error_code);
+		while (lex->content[l] != '\0')
+		{
+			if (lex->content[l] == '$' && lex->content[l + 1] == '?')
+			{
+				printf("%d", data->error_code);
+				l += 2;
+			}
+			else
+			{
+				printf("%c", lex->content[l]);
+				l++;
+			}
+		}
+		printf("\n");
+	}				
+}
+
 int	ft_dollar_env(t_lex *lex, t_global *data)
 {
 	char	*str;
@@ -91,8 +96,6 @@ int	ft_dollar_env(t_lex *lex, t_global *data)
 	i = 0;
 	j = ft_strlen(lex->content);
 	str = NULL;
-	printf("PASS\n");
-	printf("lex %s\n", lex->content);
 	if(ft_strncmp(lex->content, "?", 1) == 0)
 	{
 		if (j == 1)
@@ -102,9 +105,8 @@ int	ft_dollar_env(t_lex *lex, t_global *data)
 		}
 		else
 		{
-			//addition dollar
-		}
-			
+			ft_print_dollar(lex, data);
+		}	
 	}
 	if(j == 1 && ft_strncmp(lex->content, "$", 1) == 0)
 		{
