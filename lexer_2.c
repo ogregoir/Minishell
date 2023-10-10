@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 17:20:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 16:31:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,67 @@ int	check_text(int text)
 	if(text == '$')
 		return(1);
 	return(0);
+}
+
+int	ft_nbr_space(char **str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while(str[i])
+		{
+			if(str[i][0] == '\0')
+				j++;
+			i++;
+		}
+		return(j);
+}
+
+t_lex *ft_join(t_lex *lex)
+{
+	t_lex *tmp;
+	char *str;
+
+	tmp = NULL;
+	while(lex->next)
+	{
+		while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
+			lex = lex->next;
+		if ((ft_strncmp(lex->content, " ", 1) != 0) && lex->type == 8)
+			{
+				if (lex->next && ft_strncmp(lex->next->content, " ", 1) == 0 && ft_strlen(lex->next->content) == 1)
+					{
+					if (!tmp)
+						tmp = ft_lstnew(lex->content, lex->type);
+					else
+						addcontent(tmp, lex->content, lex->type);
+					}
+				else if(lex->next)
+					{
+					str = ft_strjoin(lex->content, lex->next->content);
+					if (!tmp)
+						tmp = ft_lstnew(str, lex->type);
+					else
+						addcontent(tmp, str, lex->type);
+					lex = lex ->next;
+					}
+				while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
+					lex = lex->next;
+			}
+		else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1))
+			tmp = ft_lstnew(lex->content, lex->type);
+		else if (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1)
+			addcontent(tmp, lex->content, lex->type);
+		if(lex->next)
+			lex = lex->next;
+	}
+	if(ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
+		return(tmp);
+	if (!tmp && ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
+		tmp = ft_lstnew(lex->content, lex->type);
+	else if(ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
+		addcontent(tmp, lex->content, lex->type);
+	return(tmp);
 }

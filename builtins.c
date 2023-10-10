@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 14:12:18 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 16:27:22 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_redi(int out, int file)
-{
-	if(file != 1)
-	{
-		dup2(out, STDOUT_FILENO);
-		close(file);
-		close(out);
-	}
-}
 
 void	ft_exit(t_lex *lex, t_global *data)
 {
@@ -108,73 +98,18 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-int		ft_search_token(t_lex *lex)
-{
-	t_lex *tmp;
-
-	tmp = lex;
-	while(tmp)
-	{
-		if(tmp->type == 1)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-	
-}
-int		ft_multi_redi(t_lex *tmp)
-{
-	t_lex *tmp2;
-	
-	tmp2 = tmp;
-	tmp2 = tmp2->next;
-	while(tmp2)
-	{
-		if(tmp2->type == 3 || tmp2->type == 5)
-			return(0);
-		tmp2 = tmp2->next;
-	}
-	return(1);
-}
-
-int		ft_builtin_redi(t_lex *lex, int file)
-{
-	t_lex *tmp;
-	tmp = lex;
-	
-	while(tmp)
-	{
-		if(tmp->next && tmp->type == 3)
-		{
-			file = openfile(tmp->next->content, 1);
-			if(ft_multi_redi(tmp) == 1)
-				return(file);
-			close(file);
-		}
-		if(tmp->next && tmp->type == 5)
-		{	
-			file = openfile(tmp->next->content, 0);
-			if(ft_multi_redi(tmp) == 1)
-				return(file);
-			close(file);
-		}
-		tmp = tmp->next;
-	}
-	return(1);
-}
-
 int		ft_echo(t_lex *lex , int file, t_global *data)
 {
 	int nl;
 
 	nl = 0;
-	if(ft_search_token(lex) > 0)
-		return (0);
 	if (!lex->next)
 	{
 		printf("\n");
 		return(0) ;
 	}
+	if(ft_search_token(lex) == 1 && ft_multi_redi(lex) == 1)
+		exit(0);
 	lex = lex->next;
 	nl = ft_echo_nl(&lex);
 	if (!lex)
@@ -185,8 +120,12 @@ int		ft_echo(t_lex *lex , int file, t_global *data)
 	{
 		if(lex->next && lex->next->next && lex->type == 2)
 			lex = lex->next->next;
-		if(lex->type == 8)
-			ft_putstr_fd(lex->content, file);
+		if((lex->type == 8 || ft_strncmp(lex->content, "$", 2) == 0) && access(lex->content, F_OK) != 0)
+			{
+				ft_putstr_fd(lex->content, file);
+				if(lex->next && lex->next->type == 8)
+					ft_putstr_fd(" ", file);
+			}
 		if(lex && lex->type == 0)
 		{
 		if(ft_strlen(lex->content) > 1 || ft_strncmp(lex->content, "?", 1) == 0)
@@ -208,13 +147,13 @@ int		ft_echo(t_lex *lex , int file, t_global *data)
 		else
 			printf("$");
 		}
-		if(lex->type == 3 || lex->type == 5)
+		if(!lex->next)
 			break;
-		if(lex->next)
-			ft_putstr_fd(" ", file);
 		lex = lex->next;
+		if(lex->type == 3 || lex->type == 5 || lex->type == 1)
+			break;
 	}
 	if(nl == 0)
-		printf("\n");
+		ft_putendl_fd("", file);
 	return (0);
 }
