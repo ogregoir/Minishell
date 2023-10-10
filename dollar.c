@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 14:14:20 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/10 16:24:46 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ int	ft_dollar_env(t_lex *lex, t_global *data)
 	i = 0;
 	j = ft_strlen(lex->content);
 	str = NULL;
-	printf("PASS\n");
-	printf("lex %s\n", lex->content);
 	if(ft_strncmp(lex->content, "?", 1) == 0)
 	{
 		if (j == 1)

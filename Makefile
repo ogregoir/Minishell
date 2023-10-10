@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/10/05 13:47:32 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/10/10 16:34:43 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ SRCS	=	main.c \
 			utils2.c \
 			builtins.c \
 			builtins2.c \
+			builtins_utils.c \
+			builtins_exec.c \
 			lexer.c \
 			lexer_2.c \
 			lexerquotes.c \

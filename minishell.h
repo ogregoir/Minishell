@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 18:03:28 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:39:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,14 @@ t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
 char	*go_next(char *str, char *s);
 int		check_text(int text);
-
+t_lex	*ft_join(t_lex *lex);
+int		ft_nbr_space(char **str);
 
 	/*Builtins*/
+int		ft_builtin(char *content, int type);
+void	exec_builtin_pipe(int file, t_global *data, t_lex *lex, char **str);
+void    ft_exec_main(int file, t_lex *lex, t_global *data, char **str);
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
@@ -110,7 +115,7 @@ int		ft_unset(char **line, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
-
+int		ft_search_token(t_lex *lex);
 
 	/*Utils*/
 void	ft_free_split(char **split);
