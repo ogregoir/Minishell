@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/05 18:03:28 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:26:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,7 @@ void    non_canonique(void);
 void    ft_controles(int sig);
 
 void    ft_dollar(t_lex *lex, t_global *data);
-char	*ft_oldpwd(t_global *data, char **line);
 int		ft_oldbuf(t_global *data, char **line);
-void	ft_oldpwd2(char **env, char *oldbuf);
 
 int 	error_parentheses(char **line);
 int 	no_such_directory(char **line);
@@ -165,6 +163,7 @@ void 	free_list(t_lex *lex);
 void    ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
 void	ft_ctrlb(int sig);
+void	ft_free_oldpwd(char **env);
 //void    ft_print_tok(t_global *data);
 
 #endif

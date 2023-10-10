@@ -101,32 +101,6 @@ int	ft_unset(char **line, t_global *data)
 	return (j);
 }
 
-
-char	*ft_oldpwd(t_global *data, char **line)
-{
-	int		i;
-	char	*buf;
-
-	i = 0;
-	buf = NULL;
-	if (line[1][1] == '-')
-	{
-		buf = ft_strdup(getenv("HOME"));
-		return (buf);
-	}
-	else
-	{
-		while (data->envmini[i] != NULL)
-		{
-			if (ft_strncmp(data->envmini[i], "OLDPWD=", 7) == 0)
-				buf = ft_substr(data->envmini[i], 7, ft_strlen(data->envmini[i]));
-			i++;
-		}
-		return (buf);
-	}
-	return (buf);
-}
-
 void	ft_moove_env(char *oldbuf, char *str, t_global *data)
 {
 	int			i;

@@ -116,14 +116,6 @@ int	ft_cd(t_global *data, char **line)
 		buf = ft_substr(line[1], 0, ft_strlen(line[1]));
 	else if (ft_isalnum(line[1][0]) != 0)
 		buf = ft_forward(buf, line);
-	else if (line[1][0] == 45)
-	{
-		j = ft_oldbuf(data, line);
-		if (j == 0)
-			buf = ft_oldpwd(data, line);
-		else
-			return (j);
-	}
 	else if (line[1][0] == 40 || line[1][0] == 41)
 		return (error_parentheses(line));
 	else
