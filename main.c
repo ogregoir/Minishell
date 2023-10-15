@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/10 16:32:59 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:05:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,12 @@ void	print_lexer(t_lex *lex)
 static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
 	char	**str;
+	int		l;
 	
 	lex = NULL;
+	l = 0;
+	if (l == 1)
+		return;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 		{
 			lex = ft_quote(rl_line_buffer, lex);
@@ -44,15 +48,21 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		str = ft_split(rl_line_buffer, ' ');
 	if(!lex)
 		lex = ft_lexer(str, lex);
-	//print_lexer(lex);
+	if (ft_verif_exp(rl_line_buffer, lex) == 2)
+		lex = lex->next;
+	else if (ft_verif_exp(rl_line_buffer, lex) == 0)
+	{
+		ft_export3(data, rl_line_buffer);
+		return;
+	}
 	if (rl_line_buffer[0] == '\0')
 		return;
 	while(lex)
 	{
 	if(lex->next && lex->type == 1)
-		lex = lex->next;
+		lex = lex->next; 
 	if(ft_builtin(lex->content, lex->type) == 0)
-		{
+	{
 		ft_builtin_exec(data, lex, str);
 		while(lex && lex->type != 1)
 			lex = lex->next;
@@ -83,6 +93,7 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env);
+	data->env_exp = create_env(env);
 	input = readline("minishell: ");
 	//ft_print_tok(data);
 	while (rl_line_buffer != NULL)

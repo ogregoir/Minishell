@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/10 17:10:44 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/12 17:23:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,27 @@ void	ft_free_oldpwd(char **env)
 			env[i] = NULL;
 		i++;
 	}
+}
+
+
+char **create_env(char **env)
+{
+	char **envmini;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	envmini = malloc(sizeof(char**) * i + 1);
+	i = 0;
+	
+	while(env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ft_free_oldpwd(envmini);
+	return(envmini);
 }
 
 int	ft_dollar_access(char *str)
