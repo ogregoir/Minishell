@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/10 16:32:59 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:23:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,66 @@
 
 int error_code = 1000;
 
-void	print_lexer(t_lex *lex)
+void print_lexer(t_lex *lex)
 {
-	t_lex	*tmp;
-	
+	t_lex *tmp;
+
 	tmp = lex;
-	while(tmp)
+	while (tmp)
 	{
 		printf("-------------------\n");
 		printf("%s\n", tmp->content);
 		printf("%u\n", tmp->type);
 		printf("-------------------\n");
-		tmp = tmp -> next;
+		tmp = tmp->next;
 	}
 }
 
-static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
+static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
-	char	**str;
-	
+	char **str;
+
 	lex = NULL;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
-		{
-			lex = ft_quote(rl_line_buffer, lex);
-			if(lex->next)
-				lex = ft_join(lex);
-		}
+	{
+		lex = ft_quote(rl_line_buffer, lex, data);
+		if (lex->next)
+			lex = ft_join(lex, data);
+	}
 	else
 		str = ft_split(rl_line_buffer, ' ');
-	if(!lex)
-		lex = ft_lexer(str, lex);
+	if (!lex)
+		lex = ft_lexer(str, lex, data);
+	lex = dollar_lexer(lex, data);
 	//print_lexer(lex);
 	if (rl_line_buffer[0] == '\0')
 		return;
-	while(lex)
+	while (lex)
 	{
-	if(lex->next && lex->type == 1)
-		lex = lex->next;
-	if(ft_builtin(lex->content, lex->type) == 0)
-		{
-		ft_builtin_exec(data, lex, str);
-		while(lex && lex->type != 1)
+		if (lex->next && lex->type == 1)
 			lex = lex->next;
+		if (ft_builtin(lex->content, lex->type) == 0)
+		{
+			ft_builtin_exec(data, lex, str);
+			while (lex && lex->type != 1)
+				lex = lex->next;
 		}
-	else
+		else
 		{
-		data->error_code = ft_not_builtin(lex, data);
-		while(lex && (ft_builtin(lex->content, lex->type) != 0 || lex->type == 0))
-			lex = lex->next;
+			data->error_code = ft_not_builtin(lex, data);
+			while (lex && (ft_builtin(lex->content, lex->type) != 0 || lex->type == 0))
+				lex = lex->next;
 		}
 	}
-	return ;
+	return;
 }
 
-int	main(int argc, char **argv, char **env)
-{	
-	t_lex 		lex;
-	t_global	*data;
-	char		*input;
-	
+int main(int argc, char **argv, char **env)
+{
+	t_lex lex;
+	t_global *data;
+	char *input;
+
 	(void)argc;
 	(void)argv;
 
@@ -84,19 +85,19 @@ int	main(int argc, char **argv, char **env)
 	ft_init_token(data);
 	data->envmini = create_env(env);
 	input = readline("minishell: ");
-	//ft_print_tok(data);
+	// ft_print_tok(data);
 	while (rl_line_buffer != NULL)
-	{	
+	{
 		add_history(rl_line_buffer);
 		signal(SIGINT, ft_controles);
 		if (ft_strncmp("cat", rl_line_buffer, ft_strlen(rl_line_buffer)) == 0)
 			signal(SIGINT, ft_ctrlb);
-		free (input);
+		free(input);
 		if (input == NULL)
 			exit(data->error_code);
 		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
-		//ft_variables_env(rl_line_buffer);
+		// ft_variables_env(rl_line_buffer);
 	}
-	return(data->error_code);
+	return (data->error_code);
 }

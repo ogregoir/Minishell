@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/10 17:11:29 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/13 00:25:53 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,17 @@ typedef struct s_global
 
 
 	/*Lexer*/
-t_lex	*ft_lexer(char **line, t_lex *lex);
+t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data);
 char	*check_next(char *str, int j, int l);
 void	ft_variables_env(char *line);
-t_lex	*ft_text(char *s, char *str, int j, t_lex *lex);
-t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j);
+t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data);
+t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data);
 char	*go_next(char *str, char *s);
 int		check_text(int text);
-t_lex	*ft_join(t_lex *lex);
 int		ft_nbr_space(char **str);
+t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data);
+t_lex	*check_dollar(t_lex *lex, t_global *data, char *s);
+t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 
 	/*Builtins*/
 int		ft_builtin(char *content, int type);
@@ -108,7 +110,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
-int		ft_echo(t_lex *lex , int file, t_global *data);
+int		ft_echo(t_lex *lex , int file);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(char **line, t_global *data);
 int		ft_unset(char **line, t_global *data);
@@ -145,10 +147,11 @@ int		openfile(char *content, int mod);
 
 
 	/*quotes*/
-t_lex	*ft_quote(char *line, t_lex *lex);
+t_lex	*ft_quote(char *line, t_lex *lex, t_global *data);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
-t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i);
+t_lex *ft_join(t_lex *lex, t_global *data);
+
 
 
 	/*CONTROLES*/

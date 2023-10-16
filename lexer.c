@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 17:53:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/15 13:34:21 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,19 @@ char	*go_next(char *str, char *s)
 	return (ret);
 }
 
-t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j)
+t_lex	*check_dollar(t_lex *lex, t_global *data, char *s)
+{
+	if(ft_strncmp(s, "?", 1) == 0 && ft_strlen(s) == 1)
+	{
+	if (!lex)
+		lex = ft_lstnew(ft_itoa(data->error_code), 8);
+	else
+		addcontent(lex, ft_itoa(data->error_code), 8);
+	}
+	return (lex);
+}
+
+t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 {
 	char	*s;
 
@@ -46,12 +58,12 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j)
 				addcontent(lex, s, g_token[j].type);
 			str = go_next(str, s);
 			if (str != NULL || s != NULL)
-				lex = ft_check_type(str, lex, i, 0);
+				lex = ft_check_type(str, lex, i, 0, data);
 			return (lex);
 		}
 		j++;
 	}
-	lex = ft_text(s, str, j, lex);
+	lex = ft_text(s, str, j, lex, data);
 	//if(ft_strncmp(lex->content, str, ft_strlen(str)))
 	//	lex = ft_check_type(str, lex, 0, 0);
 	return (lex);
@@ -84,8 +96,8 @@ char	*check_next(char *str, int j, int l)
 			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
 				l++;
 			s = ft_substr(str, 0, l + 1);
-			if(j == 2 && ft_strlen(str) > 1)
-				return(str + 1);
+			if(j == 2)
+				return(str);
 			return (s);
 		}
 		else
@@ -104,7 +116,7 @@ char	*check_next(char *str, int j, int l)
 	return (s);
 }
 
-t_lex	*ft_lexer(char **line, t_lex *lex)
+t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data)
 {
 	int	i;
 
@@ -112,7 +124,7 @@ t_lex	*ft_lexer(char **line, t_lex *lex)
 	lex = NULL;
 	while (line[i])
 	{
-		lex = ft_check_type(line[i], lex, 0, 0);
+		lex = ft_check_type(line[i], lex, 0, 0, data);
 		i++;
 	}
 	return (lex);
