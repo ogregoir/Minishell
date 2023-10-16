@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/16 15:23:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:49:37 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,13 @@ void print_lexer(t_lex *lex)
 
 static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
-	char **str;
-
+	char	**str;
+	int		l;
+	
 	lex = NULL;
+	l = 0;
+	if (l == 1)
+		return;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
@@ -46,6 +50,17 @@ static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		lex = ft_lexer(str, lex, data);
 	lex = dollar_lexer(lex, data);
 	//print_lexer(lex);
+	if (ft_verif_exp(rl_line_buffer, lex) == 2)
+		lex = lex->next;
+	else if (ft_verif_exp(rl_line_buffer, lex) == 0)
+	{
+		ft_export3(data, rl_line_buffer);
+		return;
+	}
+	if (rl_line_buffer[0] == '\0')
+		return;
+	if(lex->next && lex->type == 1)
+		lex = lex->next; 
 	if (rl_line_buffer[0] == '\0')
 		return;
 	while (lex)
@@ -84,6 +99,7 @@ int main(int argc, char **argv, char **env)
 	signal(SIGQUIT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env);
+	data->env_exp = create_env(env);
 	input = readline("minishell: ");
 	// ft_print_tok(data);
 	while (rl_line_buffer != NULL)

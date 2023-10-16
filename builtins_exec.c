@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/13 00:26:43 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:31:20 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec_builtin_pipe(int file, t_global *data, t_lex *lex, char **str)
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
-		data->error_code = ft_export(str, data);
+		data->error_code = ft_export(lex, data);
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
@@ -59,7 +59,7 @@ void    ft_exec_main(int file, t_lex *lex, t_global *data, char **str)
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
-		data->error_code = ft_export(str, data);
+		data->error_code = ft_export(lex, data);
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(str, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)

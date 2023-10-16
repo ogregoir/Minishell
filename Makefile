@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/10/16 16:07:30 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/10/16 20:36:09 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ SRCS	=	main.c \
 			pipe2.c \
 			error_cd.c \
 			init_token.c \
+			export.c \
+			export2.c \
 			
 OBJS	=	$(SRCS:.c=.o)
 

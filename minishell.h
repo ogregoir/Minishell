@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/13 00:25:53 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:36:42 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_structtok{
 typedef struct s_global
 {
 	char		**envmini;
+	char		**env_exp;
 	t_listtest	*token;
 	int			**fd;
 	int			*pid;
@@ -112,7 +113,7 @@ int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
 int		ft_echo(t_lex *lex , int file);
 int		ft_cd(t_global *data, char **line);
-int		ft_export(char **line, t_global *data);
+int		ft_export(t_lex *lex, t_global *data);
 int		ft_unset(char **line, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file);
 int		ft_multi_redi(t_lex *tmp);
@@ -173,5 +174,14 @@ void	ft_moove_env(char *oldbuf, char *str, t_global *data);
 void	ft_ctrlb(int sig);
 void	ft_free_oldpwd(char **env);
 //void    ft_print_tok(t_global *data);
+//void	ft_print_sv(t_global *data);
+int 	ft_verif_exp(char *str, t_lex *lex);
+int     ft_export3(t_global *data, char *str);
+char    *ft_env_exp(char *line, t_global * data);
+void    maj_env_exp(t_global *data);
+void	ft_export2(t_global *data, char *line);
+int 	ft_export4(t_lex *lex, t_global *data, int i);
+int		ft_already_exists(t_global *data, char *str);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/11 13:40:51 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/15 15:03:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,27 @@ void	ft_free_oldpwd(char **env)
 			env[i] = NULL;
 		i++;
 	}
+}
+
+
+char **create_env(char **env)
+{
+	char **envmini;
+	int	i;
+
+	i = 0;
+	while(env[i])
+		i++;
+	envmini = malloc(sizeof(char**) * i + 1);
+	i = 0;
+	
+	while(env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ft_free_oldpwd(envmini);
+	return(envmini);
 }
 
 int	ft_dollar_access(char *str)
@@ -85,26 +106,6 @@ void	ft_print_dollar(t_lex *lex, t_global *data)
 		}
 		printf("\n");
 	}				
-}
-
-char **create_env(char **env)
-{
-	char **envmini;
-	int	i;
-
-	i = 0;
-	while(env[i])
-		i++;
-	envmini = malloc(sizeof(char**) * i + 1);
-	i = 0;
-	
-	while(env[i])
-	{
-		envmini[i] = ft_strdup(env[i]);
-		i++;
-	}
-	ft_free_oldpwd(envmini);
-	return(envmini);
 }
 
 int	ft_dollar_env(t_lex *lex, t_global *data)
