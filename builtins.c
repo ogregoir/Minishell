@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/10 16:27:22 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:20:32 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-int		ft_echo(t_lex *lex , int file, t_global *data)
+int		ft_echo(t_lex *lex , int file)
 {
 	int nl;
 
@@ -118,35 +118,14 @@ int		ft_echo(t_lex *lex , int file, t_global *data)
 		dup2(file, STDOUT_FILENO);
 	while(lex)
 	{
-		if(lex->next && lex->next->next && lex->type == 2)
+		if(lex->next && lex->next->next && (lex->type == 3 || lex->type == 5))
 			lex = lex->next->next;
-		if((lex->type == 8 || ft_strncmp(lex->content, "$", 2) == 0) && access(lex->content, F_OK) != 0)
+		if(lex->type == 8)
 			{
 				ft_putstr_fd(lex->content, file);
 				if(lex->next && lex->next->type == 8)
 					ft_putstr_fd(" ", file);
 			}
-		if(lex && lex->type == 0)
-		{
-		if(ft_strlen(lex->content) > 1 || ft_strncmp(lex->content, "?", 1) == 0)
-			{
-			if(ft_strncmp(lex->content, "?", 1) == 0 && ft_strlen(lex->content) >= 1)
-				{
-				if(lex->content[2])
-					{
-					ft_putstr_fd(ft_itoa(data->error_code), file);
-					ft_putendl_fd(lex->content + 1, file);
-					}
-				else
-					ft_putendl_fd(ft_itoa(data->error_code), file);
-				}
-				else
-					ft_putendl_fd(getenv(lex->content), file);
-				return (0);
-			}
-		else
-			printf("$");
-		}
 		if(!lex->next)
 			break;
 		lex = lex->next;

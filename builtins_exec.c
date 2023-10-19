@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/13 14:33:26 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/16 20:31:20 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_builtin(char *content, int type)
 void	exec_builtin_pipe(int file, t_global *data, t_lex *lex, char **str)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		data->error_code = ft_echo(lex, file, data);
+		data->error_code = ft_echo(lex, file);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 			data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
@@ -53,7 +53,7 @@ void	exec_builtin_pipe(int file, t_global *data, t_lex *lex, char **str)
 void    ft_exec_main(int file, t_lex *lex, t_global *data, char **str)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
-		data->error_code = ft_echo(lex, file, data);
+		data->error_code = ft_echo(lex, file);
 	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
 			data->error_code = ft_cd(data, str);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)

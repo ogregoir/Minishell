@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/04 20:03:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/15 13:55:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*ft_check_quote(char *line, int i)
 	return (line);
 }
 
-t_lex	*ft_quote(char *line, t_lex *lex)
+t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 {
 	char	**str;
 	int		i;
@@ -119,12 +119,12 @@ t_lex	*ft_quote(char *line, t_lex *lex)
 		if (line[i] == '\0')
 			break;
 		str[j] = ft_check_quote(line, i);
-		if (!lex && line[i] == 34 && str[j][0] == '$' && ft_strlen(str[j]) > 1)
-			lex = ft_lstnew(str[j] + 1, 0);
-		else if(line[i] == 34 && str[j][0] == '$' && ft_strlen(str[j]) > 1)
-			addcontent(lex, str[j] + 1, 0);
+		if (!lex && line[i] == 34 && ft_strchri(str[j], '$') >= 0 && ft_strlen(str[j]) > 1)
+			lex = ft_lstnew(str[j], 0);
+		else if(line[i] == 34 && ft_strchri(str[j], '$') >= 0 && ft_strlen(str[j]) > 1)
+			addcontent(lex, str[j], 0);
 		else if(line[i] != 34 && line[i] != 39)
-			lex = ft_lexer_quotes(str[j], lex, i);
+			lex = ft_lexer_quotes(str[j], lex, i, data);
 		else if(!lex && str[j])
 			lex = ft_lstnew(str[j], 8);
 		else if(str[j])

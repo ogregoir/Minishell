@@ -6,13 +6,13 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/10 16:31:15 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/15 14:11:10 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_lex	*ft_text(char *s, char *str, int j, t_lex *lex)
+t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data)
 {
 	s = check_next(str, j, 0);
 	if (s == NULL)
@@ -23,7 +23,7 @@ t_lex	*ft_text(char *s, char *str, int j, t_lex *lex)
 		addcontent(lex, s, TOKEN_TEXT);
 	str = go_next(str, s);
 	if (str != NULL || s != NULL)
-		lex = ft_check_type(str, lex, 0, 0);
+		lex = ft_check_type(str, lex, 0, 0, data);
 	return (lex);
 }
 
@@ -56,7 +56,7 @@ int	ft_nbr_space(char **str)
 		return(j);
 }
 
-t_lex *ft_join(t_lex *lex)
+t_lex *ft_join(t_lex *lex, t_global *data)
 {
 	t_lex *tmp;
 	char *str;
@@ -66,9 +66,11 @@ t_lex *ft_join(t_lex *lex)
 	{
 		while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
 			lex = lex->next;
-		if ((ft_strncmp(lex->content, " ", 1) != 0) && lex->type == 8)
+		if ((ft_strncmp(lex->content, " ", 1) != 0) && (lex->type == 8 || lex->type == 0))
 			{
-				if (lex->next && ft_strncmp(lex->next->content, " ", 1) == 0 && ft_strlen(lex->next->content) == 1)
+				if(lex->type == 0 && ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
+					tmp = check_dollar(tmp, data, "?");
+				else if (lex->next && ft_strncmp(lex->next->content, " ", 1) == 0 && ft_strlen(lex->next->content) == 1)
 					{
 					if (!tmp)
 						tmp = ft_lstnew(lex->content, lex->type);
@@ -87,6 +89,8 @@ t_lex *ft_join(t_lex *lex)
 				while(lex->next && ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1 && lex->type != 0)
 					lex = lex->next;
 			}
+		else if(lex->type == 0 && ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
+			tmp = check_dollar(tmp, data, "?");
 		else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1))
 			tmp = ft_lstnew(lex->content, lex->type);
 		else if (ft_strncmp(lex->content, " ", 1) != 0 || ft_strlen(lex->content) != 1)
@@ -96,7 +100,9 @@ t_lex *ft_join(t_lex *lex)
 	}
 	if(ft_strncmp(lex->content, " ", 1) == 0 && ft_strlen(lex->content) == 1)
 		return(tmp);
-	if (!tmp && ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
+	if(lex->type == 0 && ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
+		tmp = check_dollar(tmp, data, "?");
+	else if (!tmp && ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
 		tmp = ft_lstnew(lex->content, lex->type);
 	else if(ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
 		addcontent(tmp, lex->content, lex->type);

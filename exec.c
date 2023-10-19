@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/05 17:57:13 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:06:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 		arg[i] = ft_strdup(lex->content);
 		//if(i > 1)
 		//	arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
-		if(arg[i][0] == '?' && lex->type == 0 && ft_strlen(arg[i]) == 1)
-		{
-			free(arg[i]);
-			arg[i] = ft_itoa(data->error_code);
-		}
+		//if(arg[i][0] == '?' && lex->type == 0 && ft_strlen(arg[i]) == 1)
+		//{
+		//	free(arg[i]);
+		//	arg[i] = ft_itoa(data->error_code);
+			//}
 		i++;
 		lex = lex->next;
 	}	

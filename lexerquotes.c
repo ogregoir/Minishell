@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexerquotes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:23:43 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/02 00:26:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/12 18:36:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-t_lex *ft_lexer_quotes(char *line, t_lex *lex, int i)
+t_lex *ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data)
 {
     int j;
     char *s;
@@ -33,12 +33,12 @@ t_lex *ft_lexer_quotes(char *line, t_lex *lex, int i)
 				addcontent(lex, s, g_token[j].type);
             line = go_next(line, s);
 			if (line != NULL || s != NULL)
-				lex = ft_check_type(line, lex, i, 0);
+				lex = ft_check_type(line, lex, i, 0, data);
 			return (lex);
 		}
 		j++;
 	}
-	lex = ft_text(s, line, j, lex);
+	lex = ft_text(s, line, j, lex, data);
     }
 	return (lex);
 }
