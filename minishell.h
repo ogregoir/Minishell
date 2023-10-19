@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/15 14:55:34 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/20 01:00:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_global
 {
 	char		**envmini;
 	char		**env_exp;
+	int			size_env;
 	t_listtest	*token;
 	int			**fd;
 	int			*pid;
@@ -112,6 +113,11 @@ int		ft_env(t_lex *lex, t_global *data, int file);
 int		ft_echo(t_lex *lex , int file, t_global *data);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(t_lex *lex, t_global *data);
+void 	ft_export2(char *str, t_global *data);
+int 	ft_verif_exp(char *str, t_lex *lex);
+int     ft_export3(t_global *data, char *str);
+void 	free_env_exp(t_global *data, char *str, int i);
+int		ft_already_exists(t_global *data, char *str, int i);
 int		ft_unset(char **line, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file);
 int		ft_multi_redi(t_lex *tmp);
@@ -126,7 +132,7 @@ void	addcontent(t_lex *list, char *content, t_token_type i);
 int     ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
 char	*ft_last_ele(t_lex *lex);
-char 	**create_env(char **env);
+char 	**create_env(char **env, t_global *data);
 
 
 
@@ -172,13 +178,5 @@ void	ft_ctrlb(int sig);
 void	ft_free_oldpwd(char **env);
 //void    ft_print_tok(t_global *data);
 //void	ft_print_sv(t_global *data);
-int 	ft_verif_exp(char *str, t_lex *lex);
-int     ft_export3(t_global *data, char *str);
-char    *ft_env_exp(char *line, t_global * data);
-void    maj_env_exp(t_global *data);
-void	ft_export2(t_global *data, char *line);
-int 	ft_export4(t_lex *lex, t_global *data, int i);
-int		ft_already_exists(t_global *data, char *str);
-
 
 #endif

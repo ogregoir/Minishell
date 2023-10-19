@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/13 15:05:20 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/19 19:17:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		lex = lex->next;
 	else if (ft_verif_exp(rl_line_buffer, lex) == 0)
 	{
-		ft_export3(data, rl_line_buffer);
+		data->error_code= ft_export3(data, rl_line_buffer); 
 		return;
 	}
 	if (rl_line_buffer[0] == '\0')
@@ -92,8 +92,8 @@ int	main(int argc, char **argv, char **env)
 	non_canonique();
 	signal(SIGQUIT, ft_controles);
 	ft_init_token(data);
-	data->envmini = create_env(env);
-	data->env_exp = create_env(env);
+	data->envmini = create_env(env, data);
+	data->env_exp = create_env(env, data);
 	input = readline("minishell: ");
 	//ft_print_tok(data);
 	while (rl_line_buffer != NULL)
