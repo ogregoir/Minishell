@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/20 01:05:01 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/20 01:19:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_global
 {
 	char		**envmini;
 	char		**env_exp;
+	int			size_env;
 	t_listtest	*token;
 	int			**fd;
 	int			*pid;
@@ -119,7 +120,7 @@ int 	ft_verif_exp(char *str, t_lex *lex);
 int     ft_export3(t_global *data, char *str);
 void 	free_env_exp(t_global *data, char *str, int i);
 int		ft_already_exists(t_global *data, char *str, int i);
-int		ft_unset(char **line, t_global *data);
+int		ft_unset(t_lex *lex, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
