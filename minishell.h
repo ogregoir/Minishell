@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/20 09:30:04 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/20 09:31:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int     ft_export3(t_global *data, char *str);
 void 	free_env_exp(t_global *data, char *str, int i);
 int		ft_already_exists(t_global *data, char *str, int i);
 int		ft_unset(t_lex *lex, t_global *data);
-int		ft_builtin_redi(t_lex *lex, int file);
+int		ft_builtin_redi(t_lex *lex, int file, int child);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
 int		ft_search_token(t_lex *lex);
