@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/12 19:06:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/17 17:18:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	ft_nbr_text(t_lex *lex)
 int	ft_check_cmd(t_lex *lex, t_global *data)
 {
 	char	*cmd;
+	//char 	*cpy;
 	char	**arg;
 	int		i;
 
@@ -88,8 +89,13 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	while (lex && (lex->type == 8 || lex->type == 0))
 	{
 		arg[i] = ft_strdup(lex->content);
-		//if(i > 1)
-		//	arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
+		if(i > 1)
+			arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
+	//	cpy = ft_strdup(arg[i]);
+	//	free(arg[i]);
+	//	arg[i] = ft_strtrim(cpy, "./");
+	//	printf("= %s", arg[i]);
+	//	free(cpy);
 		//if(arg[i][0] == '?' && lex->type == 0 && ft_strlen(arg[i]) == 1)
 		//{
 		//	free(arg[i]);

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/15 20:14:09 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:39:52 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,18 @@ int openfile(char *content, int mod)
 		exit(1);
 	}
 	return (file);
+}
+
+void ft_pipex_in(int **fd, t_lex *lex, t_pipe *data)
+{
+	lex = lex->next;
+	if(open(lex->content, O_RDONLY) == -1)
+	{
+		ft_error(lex->content, ": No such file or directory", 1);
+		close_pipe(fd, data->pipenbr);
+		exit(1);
+		}
+	dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
 }
 
 void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
@@ -113,6 +125,8 @@ void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 		{
 			if (lex->next->type == 3 || lex->next->type == 5 || lex->next->type == 2 || lex->type == 2)
 				ft_pipex_main(fd, i, lex, data);
+			if(lex->next->type == 8)
+				ft_pipex_in(fd, lex, data);
 		}
 	}
 	else
