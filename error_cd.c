@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-int	error_parentheses(char **line)
-{
-	printf("-minishell: syntax error near unexpected token `%c'\n", 
-		line[1][0]);
-	return (2);
-}
-
-int	no_such_directory(char **line)
-{
-	printf ("-minishell: cd: %s: No such file or directory\n", line[1]);
-	return (1);
-}
-
 int	error_arguments(void)
 {
 	printf("-minishell: cd: too many arguments\n");

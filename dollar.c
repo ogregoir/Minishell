@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/15 15:03:52 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/16 19:46:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_free_oldpwd(char **env)
 }
 
 
-char **create_env(char **env)
+char **create_env(char **env, t_global *data)
 {
 	char **envmini;
 	int	i;
@@ -50,9 +50,9 @@ char **create_env(char **env)
 	i = 0;
 	while(env[i])
 		i++;
+	data->size_env = i;
 	envmini = malloc(sizeof(char**) * i + 1);
 	i = 0;
-	
 	while(env[i])
 	{
 		envmini[i] = ft_strdup(env[i]);
