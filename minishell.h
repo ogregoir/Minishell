@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/20 01:19:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/20 03:14:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,16 @@ t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 
 	/*Builtins*/
 int		ft_builtin(char *content, int type);
-void	exec_builtin_pipe(int file, t_global *data, t_lex *lex, char **str);
-void    ft_exec_main(int file, t_lex *lex, t_global *data, char **str);
-t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str);
+void	exec_builtin_pipe(int file, t_global *data, t_lex *lex);
+void    ft_exec_main(int file, t_lex *lex, t_global *data);
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
 int		ft_echo(t_lex *lex , int file);
-int		ft_cd(t_global *data, char **line);
+int		ft_cd(t_global *data, t_lex *lex);
+int		ft_verif_cd(t_lex *lex, char *buf, char *oldbuf, t_global *data);
+int		ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf);
 int		ft_export(t_lex *lex, t_global *data);
 void 	ft_export2(char *str, t_global *data);
 int 	ft_verif_exp(char *str, t_lex *lex);
@@ -168,12 +170,11 @@ void    ft_controles(int sig);
 void    ft_dollar(t_lex *lex, t_global *data);
 int		ft_oldbuf(t_global *data, char **line);
 
-int 	error_parentheses(char **line);
-int 	no_such_directory(char **line);
+
 int 	error_arguments(void);
 int		ft_dollar_env(t_lex *lex, t_global *data);
 
-void	ft_error(char *arg, char *str, int PID);
+void	ft_error(char *arg, char* str, int pid);
 void 	free_list(t_lex *lex);
 void    ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);

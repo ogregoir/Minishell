@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/20 01:05:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/20 01:57:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 			lex = lex->next;
 		if (ft_builtin(lex->content, lex->type) == 0)
 		{
-			ft_builtin_exec(data, lex, str);
+			ft_builtin_exec(data, lex);
 			while (lex && lex->type != 1)
 				lex = lex->next;
 		}

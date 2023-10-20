@@ -28,70 +28,24 @@ char	*ft_back(char *buf)
 	return (newbuf);
 }
 
-char	*ft_forward(char *buf, char **line)
+char	*ft_forward(char *buf, char *line)
 {
 	char	*temp;
 	char	*newbuf;
 	char	*bis;
 
 	temp = ft_strjoin(buf, "/");
-	if (line[1][ft_strlen(line[1]) - 1] == 47)
+	if (line[ft_strlen(line) - 1] == 47)
 	{
-		bis = ft_substr(line[1], 0, (ft_strlen(line[1]) - 1));
+		bis = ft_substr(line, 0, (ft_strlen(line) - 1));
 		newbuf = ft_strjoin(temp, bis);
 	}
 	else
-		newbuf = ft_strjoin(temp, line[1]);
+		newbuf = ft_strjoin(temp, line);
 	return (newbuf);
 }
 
-int	ft_access_cd(t_global *data, char *buf, char **line, char *oldbuf)
-{
-	if (access(buf, F_OK | R_OK) == 0 && buf != NULL)
-	{
-		ft_moove_env(oldbuf, "OLDPWD=", data);
-		ft_moove_env(buf, "PWD=", data);
-		if (line[1] != NULL && line[1][0] == 45 && line[1][1] == '\0')
-			printf("%s\n", buf);
-		chdir(buf);
-		free(buf);
-		return (0);
-	}
-	else
-	{
-		printf("-minishell: cd: %s: No such file or directory\n", line[1]);
-		return (1);
-	}
-}
-
-int	ft_oldbuf(t_global *data, char **line)
-{
-	int		i;
-
-	i = 0;
-	if (line[1][2] == '-')
-	{
-		printf("-minishell: %s: invalid option\n", line[1]);
-		return (2);
-	}
-	else if (line[1][0] == '-')
-	{
-		if (line[1][1] == '-')
-			return (0);
-		while (data->envmini[i] != NULL)
-		{
-			if (ft_strncmp(data->envmini[i], "OLDPWD=", 7) != 0)
-				i++;
-			else
-				return (0);
-		}
-		printf("-minishell: cd: OLDPWD not set\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_cd(t_global *data, char **line)
+int	ft_cd(t_global *data, t_lex *lex)
 {
 	char	*buf;
 	int		j;
@@ -101,25 +55,25 @@ int	ft_cd(t_global *data, char **line)
 	buf = NULL;
 	buf = getcwd(buf, 100);
 	oldbuf = ft_strdup(buf);
-	if (line[2] != NULL)
-		return (error_arguments());
-	else if (line[1] == NULL || line[1][0] == 126)
-		buf = ft_strdup(getenv("HOME"));
-	else if (ft_strncmp(line[1], "..", ft_strlen(line[1])) == 0)
+	if (ft_verif_cd(lex, buf, oldbuf, data) != 0)
+		return (ft_verif_cd(lex, buf, oldbuf, data));
+	lex = lex->next;
+	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)
 	{
-		if (ft_strlen(line[1]) == 1)
+		if (ft_strlen(lex->content) == 1)
 			return (0);
 		else
 			buf = ft_back(buf);
 	}
-	else if (line[1][0] == 47)
-		buf = ft_substr(line[1], 0, ft_strlen(line[1]));
-	else if (ft_isalnum(line[1][0]) != 0)
-		buf = ft_forward(buf, line);
-	else if (line[1][0] == 40 || line[1][0] == 41)
-		return (error_parentheses(line));
+	else if (lex->content[0] == 47)
+		buf = ft_substr(lex->content, 0, ft_strlen(lex->content));
+	else if (ft_isalnum(lex->content[0]) != 0)
+		buf = ft_forward(buf, lex->content);
 	else
-		return (no_such_directory(line));
-	j = ft_access_cd(data, buf, line, oldbuf);
+	{
+		printf("-minishell: cd: %s: No such file or directory\n", lex->content);
+		return (1);
+	}
+	j = ft_access_cd(data, buf, lex->content, oldbuf);
 	return (j);
 }
