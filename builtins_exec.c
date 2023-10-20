@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/16 20:31:20 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:58:28 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 		pid = fork();
 		if(pid == 0)
 		{
-		file = ft_builtin_redi(lex, file);
+		file = ft_builtin_redi(lex, file, 1);
 		old = dup(STDOUT_FILENO);
 		if(ft_multi_redi(lex) == 0)
 			exec_builtin_pipe(file, data, lex, str);
@@ -97,7 +97,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, char **str)
 	}
 	else
 	{
-    file = ft_builtin_redi(lex, file);
+    file = ft_builtin_redi(lex, file, 0);
 	old = dup(STDOUT_FILENO);
     ft_exec_main(file, lex, data, str);
 	close_redi(old, file);

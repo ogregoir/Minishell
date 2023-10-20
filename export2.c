@@ -45,7 +45,7 @@ char    *ft_env_exp(char *line, t_global * data)
     str = NULL;
     while (data->env_exp[j] != NULL)
     {
-        printf("dataenve %s\n", data->env_exp[j]);
+   //     printf("dataenve %s\n", data->env_exp[j]);
         j++;
     }
     j = 0;
@@ -54,12 +54,12 @@ char    *ft_env_exp(char *line, t_global * data)
         i = ft_strlen(line);
 	    while (data->env_exp[j] != NULL)
 	    {
-            printf("data %s\n", data->env_exp[j]);
+     //       printf("data %s\n", data->env_exp[j]);
 		    if (ft_strncmp(line, data->env_exp[j], i) == 0)
             {
                 str = ft_strdup(data->env_exp[j]);
                 free (data->env_exp[j]);
-                printf("strr %s\n", str);
+      //          printf("strr %s\n", str);
                 return (str);
             }
             j++;
@@ -86,7 +86,7 @@ int ft_export4(t_lex *lex, t_global *data, int i)
     if (ft_env_exp(lex->next->content, data) != NULL)
     {
         str = ft_env_exp(lex->next->content, data);
-        printf("str1 %s\n", str);
+  //      printf("str1 %s\n", str);
     }
     else
         return (8);
@@ -101,7 +101,7 @@ int ft_export4(t_lex *lex, t_global *data, int i)
         }
         else
         {
-            printf("-bash: export: `%s\n': not a valid identifier", str);
+  //          printf("-bash: export: `%s\n': not a valid identifier", str);
             return (3);
                 
         }

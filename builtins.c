@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/15 14:20:32 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:50:19 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	ft_exit(t_lex *lex, t_global *data)
 		{
 			ft_putendl_fd("minishell: exit: too many arguments", 2);
 			data->error_code = 1;
-			exit(1);
+			return;
 		}
-	if (ft_check_nbr(lex->next->content) == 1 && lex->next->content[0] != '+' && lex->next->content[0] != '-' \
-	&& lex->next->type == 8 && lex->next->next->type == 8)
+	else if (ft_check_nbr(lex->next->content) == 1 && lex->next->content[0] != '+' && lex->next->content[0] != '-' \
+	&& lex->next->type == 8)
 	{
-		ft_putendl_fd(" numeric argument required", 2);
+		ft_putendl_fd("minishell: numeric argument required", 2);
 		data->error_code = 2;
 		exit (2);
 	}
@@ -123,9 +123,11 @@ int		ft_echo(t_lex *lex , int file)
 		if(lex->type == 8)
 			{
 				ft_putstr_fd(lex->content, file);
-				if(lex->next && lex->next->type == 8)
+				if(lex->next && (lex->next->type == 8 || lex->next->type == 2))
 					ft_putstr_fd(" ", file);
 			}
+		if(lex->next && lex->type == 2)
+				lex = lex->next;
 		if(!lex->next)
 			break;
 		lex = lex->next;

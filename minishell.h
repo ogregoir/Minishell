@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/16 20:36:42 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:58:07 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		ft_echo(t_lex *lex , int file);
 int		ft_cd(t_global *data, char **line);
 int		ft_export(t_lex *lex, t_global *data);
 int		ft_unset(char **line, t_global *data);
-int		ft_builtin_redi(t_lex *lex, int file);
+int		ft_builtin_redi(t_lex *lex, int file, int child);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
 int		ft_search_token(t_lex *lex);
