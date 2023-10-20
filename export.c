@@ -39,6 +39,8 @@ int	ft_export3(t_global *data, char *str)
 
 	i = 0;
 	j = 0;
+	if (ft_isalpha(str[0]) == 0)
+		return (127);
 	while (str[i] != '=')
 		i++;
 	while (data->envmini[j] != NULL)
@@ -100,6 +102,8 @@ int	ft_export(t_lex *lex, t_global *data)
 		}
 		return (0);
 	}
+	if (ft_isalpha(lex->next->content[0]) == 0)
+		return (1);
 	while (lex->next != NULL)
 	{
 		lex = lex->next;
