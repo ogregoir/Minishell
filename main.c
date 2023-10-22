@@ -6,13 +6,11 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/22 17:00:03 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:00:25 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int error_code = 1000;
 
 void print_lexer(t_lex *lex)
 {

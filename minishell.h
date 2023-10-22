@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/22 15:52:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:01:08 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # include "utils/libft/libft.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-
-extern int error_code;
 
 typedef enum s_test
 {
@@ -144,7 +142,7 @@ char 	**create_env(char **env, t_global *data);
 
 	/*EXEC*/
 void		ft_not_builtin(t_lex *lex, t_global *data);
-void 	detect_pipe(t_lex *lex, t_global *data);
+int 	detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 
 void	close_pipe(int **fd, int pipenbr);

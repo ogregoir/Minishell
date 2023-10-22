@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/20 19:39:27 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:08:31 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	{
 		cmd = ft_find_path(arg[0], 0, data);
 		if (cmd == NULL)
-			exit(127);
+			exit(127);	
 		execve(cmd, arg, data->envmini);
 		exit(127);
 	}
@@ -108,5 +108,5 @@ void	ft_not_builtin(t_lex *lex, t_global *data)
 {
 	if (lex->type != 8 && lex->type != 4)
 		return ;
-	detect_pipe(lex, data);
+	data->error_code = detect_pipe(lex, data);
 }

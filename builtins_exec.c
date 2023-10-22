@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/22 16:50:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:02:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	exec_builtin_pipe(int file, t_global *data, t_lex *lex)
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(lex, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
-		error_code = ft_env(lex, data, file);
+		data->error_code = ft_env(lex, data, file);
 	else if (lex->type == 0)
-		error_code = ft_dollar_env(lex, data);
+		data->error_code = ft_dollar_env(lex, data);
 }
 
 void    ft_exec_main(int file, t_lex *lex, t_global *data)
@@ -64,9 +64,9 @@ void    ft_exec_main(int file, t_lex *lex, t_global *data)
 	else if(ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(lex, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && ft_strlen(lex->content) == 3)
-		error_code = ft_env(lex, data, file);
+		data->error_code = ft_env(lex, data, file);
 	else if (lex->type == 0)
-		error_code = ft_dollar_env(lex, data);
+		data->error_code = ft_dollar_env(lex, data);
 }
 
 
