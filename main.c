@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/20 19:39:45 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/22 17:00:03 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		ft_exit(lex, data);
 	if (ft_verif_exp(rl_line_buffer, lex) == 2)
 		lex = lex->next;
-	else if (ft_verif_exp(rl_line_buffer, lex) == 0)
+	if (ft_verif_exp(rl_line_buffer, lex) == 0 && !lex->next)
 	{
 		data->error_code= ft_export3(data, rl_line_buffer); 
 		return;
