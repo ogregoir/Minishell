@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/17 16:39:52 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:54:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int check_redi(t_lex *lex)
 	tmp = lex;
 	while (tmp)
 	{
-		if (tmp->type == 3 || tmp->type == 5 || tmp->type == 2)
+		if (tmp->type == 3 || tmp->type == 5 || tmp->type == 2 || tmp->type == 4)
 			return (1);
+		if(tmp->type == 1)
+			return(0);
 		tmp = tmp->next;
 	}
 	return (0);
@@ -49,42 +51,51 @@ int openfile(char *content, int mod)
 	if (mod == 1)
 		file = open(content, O_TRUNC | O_WRONLY | O_CREAT, 0644);
 	if (file < 0)
-	{
-		ft_putendl_fd(" Permission denied", 2);
-		exit(1);
-	}
+		ft_error(content, ": Permission denied", 0);
 	return (file);
 }
 
 void ft_pipex_in(int **fd, t_lex *lex, t_pipe *data)
 {
 	lex = lex->next;
-	if(open(lex->content, O_RDONLY) == -1)
+	if (open(lex->content, O_RDONLY) == -1)
 	{
 		ft_error(lex->content, ": No such file or directory", 1);
 		close_pipe(fd, data->pipenbr);
 		exit(1);
-		}
+	}
 	dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
 }
 
-void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
+void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
 {
 	int file;
 
+	file = 0;
+	if(ft_builtin(lex->content, 1) == 0)
+		ft_builtin_exec(global, lex, 0, fd, i);
 	if (check_redi(lex) == 1)
 	{
+		if(ft_builtin(lex->content, 1) == 0)
+			ft_builtin_exec(global, lex, 0, fd, i);
 		while (lex && lex->type == 8)
 			lex = lex->next;
+		if (lex->type == 4)
+		{
+			file = ft_here_doc_open(lex, 0);
+			lex = lex->next;
+			if (!lex->next)
+				dup2(file, STDIN_FILENO);
+		}
 		if (lex->type == 2)
 		{
 			lex = lex->next;
-			if(lex == NULL)
+			if (lex == NULL)
 			{
 				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", 2);
-				exit (1);
+				exit(1);
 			}
-			if(open(lex->content, O_RDONLY) == -1)
+			if (open(lex->content, O_RDONLY) == -1)
 			{
 				ft_error(lex->content, ": No such file or directory", 1);
 				close_pipe(fd, data->pipenbr);
@@ -92,8 +103,6 @@ void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 			}
 			dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
 			data->in = 1;
-			//if(lex->next)
-			//		lex = lex->next;
 		}
 		if (lex->type == 3)
 		{
@@ -123,9 +132,9 @@ void ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data)
 		}
 		if (lex->next)
 		{
-			if (lex->next->type == 3 || lex->next->type == 5 || lex->next->type == 2 || lex->type == 2)
-				ft_pipex_main(fd, i, lex, data);
-			if(lex->next->type == 8)
+			if (lex->next->type == 3 || lex->next->type == 5 || lex->next->type == 2 || lex->type == 2 || lex->next->type == 4)
+				ft_pipex_main(fd, i, lex, data, global);
+			if (lex->next->type == 8)
 				ft_pipex_in(fd, lex, data);
 		}
 	}
@@ -156,11 +165,13 @@ int pipex(t_lex *lex, t_global *datas, int nbrpipe)
 			lex = lex->next;
 		pid[i] = fork();
 		if (i < data.pipenbr && pid[i] == 0)
-			ft_pipex_child(fd, i, lex, &data);
+			ft_pipex_child(fd, i, lex, &data, datas);
 		else if (i == data.pipenbr && pid[i] == 0)
-			ft_pipex_main(fd, i, lex, &data);
-		if (pid[i] == 0)
+			ft_pipex_main(fd, i, lex, &data, datas);
+		if (pid[i] == 0 && ft_builtin(lex->content, 1) !=  0)
 			datas->error_code = ft_check_cmd(lex, datas);
+		if (lex->next && lex->next->type == 4)
+			wait(NULL);
 		i++;
 		if (lex->next == NULL)
 			break;
@@ -174,10 +185,11 @@ int pipex(t_lex *lex, t_global *datas, int nbrpipe)
 		error_code = 1;
 	else
 		error_code = 0;
+	unlink("temp");
 	return (error_code);
 }
 
-int detect_pipe(t_lex *lex, t_global *data)
+void detect_pipe(t_lex *lex, t_global *data)
 {
 	int i;
 	int j;
@@ -194,10 +206,5 @@ int detect_pipe(t_lex *lex, t_global *data)
 			j++;
 		tmp = tmp->next;
 	}
-	if (i > 0 || j > 0)
-	{
-		data->error_code = pipex(lex, data, i);
-		return (1);
-	}
-	return (0);
+	data->error_code = pipex(lex, data, i);
 }

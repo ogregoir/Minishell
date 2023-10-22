@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/20 09:28:15 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:50:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,39 +69,52 @@ void    ft_exec_main(int file, t_lex *lex, t_global *data)
 		error_code = ft_dollar_env(lex, data);
 }
 
-t_lex	*ft_builtin_exec(t_global *data, t_lex *lex)
+
+void	check_file(t_lex *lex)
+{
+	t_lex *tmp;
+	tmp = lex;
+	while(tmp)
+	{
+		if(tmp->next && tmp->type >= 2 && tmp->type <= 5)
+		{
+			if(access(tmp->next->content, F_OK | R_OK ) != 0)
+				exit(1);
+		}
+		tmp = tmp->next;
+	}	
+}
+
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
 {
 	int file;
 	int old;
-	int status;
-	pid_t	pid;
 
-	
 	file = 1;
-	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
-		ft_exit(lex, data);
-	if(ft_search_token(lex) == 1)
+	if(child == 1)
 	{
-		pid = fork();
-		if(pid == 0)
-		{
-		file = ft_builtin_redi(lex, file, 1);
-		old = dup(STDOUT_FILENO);
-		if(ft_multi_redi(lex) == 0)
-			exec_builtin_pipe(file, data, lex);
-		close_redi(old, file);
+		if(check_redi(lex) == 1)
+			{
+				file = ft_builtin_redi(lex, file,  1);
+				old = dup(STDOUT_FILENO);
+				ft_exec_main(file, lex, data);
+				close_redi(old, file);
+			}
+		else
+			{		
+				check_file(lex);
+				file = fd[i + 1][1];
+				ft_exec_main(file, lex, data);
+			}
 		exit(0);
-		}
-		while (wait(&status) > 0)
-			;
-		data->error_code = WEXITSTATUS(status);
 	}
 	else
-	{
-    file = ft_builtin_redi(lex, file, 0);
-	old = dup(STDOUT_FILENO);
-    ft_exec_main(file, lex, data);
-	close_redi(old, file);
+	{	
+   	 	file = ft_builtin_redi(lex, file, 0);
+		old = dup(STDOUT_FILENO);
+   		ft_exec_main(file, lex, data);
+		close_redi(old, file);
 	}
+	exit(data->error_code);
 	return (lex);
 }

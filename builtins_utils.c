@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:25:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/17 17:08:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:09:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_builtin_redi(t_lex *lex, int file, int child)
 				ft_error(tmp->next->content, ": No such file or directory", child);			
 		}
 		if(tmp->type == 1)
-			exit(1);
+			return(file);
 		tmp = tmp->next;
 	}
 	return(1);

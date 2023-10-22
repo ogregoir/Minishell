@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/20 09:31:16 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:52:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
-# include "errno.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 extern int error_code;
 
@@ -108,7 +109,7 @@ t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 int		ft_builtin(char *content, int type);
 void	exec_builtin_pipe(int file, t_global *data, t_lex *lex);
 void    ft_exec_main(int file, t_lex *lex, t_global *data);
-t_lex	*ft_builtin_exec(t_global *data, t_lex *lex);
+//t_lex	*ft_builtin_exec(t_global *data, t_lex *lex);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
@@ -127,6 +128,7 @@ int		ft_builtin_redi(t_lex *lex, int file, int child);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
 int		ft_search_token(t_lex *lex);
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i);
 
 	/*Utils*/
 void	ft_free_split(char **split);
@@ -141,18 +143,21 @@ char 	**create_env(char **env, t_global *data);
 
 
 	/*EXEC*/
-int		ft_not_builtin(t_lex *lex, t_global *data);
-int 	detect_pipe(t_lex *lex, t_global *data);
+void		ft_not_builtin(t_lex *lex, t_global *data);
+void 	detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
-void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
+//void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
+void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global);
+
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
 int		openfile(char *content, int mod);
-
+int		ft_here_doc_open(t_lex *lex, int child);
+int		ft_here_doc(t_lex *lex, int child, int **fd, t_pipe *data);
 
 
 	/*quotes*/
