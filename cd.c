@@ -71,6 +71,7 @@ int	ft_cd(t_global *data, t_lex *lex)
 		buf = ft_forward(buf, lex->content);
 	else
 	{
+		ft_error();
 		printf("-minishell: cd: %s: No such file or directory\n", lex->content);
 		return (1);
 	}

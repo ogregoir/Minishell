@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/20 17:47:53 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/22 20:16:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if(!lex)
 		return;
 	while (ft_verif_exp(rl_line_buffer, lex) == 2 && lex->next)
-		lex = lex->next;
+	{
+	}
 	if (ft_verif_exp(rl_line_buffer, lex) == 0 && !lex->next)
 	{
 		data->error_code= ft_export3(data, rl_line_buffer); 

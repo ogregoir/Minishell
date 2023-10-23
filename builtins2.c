@@ -107,10 +107,10 @@ int	ft_verif_cd(t_lex *lex, char *buf, char *oldbuf, t_global *data)
 		lex = lex->next;
 	if (lex->next)
 		return (1);
-	if (lex->content[0] == 40 || lex->content[0] == 41)
-	{
-		printf("-minishell: syntax error near unexpected token `%c'\n", lex->content[0]);
-		return (2);
-	}
+	//if (lex->content[0] == 40 || lex->content[0] == 41)
+	//{
+	//	printf("-minishell: syntax error near unexpected token `%c'\n", lex->content[0]);
+	//	return (2);
+	//}
 	return(0);
 }
