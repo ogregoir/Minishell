@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/10/16 20:36:09 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/10/20 09:37:49 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS	=	main.c \
 			cd.c \
 			pipe.c \
 			pipe2.c \
+			here_doc.c \
 			error_cd.c \
 			init_token.c \
 			export.c \

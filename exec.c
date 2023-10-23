@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/17 17:18:15 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:08:31 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	ft_nbr_text(t_lex *lex)
 int	ft_check_cmd(t_lex *lex, t_global *data)
 {
 	char	*cmd;
-	//char 	*cpy;
 	char	**arg;
 	int		i;
 
@@ -89,18 +88,6 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	while (lex && (lex->type == 8 || lex->type == 0))
 	{
 		arg[i] = ft_strdup(lex->content);
-		if(i > 1)
-			arg[i] = ft_strjoin_free(arg[i - 1], arg[i]);
-	//	cpy = ft_strdup(arg[i]);
-	//	free(arg[i]);
-	//	arg[i] = ft_strtrim(cpy, "./");
-	//	printf("= %s", arg[i]);
-	//	free(cpy);
-		//if(arg[i][0] == '?' && lex->type == 0 && ft_strlen(arg[i]) == 1)
-		//{
-		//	free(arg[i]);
-		//	arg[i] = ft_itoa(data->error_code);
-			//}
 		i++;
 		lex = lex->next;
 	}	
@@ -109,7 +96,7 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	{
 		cmd = ft_find_path(arg[0], 0, data);
 		if (cmd == NULL)
-			exit(127);
+			exit(127);	
 		execve(cmd, arg, data->envmini);
 		exit(127);
 	}
@@ -117,28 +104,9 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	exit(127);
 }
 
-int	ft_not_builtin(t_lex *lex, t_global *data)
+void	ft_not_builtin(t_lex *lex, t_global *data)
 {
-	pid_t	pid;
-	int		status;
-	int		fd[2];
-
-	status = 0;
-	if (lex->type != 8)
-		return(data->error_code) ;
-	if(detect_pipe(lex, data) == 1)
-		return(data->error_code) ;
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		data->error_code = ft_check_cmd(lex, data);
-		close(fd[1]);
-		exit(EXIT_FAILURE);
-	}
-	close(fd[1]);
-	while (wait(&status) > 0)
-		;
-	return(WEXITSTATUS(status));
+	if (lex->type != 8 && lex->type != 4)
+		return ;
+	data->error_code = detect_pipe(lex, data);
 }

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/17 16:50:19 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:44:09 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,11 @@ int		ft_echo(t_lex *lex , int file)
 		printf("\n");
 		return(0) ;
 	}
-	if(ft_search_token(lex) == 1 && ft_multi_redi(lex) == 1)
-		exit(0);
 	lex = lex->next;
 	nl = ft_echo_nl(&lex);
 	if (!lex)
 		return (0);
-	if(file != 1)
-		dup2(file, STDOUT_FILENO);
+	dup2(file, STDOUT_FILENO);
 	while(lex)
 	{
 		if(lex->next && lex->next->next && (lex->type == 3 || lex->type == 5))

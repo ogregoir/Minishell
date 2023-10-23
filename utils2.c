@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/17 15:57:59 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/22 23:57:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char *ft_last_ele(t_lex *lex)
 	return (ret);
 }
 
-int ft_len_malloc(char *input, char *error_code, int size)
+int ft_len_malloc(char *input, char *err_code, int size)
 {
 	int len;
 	char *dollar;
@@ -57,7 +57,7 @@ int ft_len_malloc(char *input, char *error_code, int size)
 		input = dollar + 1;
 		if (input[0] == '?')
 		{
-			size = size + ft_strlen(error_code);
+			size = size + ft_strlen(err_code);
 			input++;
 		}
 		else if (input[0] != '\0')
@@ -108,7 +108,7 @@ char *ft_strncpy(char *str, char *src, int i)
 	return (str);
 }
 
-char *ft_convert_dollar(char *input, char *error_code, int size)
+char *ft_convert_dollar(char *input, char *err_code, int size)
 {
 	char *dollar;
 	char *cpy;
@@ -120,7 +120,7 @@ char *ft_convert_dollar(char *input, char *error_code, int size)
 	int len;
 
 	cpy = ft_strdup(input);
-	len = ft_len_malloc(cpy, error_code, size);
+	len = ft_len_malloc(cpy, err_code, size);
 	line = malloc(sizeof(char *) * (len + 1));
 	linepos = line;
 	while (1)
@@ -133,8 +133,8 @@ char *ft_convert_dollar(char *input, char *error_code, int size)
 		input = dollar + 1;
 		if (input[0] == '?')
 		{
-			ft_strncpy(linepos, error_code, ft_strlen(error_code));
-			linepos += ft_strlen(error_code);
+			ft_strncpy(linepos, err_code, ft_strlen(err_code));
+			linepos += ft_strlen(err_code);
 			input++;
 		}
 		else if (input[0] != '\0')
