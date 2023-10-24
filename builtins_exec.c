@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/23 00:02:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:29:41 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 int	ft_builtin(char *content, int type)
 {
-	if (ft_strncmp(content, "exit", 4) == 0 && ft_strlen(content) == 4)
-		return (0);
 	if (ft_strncmp(content, "echo", 4) == 0 && ft_strlen(content) == 4)
-		return (0);
-	if(ft_strncmp(content, "cd", 2) == 0 && ft_strlen(content) == 2)
 		return (0);
 	if (ft_strncmp(content, "pwd", 3) == 0 && ft_strlen(content) == 3)
 		return (0);
@@ -37,8 +33,6 @@ void	exec_builtin_pipe(int file, t_global *data, t_lex *lex)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		data->error_code = ft_echo(lex, file);
-	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-			data->error_code = ft_cd(data, lex);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)
@@ -55,8 +49,6 @@ void    ft_exec_main(int file, t_lex *lex, t_global *data)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 && ft_strlen(lex->content) == 4)
 		data->error_code = ft_echo(lex, file);
-	else if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-			data->error_code = ft_cd(data, lex);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if(ft_strncmp(lex->content, "export", 6) == 0)

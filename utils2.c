@@ -6,11 +6,32 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/22 23:57:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/24 16:27:36 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char *ft_get_env(char *str, char **env)
+{
+	char *ret;
+	int i;
+	int len;
+
+	len = ft_strlen(str);
+	i = 0;
+	ret = NULL;
+	if(len == 0)
+		return(NULL);
+	while(env[i])
+	{
+		if(ft_strncmp(str, env[i], len) == 0)
+			ret = ft_strdup(env[i] + (len +1));
+		i++;
+	}
+	return (ret);
+	
+}
 
 void free_list(t_lex *lex)
 {
@@ -41,7 +62,7 @@ char *ft_last_ele(t_lex *lex)
 	return (ret);
 }
 
-int ft_len_malloc(char *input, char *err_code, int size)
+int ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 {
 	int len;
 	char *dollar;
@@ -70,7 +91,7 @@ int ft_len_malloc(char *input, char *err_code, int size)
 				len = end - input;
 				name = ft_strndup(input, len);
 				name[len] = '\0';
-				env = getenv(name);
+				env = ft_get_env(name, data->envmini);
 				if (env != NULL)
 					size = size + ft_strlen(env);
 				else
@@ -108,7 +129,7 @@ char *ft_strncpy(char *str, char *src, int i)
 	return (str);
 }
 
-char *ft_convert_dollar(char *input, char *err_code, int size)
+char *ft_convert_dollar(char *input, char *err_code, int size, t_global *data)
 {
 	char *dollar;
 	char *cpy;
@@ -120,7 +141,7 @@ char *ft_convert_dollar(char *input, char *err_code, int size)
 	int len;
 
 	cpy = ft_strdup(input);
-	len = ft_len_malloc(cpy, err_code, size);
+	len = ft_len_malloc(cpy, err_code, size, data);
 	line = malloc(sizeof(char *) * (len + 1));
 	linepos = line;
 	while (1)
@@ -147,7 +168,7 @@ char *ft_convert_dollar(char *input, char *err_code, int size)
 				len = end - input;
 				name = ft_strndup(input, len);
 				name[len] = '\0';
-				env = getenv(name);
+				env = ft_get_env(name, data->envmini);
 				if (env != NULL)
 				{
 					ft_strncpy(linepos, env, ft_strlen(env));
@@ -190,7 +211,7 @@ t_lex *dollar_lexer(t_lex *lex, t_global *data)
 			}
 			else
 			{
-				tmp2 = ft_convert_dollar(lex->content, ft_itoa(data->error_code), 0);
+				tmp2 = ft_convert_dollar(lex->content, ft_itoa(data->error_code), 0, data);
 				if (!tmp)
 					tmp = ft_lstnew(tmp2, 8);
 				else
