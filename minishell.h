@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/23 00:01:08 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/24 00:45:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 int		ft_builtin(char *content, int type);
 void	exec_builtin_pipe(int file, t_global *data, t_lex *lex);
 void    ft_exec_main(int file, t_lex *lex, t_global *data);
-//t_lex	*ft_builtin_exec(t_global *data, t_lex *lex);
 void	ft_exit(t_lex *lex, t_global *data);
 int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
@@ -141,14 +140,13 @@ char 	**create_env(char **env, t_global *data);
 
 
 	/*EXEC*/
-void		ft_not_builtin(t_lex *lex, t_global *data);
+void	ft_not_builtin(t_lex *lex, t_global *data);
 int 	detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
-//void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data);
 void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global);
 
 int		check_redi(t_lex *lex);
@@ -162,13 +160,14 @@ int		ft_here_doc(t_lex *lex, int child, int **fd, t_pipe *data);
 t_lex	*ft_quote(char *line, t_lex *lex, t_global *data);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c);
-t_lex *ft_join(t_lex *lex, t_global *data);
+t_lex 	*ft_join(t_lex *lex, t_global *data);
 
 
 
 	/*CONTROLES*/
 void    non_canonique(void);
 void    ft_controles(int sig);
+void	ft_ctrlb(int sig);
 
 void    ft_dollar(t_lex *lex, t_global *data);
 int		ft_oldbuf(t_global *data, char **line);
@@ -177,11 +176,11 @@ int		ft_oldbuf(t_global *data, char **line);
 int 	error_arguments(void);
 int		ft_dollar_env(t_lex *lex, t_global *data);
 
-void	ft_error(char *arg, char* str, int pid);
+void	ft_error(char *arg, char* str, char *s, int pid);
 void 	free_list(t_lex *lex);
 void    ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
-void	ft_ctrlb(int sig);
+
 void	ft_free_oldpwd(char **env);
 //void    ft_print_tok(t_global *data);
 //void	ft_print_sv(t_global *data);

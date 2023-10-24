@@ -3,36 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/10/20 09:37:49 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/10/24 00:45:44 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS	=	main.c \
-			utils.c \
-			utils2.c \
-			builtins.c \
-			builtins2.c \
-			builtins_utils.c \
-			builtins_exec.c \
-			lexer.c \
-			lexer_2.c \
-			lexerquotes.c \
-			variables_environnement.c \
-			exec.c \
+			utils/utils.c \
+			utils/utils2.c \
+			Builtins/builtins.c \
+			Builtins/builtins2.c \
+			utils/builtins_utils.c \
+			Exec/builtins_exec.c \
+			Lexer/lexer.c \
+			Lexer/lexer_2.c \
+			Lexer/lexerquotes.c \
+			Exec/exec.c \
 			quotes.c \
 			controles.c \
 			dollar.c \
-			cd.c \
-			pipe.c \
-			pipe2.c \
-			here_doc.c \
-			error_cd.c \
-			init_token.c \
-			export.c \
-			export2.c \
+			Builtins/cd.c \
+			Exec/pipe.c \
+			Exec/pipe2.c \
+			Exec/here_doc.c \
+			utils/error_cd.c \
+			Lexer/init_token.c \
+			Builtins/export.c \
+			Builtins/export2.c \
 			
 OBJS	=	$(SRCS:.c=.o)
 
