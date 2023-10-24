@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/23 00:08:45 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/10/23 09:03:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,6 @@ int detect_pipe(t_lex *lex, t_global *data)
 	pipex(lex, data, i);
 	while (wait(&status) > 0)
 		;
-	if (WEXITSTATUS(status) == 1)
-		return(1);
-	else
-		return(0);
+	return(WEXITSTATUS(status));
+
 }
