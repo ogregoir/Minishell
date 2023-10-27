@@ -12,6 +12,27 @@
 
 #include "../minishell.h"
 
+void	ft_free_exp(char *str, t_global *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env_exp[i])
+	{
+		if (ft_strncmp(data->env_exp[i], str, ft_strlen(str)) == 0)
+		{
+			free (data->env_exp[i]);
+			while (data->env_exp[i])
+			{
+				data->env_exp[i] = data->env_exp[i + 1];
+				i++;
+			}
+			return ;
+		}
+		i++;
+	}
+}
+
 void	ft_unset2(char *str, t_global *data)
 {
 	int	i;
@@ -24,20 +45,16 @@ void	ft_unset2(char *str, t_global *data)
 		if (ft_strncmp(data->envmini[i], str, ft_strlen(str)) == 0)
 		{
 			free (data->envmini[i]);
-			data->envmini[i] = NULL;
+			while (data->envmini[i])
+			{
+				data->envmini[i] = data->envmini[i + 1];
+				i++;
+			}
+			return ;
 		}
 		i++;
 	}
-	i = 0;
-	while (data->env_exp[i])
-	{
-		if (ft_strncmp(data->env_exp[i], str, ft_strlen(str)) == 0)
-		{
-			free (data->env_exp[i]);
-			data->env_exp[i] = NULL;
-		}
-		i++;
-	}
+	ft_free_exp(str, data);
 }
 
 int	ft_unset(t_lex *lex, t_global *data)
@@ -79,8 +96,6 @@ int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
 	{
 		ft_moove_env(oldbuf, "OLDPWD=", data);
 		ft_moove_env(buf, "PWD=", data);
-		//if (line != NULL && line[0] == 45 && line[1] == '\0')
-		//	printf("%s\n", buf);
 		chdir(buf);
 		free(buf);
 		return (0);
@@ -90,23 +105,4 @@ int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
 		ft_error("cd :", line, ": No such file or directory\n", 0);
 		return (1);
 	}
-}
-
-int	ft_verif_cd(t_lex *lex, char *buf, char *oldbuf, t_global *data)
-{
-	int	j;
-
-	j = 0;
-	if (!lex->next || lex->next->content[0] == 126)
-	{
-
-		buf = ft_strdup(getenv("HOME"));
-		j = ft_access_cd(data, buf, lex->content, oldbuf);
-		return (j);
-	}
-	else
-		lex = lex->next;
-	if (lex->next)
-		return (1);
-	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/23 17:04:44 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/27 14:59:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ char	*go_next(char *str, char *s)
 	return (ret);
 }
 
-t_lex	*check_dollar(t_lex *lex, t_global *data, char *s)
-{
-	if(ft_strncmp(s, "?", 1) == 0 && ft_strlen(s) == 1)
-	{
-	if (!lex)
-		lex = ft_lstnew(ft_itoa(data->error_code), 8);
-	else
-		addcontent(lex, ft_itoa(data->error_code), 8);
-	}
-	return (lex);
-}
-
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 {
 	char	*s;
@@ -47,15 +35,15 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 	s = NULL;
 	if (str == NULL)
 		return (lex);
-	while (g_token[j].token != NULL)
+	while (data->token[j].token != NULL)
 	{
-		if (ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
+		if (ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
 		{
-			s = check_next(str, j, 0);
+			s = check_next(str, j, 0, data);
 			if (!lex)
-				lex = ft_lstnew(s, g_token[j].type);
+				lex = ft_lstnew(s, data->token[j].type);
 			else
-				addcontent(lex, s, g_token[j].type);
+				addcontent(lex, s, data->token[j].type);
 			str = go_next(str, s);
 			if (str != NULL || s != NULL)
 				lex = ft_check_type(str, lex, i, 0, data);
@@ -76,14 +64,28 @@ static int	copy_text(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (ft_isalnum(str[i]) == 0 && str[i] != ' ' && str[i] != 47 && check_text(str[i]) == 1)
+		if (ft_isalnum(str[i]) == 0 && str[i] != ' ' && \
+			str[i] != 47 && check_text(str[i]) == 1)
 			return (i);
 		i++;
 	}
 	return (0);
 }
 
-char	*check_next(char *str, int j, int l)
+char	*check_next2(char *str, char *s, int l)
+{
+	l = copy_text(str);
+	if (l == 0)
+		return (str);
+	else
+	{
+		s = ft_substr(str, 0, l);
+		return (s);
+	}
+	return (NULL);
+}
+
+char	*check_next(char *str, int j, int l, t_global *data)
 {
 	char	*s;
 
@@ -93,39 +95,18 @@ char	*check_next(char *str, int j, int l)
 		if (ft_isalnum(str[l]) == 0 && str[l] != ' ' \
 		&& str[l] != 47 && check_text(str[l]) == 1)
 		{
-			if (j < 2 && ft_strncmp(str, g_token[j].token, g_token[j].len) == 0)
+			if (j < 2 && ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
 				l++;
 			s = ft_substr(str, 0, l + 1);
-			if(j == 2)
-				return(str);
+			if (j == 2)
+				return (str);
 			return (s);
 		}
 		else
 		{
-			l = copy_text(str);
-			if (l == 0)
-				return (str);
-			else
-			{
-				s = ft_substr(str, 0, l);
-				return (s);
-			}
+			return (check_next2(str, s, l));
 		}
 		l++;
 	}
 	return (s);
-}
-
-t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data)
-{
-	int	i;
-
-	i = 0;
-	lex = NULL;
-	while (line[i])
-	{
-		lex = ft_check_type(line[i], lex, 0, 0, data);
-		i++;
-	}
-	return (lex);
 }

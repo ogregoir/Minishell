@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/24 00:51:38 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/27 02:16:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 		arg[i] = ft_strdup(lex->content);
 		i++;
 		lex = lex->next;
-	}	
+	}
 	arg[i] = NULL;
 	if (access(arg[0], X_OK | F_OK) != 0)
 	{
 		cmd = ft_find_path(arg[0], 0, data);
 		if (cmd == NULL)
-			exit(127);	
+			exit(127);
 		execve(cmd, arg, data->envmini);
 		exit(127);
 	}

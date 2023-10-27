@@ -1,113 +1,103 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 12:16:08 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/11 12:16:08 by marvin           ###   ########.fr       */
+/*   Created: 2023/10/13 14:09:54 by marvin            #+#    #+#             */
+/*   Updated: 2023/10/13 14:09:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_verif_exp(char *str, t_lex *lex)
-{
-	int	i;
-
-	i = 0;
-	if (!lex->next && ft_strchri(str, 61) == -1)
-		return (1);
-	while (str[i] != '\0')
-	{
-		if (str[i] == 32)
-			return (1);
-		if (str[i] == 61)
-			break ;
-		i++;
-	}
-	if (ft_strchri(str, 32) != -1)
-		return (2);
-	return (0);
-}
-
-int	ft_export3(t_global *data, char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (ft_isalpha(str[0]) == 0)
-		return (127);
-	while (str[i] != '=')
-		i++;
-	while (data->envmini[j] != NULL)
-	{
-		if (ft_strncmp(data->envmini[j], str, i) == 0)
-		{
-			free (data->envmini[j]);
-			data->envmini[j] = ft_strdup(str);
-			return (0);
-		}
-		j++;
-	}
-	i = 0;
-	while (data->env_exp[i] != NULL)
-		i++;
-	data->env_exp[i] = ft_strdup(str);
-	data->env_exp[i + 1] = NULL;
-	return (0);
-}
-
-void	free_env_exp(t_global *data, char *str, int i)
+void	maj_env_exp(t_global *data, char *str, int i)
 {
 	int	j;
-
-	j = 0;
-	while (data->env_exp[j])
-	{
-		if (ft_strncmp(data->env_exp[j], str, i) != 0)
-			free(data->env_exp[j]);
-		j++;
-	}
-}
-
-int	ft_already_exists(t_global *data, char *str, int i)
-{
-	int		j;
 
 	j = 0;
 	while (data->env_exp[j] != NULL)
 	{
 		if (ft_strncmp(data->env_exp[j], str, i) == 0)
-			return (0);
+			free(data->env_exp[j]);
 		j++;
 	}
-	return (1);
 }
 
-int	ft_export(t_lex *lex, t_global *data)
+char	*ft_already_exists2(t_global *data, char *str, int i)
+{
+	int		j;
+	char	*s;
+
+	j = 0;
+	s = NULL;
+	while (data->env_exp[j] != NULL)
+	{
+		if (ft_strncmp(data->env_exp[j], str, i) == 0)
+		{
+			s = ft_strdup(data->env_exp[j]);
+			return (s);
+		}
+		j++;
+	}
+	return (NULL);
+}
+
+void	ft_insert_env(t_global *data, char *str, int i)
+{
+	int	j;
+
+	j = 0;
+	while (data->envmini[j] != NULL)
+	{
+		if (ft_strncmp(data->envmini[j], str, i) == 0)
+		{
+			free(data->envmini[j]);
+			data->envmini[j] = ft_strdup(str);
+			return ;
+		}
+		j++;
+	}
+	data->envmini[j] = ft_strdup(str);
+	data->envmini[j + 1] = NULL;
+}
+
+int	ft_search_i(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!lex->next)
+	if (ft_strchri(str, 61) != -1)
 	{
-		while (data->envmini[i] != NULL)
-		{
-			printf("declare -x %s\n", data->envmini[i]);
+		while (str[i] != '=')
 			i++;
-		}
-		return (0);
 	}
-	if (ft_isalpha(lex->next->content[0]) == 0)
-		return (1);
-	while (lex->next != NULL)
+	else
+		i = ft_strlen(str);
+	return (i);
+}
+
+void	ft_export2(char *str, t_global *data)
+{
+	int		i;
+	char	*s;
+
+	i = ft_search_i(str);
+	s = NULL;
+	if (ft_already_exists(data, str, i) != 1)
 	{
-		lex = lex->next;
-		ft_export2(lex->content, data);
+		if (ft_strchri(str, 61) != -1)
+			s = ft_strdup(str);
+		else
+			s = ft_already_exists2(data, str, i);
+		ft_insert_env(data, s, i);
 	}
-	return (0);
+	else
+	{
+		if (ft_strchri(str, 61) == -1)
+			return ;
+		ft_insert_env(data, str, i);
+	}
+	maj_env_exp(data, str, i);
 }

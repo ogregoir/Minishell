@@ -6,15 +6,15 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/24 19:14:22 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/27 15:06:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_lexer(t_lex *lex)
+void	print_lexer(t_lex *lex)
 {
-	t_lex *tmp;
+	t_lex	*tmp;
 
 	tmp = lex;
 	while (tmp)
@@ -27,15 +27,15 @@ void print_lexer(t_lex *lex)
 	}
 }
 
-static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
+static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
 	char	**str;
 	int		l;
-	
+
 	lex = NULL;
 	l = 0;
 	if (l == 1)
-		return;
+		return ;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
@@ -48,42 +48,55 @@ static void check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		lex = ft_lexer(str, lex, data);
 	lex = dollar_lexer(lex, data);
 	//print_lexer(lex);
-	if(!lex)
-		return;
-	if (ft_strncmp(lex->content, "exit", 4) == 0 && ft_strlen(lex->content) == 4)
+	if (!lex)
+		return ;
+	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
+		ft_strlen(lex->content) == 4)
 		ft_exit(lex, data);
-	if(ft_strncmp(lex->content, "cd", 2) == 0 && ft_strlen(lex->content) == 2)
-			{
-				data->error_code = ft_cd(data, lex);
-				return ;
-			}
-	while (ft_verif_exp(rl_line_buffer, lex) == 2 && lex->next)
+	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
+		ft_strlen(lex->content) == 2)
 	{
+		data->error_code = ft_cd(data, lex);
+		return ;
 	}
-	if (ft_verif_exp(rl_line_buffer, lex) == 0 && !lex->next)
+	if (ft_strncmp(lex->content, "unset", 5) == 0 && \
+		ft_strlen(lex->content) == 5)
 	{
-		data->error_code= ft_export3(data, rl_line_buffer); 
-		return;
+		data->error_code = ft_unset(lex, data);
+		return ;
+	}
+	if (ft_strncmp(lex->content, "export", 6) == 0)
+	{
+		data->error_code = ft_export(lex, data);
+		return ;
+	}
+	if (ft_export3(data, lex, str) == 1)
+		return ;
+	else
+		data->error_code = ft_export3(data, lex, str);
+	if (data->error_code == 0)
+		return ;
+	if (lex->next != NULL)
+	{
+		while (lex->next != NULL)
+			lex = lex->next;
 	}
 	if (rl_line_buffer[0] == '\0')
-		return;
-	if(lex->next && lex->type == 1)
-		lex = lex->next; 
-	if (rl_line_buffer[0] == '\0')
-		return;
+		return ;
+	if (lex->next && lex->type == 1)
+		lex = lex->next;
 	ft_not_builtin(lex, data);
-	return;
+	return ;
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_lex lex;
-	t_global *data;
-	char *input;
+	t_lex		lex;
+	t_global	*data;
+	char		*input;
 
 	(void)argc;
 	(void)argv;
-
 	if (!env[0])
 		exit(1);
 	data = malloc(sizeof(t_global));
@@ -93,7 +106,6 @@ int main(int argc, char **argv, char **env)
 	data->envmini = create_env(env, data);
 	data->env_exp = create_env(env, data);
 	input = readline("minishell: ");
-	// ft_print_tok(data);
 	while (rl_line_buffer != NULL)
 	{
 		add_history(rl_line_buffer);
@@ -105,7 +117,6 @@ int main(int argc, char **argv, char **env)
 			exit(data->error_code);
 		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
-		// ft_variables_env(rl_line_buffer);
 	}
 	return (data->error_code);
 }

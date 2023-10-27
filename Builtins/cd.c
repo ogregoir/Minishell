@@ -45,18 +45,50 @@ char	*ft_forward(char *buf, char *line)
 	return (newbuf);
 }
 
+int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
+{
+	char	*buf;
+
+	buf = NULL;
+	if (!lex->next || lex->next->content[0] == 126)
+	{
+		if (ft_variable_exist(data, "HOME") == 1)
+		{
+			ft_error("cd: HOME not set\n", NULL, NULL, 1);
+			return (1);
+		}
+		else
+		{
+			buf = ft_strdup(getenv("HOME"));
+			return (ft_access_cd(data, buf, lex->content, oldbuf));
+		}
+	}
+	else
+		lex = lex->next;
+	if (lex->next)
+		return (1);
+	return (0);
+}
+
+int	ft_verif_cd2(t_lex *lex, t_global *data, char *oldbuf)
+{
+	if (ft_verif_cd(lex, data, oldbuf) == 1)
+		return (1);
+	else if (!lex->next)
+		return (ft_verif_cd(lex, data, oldbuf));
+	return (0);
+}
+
 int	ft_cd(t_global *data, t_lex *lex)
 {
 	char	*buf;
-	int		j;
 	char	*oldbuf;
 
-	j = 0;
 	buf = NULL;
 	buf = getcwd(buf, 100);
 	oldbuf = ft_strdup(buf);
-	if (ft_verif_cd(lex, buf, oldbuf, data) != 0)
-		return (ft_verif_cd(lex, buf, oldbuf, data));
+	if (ft_verif_cd2(lex, data, oldbuf) != 0)
+		return (ft_verif_cd2(lex, data, oldbuf));
 	lex = lex->next;
 	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)
 	{
@@ -74,7 +106,5 @@ int	ft_cd(t_global *data, t_lex *lex)
 		ft_error("cd: ", lex->content, ": No such file or directory\n", 0);
 		return (1);
 	}
-	printf("buf %s\n", buf);
-	j = ft_access_cd(data, buf, lex->content, oldbuf);
-	return (j);
+	return (ft_access_cd(data, buf, lex->content, oldbuf));
 }
