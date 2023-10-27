@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 14:59:27 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:50:20 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 		j++;
 	}
 	lex = ft_text(s, str, j, lex, data);
-	//if(ft_strncmp(lex->content, str, ft_strlen(str)))
-	//	lex = ft_check_type(str, lex, 0, 0);
 	return (lex);
 }
 

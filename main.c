@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/27 15:06:43 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/27 19:49:34 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		str = ft_split(rl_line_buffer, ' ');
 	if (!lex)
 		lex = ft_lexer(str, lex, data);
-	lex = dollar_lexer(lex, data);
 	//print_lexer(lex);
+	lex = dollar_lexer(lex, data);
 	if (!lex)
 		return ;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
@@ -76,11 +76,11 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		data->error_code = ft_export3(data, lex, str);
 	if (data->error_code == 0)
 		return ;
-	if (lex->next != NULL)
-	{
-		while (lex->next != NULL)
-			lex = lex->next;
-	}
+	//if (lex->next != NULL)
+	//{
+	//	while (lex->next != NULL)
+	//		lex = lex->next;
+	//}
 	if (rl_line_buffer[0] == '\0')
 		return ;
 	if (lex->next && lex->type == 1)

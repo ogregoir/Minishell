@@ -14,14 +14,15 @@
 
 static void	ft_init_token2(t_global *data, int j)
 {
-	if (j == 4 || j == 5)
+	if (j == 0 || j == 1)
 	{
 		data->token[j].len = 2;
-		data->token[j].type = j;
-		if (j == 4)
-			data->token[4].token = ft_strdup("<<");
+		if (j == 0)
+			{data->token[j].token = ft_strdup("<<");
+			data->token[j].type = 4;}
 		else
-			data->token[5].token = ft_strdup(">>");
+			{data->token[j].token = ft_strdup(">>");
+			data->token[j].type = 5;}
 	}
 	else if (j == 6 || j == 7 || j == 8)
 	{
@@ -39,17 +40,24 @@ static void	ft_init_token2(t_global *data, int j)
 
 void	ft_init_token3(t_global *data, int j)
 {
-	data->token[j].token = malloc(sizeof(char *) * 1);
 	data->token[j].len = 1;
-	data->token[j].type = j;
-	if (j == 0)
-		data->token[0].token = "$";
-	else if (j == 1)
-		data->token[1].token = "|";
-	else if (j == 2)
-		data->token[2].token = "<";
+	if (j == 2)
+		{
+		data->token[j].token = ft_strdup("$");
+		data->token[j].type = 0;
+		}
 	else if (j == 3)
-		data->token[3].token = ">";
+		{data->token[j].token = ft_strdup("|");
+		data->token[j].type = 1;}
+	else if (j == 4)
+		{
+		data->token[j].token = ft_strdup("<");
+		data->token[j].type = 2;
+		}
+	else if (j == 5)
+		{data->token[j].token = ft_strdup(">");
+		data->token[j].type = 3;}
+
 }
 
 void	ft_init_token(t_global *data)
@@ -57,18 +65,19 @@ void	ft_init_token(t_global *data)
 	int	j;
 
 	j = 0;
-	data->token = malloc(sizeof(t_listtest));
+	data->token = malloc(sizeof(t_listtest) * 9);
 	data->error_code = 0;
 	data->envmini = NULL;
 	data->fd = NULL;
 	data->pid = NULL;
 	while (j != 9)
 	{
-		if (j == 0 || j == 1 || j == 2 || j == 3)
+		if (j == 2 || j == 3 || j == 4 || j == 5)
 			ft_init_token3(data, j);
 		else
 			ft_init_token2(data, j);
 		j++;
+
 	}
 }
 
