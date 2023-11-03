@@ -100,10 +100,10 @@ int	ft_echo(t_lex *lex, int file)
 		}
 		if (lex->next && lex->type == 2)
 			lex = lex->next;
-		if (!lex->next)
+		if (!lex->next || lex->type == 4)
 			break ;
 		lex = lex->next;
-		if (lex->type == 3 || lex->type == 5 || lex->type == 1)
+		if (lex->type == 3 || lex->type == 5 || lex->type == 1 || lex->type == 4)
 			break ;
 	}
 	if (nl == 0)

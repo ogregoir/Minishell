@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/10/27 19:49:34 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/03 23:24:55 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,21 @@ void	print_lexer(t_lex *lex)
 		printf("-------------------\n");
 		tmp = tmp->next;
 	}
+}
+
+int check_err(t_lex *lex)
+{
+	t_lex *tmp;
+	
+	tmp = lex;
+	while(tmp->next)
+		tmp = tmp->next;
+	if(tmp->type == 1)
+		{
+		ft_error("", "", "syntax error near unexpected token `|'", 1);
+		return (1);
+		}
+	return (0);
 }
 
 static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
@@ -48,11 +63,14 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		lex = ft_lexer(str, lex, data);
 	//print_lexer(lex);
 	lex = dollar_lexer(lex, data);
-	if (!lex)
+	if (!lex || check_err(lex) == 1)
 		return ;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
 		ft_strlen(lex->content) == 4)
-		ft_exit(lex, data);
+		{
+			ft_exit(lex, data);
+			return ;
+		}
 	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
 		ft_strlen(lex->content) == 2)
 	{
@@ -76,11 +94,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		data->error_code = ft_export3(data, lex, str);
 	if (data->error_code == 0)
 		return ;
-	//if (lex->next != NULL)
-	//{
-	//	while (lex->next != NULL)
-	//		lex = lex->next;
-	//}
 	if (rl_line_buffer[0] == '\0')
 		return ;
 	if (lex->next && lex->type == 1)
@@ -101,7 +114,8 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	data = malloc(sizeof(t_global));
 	non_canonique();
-	signal(SIGQUIT, ft_controles);
+	signal(SIGQUIT, ft_controles);	
+	signal(SIGINT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
 	data->env_exp = create_env(env, data);
@@ -109,7 +123,7 @@ int	main(int argc, char **argv, char **env)
 	while (rl_line_buffer != NULL)
 	{
 		add_history(rl_line_buffer);
-		signal(SIGINT, ft_controles);
+	
 		if (ft_strncmp("cat", rl_line_buffer, ft_strlen(rl_line_buffer)) == 0)
 			signal(SIGINT, ft_ctrlb);
 		free(input);

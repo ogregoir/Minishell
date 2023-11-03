@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/27 17:52:46 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:38:18 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,20 @@ char	*ft_get_env(char *str, char **env);
 void	ft_not_builtin(t_lex *lex, t_global *data);
 int		detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
+void	check_file(t_lex *lex);
+
 
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
-void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global);
+void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, int file);
+int		check_here_doc(t_lex *lex, t_global *data);
+
 
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
 int		openfile(char *content, int mod);
-int		ft_here_doc_open(t_lex *lex, int child);
-int		ft_here_doc(t_lex *lex, int child, int **fd, t_pipe *data);
+
 
 	/*quotes*/
 t_lex	*ft_quote(char *line, t_lex *lex, t_global *data);

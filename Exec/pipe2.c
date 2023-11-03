@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 02:37:07 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/03 23:19:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	close_pipe(int **fd, int pipenbr)
+void close_pipe(int **fd, int pipenbr)
 {
-	int	j;
+	int j;
 
 	j = 0;
 	while (j <= pipenbr)
@@ -25,12 +25,12 @@ void	close_pipe(int **fd, int pipenbr)
 	}
 }
 
-int	**create_fd(int pipenbr, int **fd)
+int **create_fd(int pipenbr, int **fd)
 {
-	int	i;
+	int i;
 
 	i = 0;
-	fd = malloc(sizeof(fd) * pipenbr);
+	fd = malloc(sizeof(fd) * (pipenbr + 1));
 	while (i <= pipenbr)
 	{
 		fd[i] = malloc(sizeof(*fd) * 2);
@@ -39,9 +39,9 @@ int	**create_fd(int pipenbr, int **fd)
 	return (fd);
 }
 
-void	ft_pipe_create(int pipenbr, int **fd)
+void ft_pipe_create(int pipenbr, int **fd)
 {
-	int	j;
+	int j;
 
 	j = 0;
 	while (j <= pipenbr)
@@ -51,9 +51,9 @@ void	ft_pipe_create(int pipenbr, int **fd)
 	}
 }
 
-int	check_redi_in(t_lex *lex)
+int check_redi_in(t_lex *lex)
 {
-	t_lex	*tmp;
+	t_lex *tmp;
 
 	tmp = lex;
 	while (tmp)
@@ -65,17 +65,34 @@ int	check_redi_in(t_lex *lex)
 	return (0);
 }
 
-void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
+void ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, int file)
 {
-	int	file;
-
+	if (file != 0 && ft_builtin(lex->content, 1) != 0)
+	{
+		if (lex->next && lex->next->next  && lex->next->type == 4)
+			lex = lex->next->next;
+		if (lex->next->type == 1)
+			dup2(file, STDIN_FILENO);
+		data->in = 1;
+		if(lex->next && lex->next->type == 2)
+		{
+		if(lex->next->next && lex->next->next->next && lex->next->next->next)
+			lex = lex->next->next->next;
+		if(lex->next && lex->next->type == 4)
+			ft_pipex_child(fd, i, lex, data, global, check_here_doc(lex, global));
+		dup2(file, STDIN_FILENO);
+		dup2(fd[i + 1][1], STDOUT_FILENO);
+		close_pipe(fd, data->pipenbr);
+		return ; 
+		}
+	}
 	if (ft_builtin(lex->content, 1) == 0)
 		ft_builtin_exec(global, lex, 1, fd, i);
 	if (check_redi(lex) == 1)
 	{
 		if (ft_builtin(lex->content, 1) == 0)
 			ft_builtin_exec(global, lex, 1, fd, i);
-		while (lex && lex->type == 8)
+		while (file == 0 && lex && lex->type == 8)
 			lex = lex->next;
 		if (lex->next && lex->type == 2)
 		{
@@ -87,7 +104,6 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
 				exit(1);
 			}
 			dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
-			dup2(fd[i + 1][1], STDOUT_FILENO);
 			data->in = 1;
 		}
 		if (lex->type == 3)
@@ -95,32 +111,25 @@ void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
 			lex = lex->next;
 			file = openfile(lex->content, 1);
 			dup2(file, STDOUT_FILENO);
-			if (data-> in == 0)
+			if (data->in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
-		}
-		if (lex->type == 4)
-		{
-			file = ft_here_doc_open(lex, 0);
-			lex = lex->next;
-			if (lex->next && lex->next->type == 1)
-				dup2(file, STDIN_FILENO);
 		}
 		if (lex->type == 5)
 		{
 			lex = lex->next;
 			file = openfile(lex->content, 0);
 			dup2(file, STDOUT_FILENO);
-			if (data-> in == 0)
+			if (data->in == 0)
 				dup2(fd[i][0], STDIN_FILENO);
 		}
 		if (lex->next)
 		{
-			if (lex->next->type == 3 || lex->next->type == 5 || \
+			if (lex->next->type == 3 || lex->next->type == 5 ||
 				lex->next->type == 2 || lex->type == 2 || lex->next->type == 4)
-				ft_pipex_child(fd, i, lex, data, global);
+				ft_pipex_child(fd, i, lex, data, global, check_here_doc(lex, global));
 		}
 	}
-	else if (i != 0)
+	else if (i != 0 && file == 0)
 		dup2(fd[i][0], STDIN_FILENO);
 	dup2(fd[i + 1][1], STDOUT_FILENO);
 	close_pipe(fd, data->pipenbr);

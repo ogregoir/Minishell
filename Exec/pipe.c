@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 04:00:16 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/02 01:52:21 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ int	openfile(char *content, int mod)
 {
 	int	file;
 
+	
+	if (access(content, F_OK) == 0)
+		if (access(content, W_OK | R_OK) != 0)
+				ft_error(content, ": Permission denied", "", 0);
 	if (mod == 0)
 		file = open(content, O_APPEND | O_WRONLY | O_CREAT, 0644);
 	if (mod == 1)
 		file = open(content, O_TRUNC | O_WRONLY | O_CREAT, 0644);
-	if (file < 0)
-		ft_error(content, ": Permission denied", NULL, 0);
 	return (file);
 }

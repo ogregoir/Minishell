@@ -24,26 +24,35 @@ void	ft_pipex_in(int **fd, t_lex *lex, t_pipe *data)
 	dup2(open(lex->content, O_RDONLY), STDIN_FILENO);
 }
 
-void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
+void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, int file)
 {
-	int	file;
-
-	file = 0;
+	check_file(lex);
+	if (file != 0 && ft_builtin(lex->content, 1) != 0)
+			{	
+				if(lex->next && lex->next->next && lex->next->type == 4)
+					lex = lex->next->next;
+				if (!lex->next)
+					dup2(file, STDIN_FILENO);
+				data->in = 1;
+				if(lex->next && lex->next->type == 2)
+				{
+					if(lex->next->next && lex->next->next->next && lex->next->next->next->next)
+						lex = lex->next->next->next->next;
+					if(lex->next && lex->next->type == 4)
+						ft_pipex_main(fd, i, lex, data, global, check_here_doc(lex, global));
+					dup2(file, STDIN_FILENO);
+					close_pipe(fd, data->pipenbr);
+					return ; 
+				}
+			}
 	if (ft_builtin(lex->content, 1) == 0)
-		ft_builtin_exec(global, lex, 0, fd, i);
+			ft_builtin_exec(global, lex, 0, fd, i);
 	if (check_redi(lex) == 1)
 	{
 		if (ft_builtin(lex->content, 1) == 0)
 			ft_builtin_exec(global, lex, 0, fd, i);
-		while (lex && lex->type == 8)
+		while (file == 0 && lex && lex->type == 8)
 			lex = lex->next;
-		if (lex->type == 4)
-		{
-			file = ft_here_doc_open(lex, 0);
-			lex = lex->next;
-			if (!lex->next)
-				dup2(file, STDIN_FILENO);
-		}
 		if (lex->type == 2)
 		{
 			lex = lex->next;
@@ -54,7 +63,7 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
 			}
 			if (open(lex->content, O_RDONLY) == -1)
 			{
-				ft_error(lex->content, ": No such file or directory", NULL, 1);
+				ft_error(lex->content, ": No such file or directory", "", 1);
 				close_pipe(fd, data->pipenbr);
 				exit(1);
 			}
@@ -89,30 +98,15 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global)
 		}
 		if (lex->next)
 		{
-			if (lex->next->type == 3 || lex->next->type == 5 || \
-			lex->next->type == 2 || lex->type == 2 || lex->next->type == 4)
-				ft_pipex_main(fd, i, lex, data, global);
-			if (lex->next->type == 8)
+			if (lex->next->type == 3 || lex->next->type == 5 || lex->next->type == 2|| lex->next->type == 4)
+				ft_pipex_main(fd, i, lex, data, global, check_here_doc(lex, global));
+			if (lex->next->type == 8 && lex->type != 4 )
 				ft_pipex_in(fd, lex, data);
 		}
 	}
-	else if (i != 0)
+	else if (data->in == 0)
 		dup2(fd[i][0], STDIN_FILENO);
 	close_pipe(fd, data->pipenbr);
-}
-
-void	ft_close_main(int **fd, int pipenbr)
-{
-	int	j;
-
-	j = 0;
-	while (j < pipenbr)
-	{
-		close(fd[j][0]);
-		close(fd[j][1]);
-		j++;
-	}
-	close(fd[j][0]);
 }
 
 void	pipex(t_lex *lex, t_global *datas, int nbrpipe)
@@ -121,6 +115,7 @@ void	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	t_pipe	data;
 	int		**fd;
 	int		i;
+	int 	file;
 
 	i = 0;
 	fd = NULL;
@@ -129,22 +124,25 @@ void	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 	pid = malloc(sizeof(pid_t) * (data.pipenbr + 1));
 	fd = create_fd(data.pipenbr, fd);
 	ft_pipe_create(data.pipenbr, fd);
-	while (i <= data.pipenbr)
+	while (lex && i <= data.pipenbr)
 	{
 		if (lex->type == 1)
 			lex = lex->next;
+		file = check_here_doc(lex, datas);
+		if(file == -1)
+			break;
 		pid[i] = fork();
 		if (i < data.pipenbr && pid[i] == 0)
-			ft_pipex_child(fd, i, lex, &data, datas);
+			ft_pipex_child(fd, i, lex, &data, datas, file);
 		else if (i == data.pipenbr && pid[i] == 0)
-			ft_pipex_main(fd, i, lex, &data, datas);
+			ft_pipex_main(fd, i, lex, &data, datas, file);
+		if(lex->next && lex->next->next && lex->type == 4)
+			lex = lex->next->next;
 		if (pid[i] == 0 && ft_builtin(lex->content, 1) != 0)
 			datas->error_code = ft_check_cmd(lex, datas);
-		i++;
-		if (lex->next == NULL)
-			break ;
-		while (lex && lex->type != 1)
+		while(lex && lex->type != 1)
 			lex = lex->next;
+		i++;
 	}
 	close_pipe(fd, data.pipenbr);
 	unlink("temp");
@@ -160,7 +158,7 @@ int	detect_pipe(t_lex *lex, t_global *data)
 	tmp = lex;
 	status = 0;
 	i = 0;
-	j = 0;
+	j = 0;	
 	while (tmp)
 	{
 		if (tmp->type == 1)

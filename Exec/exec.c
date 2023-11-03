@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 02:16:07 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/02 00:04:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 		i++;
 		free(tmp2);
 	}
-	ft_error(arg, ": command not found", NULL, 0);
+	ft_error(arg, ": command not found", "", 0);
 	return (NULL);
 }
 
@@ -81,7 +81,7 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	int		i;
 
 	i = 0;
-	arg = malloc(sizeof(char *) * (ft_nbr_text(lex) + 1));
+ 	arg = malloc(sizeof(char *) * (ft_nbr_text(lex) + 1));
 	while (lex && (lex->type == 8 || lex->type == 0))
 	{
 		arg[i] = ft_strdup(lex->content);
