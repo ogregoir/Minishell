@@ -18,11 +18,15 @@ static void	ft_init_token2(t_global *data, int j)
 	{
 		data->token[j].len = 2;
 		if (j == 0)
-			{data->token[j].token = ft_strdup("<<");
-			data->token[j].type = 4;}
+		{
+			data->token[j].token = ft_strdup("<<");
+			data->token[j].type = 4;
+		}
 		else
-			{data->token[j].token = ft_strdup(">>");
-			data->token[j].type = 5;}
+		{
+			data->token[j].token = ft_strdup(">>");
+			data->token[j].type = 5;
+		}
 	}
 	else if (j == 6 || j == 7 || j == 8)
 	{
@@ -42,22 +46,25 @@ void	ft_init_token3(t_global *data, int j)
 {
 	data->token[j].len = 1;
 	if (j == 2)
-		{
+	{
 		data->token[j].token = ft_strdup("$");
 		data->token[j].type = 0;
-		}
+	}
 	else if (j == 3)
-		{data->token[j].token = ft_strdup("|");
-		data->token[j].type = 1;}
+	{
+		data->token[j].token = ft_strdup("|");
+		data->token[j].type = 1;
+	}
 	else if (j == 4)
-		{
+	{
 		data->token[j].token = ft_strdup("<");
 		data->token[j].type = 2;
-		}
+	}
 	else if (j == 5)
-		{data->token[j].token = ft_strdup(">");
-		data->token[j].type = 3;}
-
+	{
+		data->token[j].token = ft_strdup(">");
+		data->token[j].type = 3;
+	}
 }
 
 void	ft_init_token(t_global *data)

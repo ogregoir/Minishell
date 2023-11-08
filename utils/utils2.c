@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 04:12:31 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/04 15:10:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,37 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	}
 	size = size + ft_strlen(input);
 	return (size);
+}
+
+void	ft_free_oldpwd(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
+			env[i] = NULL;
+		i++;
+	}
+}
+
+char	**create_env(char **env, t_global *data)
+{
+	char	**envmini;
+	int		i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	data->size_env = i;
+	envmini = malloc(sizeof(char **) * i + 1);
+	i = 0;
+	while (env[i])
+	{
+		envmini[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ft_free_oldpwd(envmini);
+	return (envmini);
 }

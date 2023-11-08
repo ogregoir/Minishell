@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:25:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 20:28:16 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:48:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void close_redi(int out, int file)
+void	close_redi(int out, int file)
 {
 	if (file != 1)
 	{
@@ -22,9 +22,9 @@ void close_redi(int out, int file)
 	}
 }
 
-int ft_search_token(t_lex *lex)
+int	ft_search_token(t_lex *lex)
 {
-	t_lex *tmp;
+	t_lex	*tmp;
 
 	tmp = lex;
 	while (tmp)
@@ -36,9 +36,9 @@ int ft_search_token(t_lex *lex)
 	return (0);
 }
 
-int ft_multi_redi(t_lex *tmp)
+int	ft_multi_redi(t_lex *tmp)
 {
-	t_lex *tmp2;
+	t_lex	*tmp2;
 
 	tmp2 = tmp;
 	tmp2 = tmp2->next;
@@ -59,7 +59,7 @@ int	ft_builtin_redi2(t_lex *tmp, int file, int mod)
 	if (ft_multi_redi(tmp) == 1)
 		return (file);
 	close(file);
-	return(1);
+	return (1);
 }
 
 int	ft_builtin_redi(t_lex *lex, int file, int child)
@@ -82,8 +82,8 @@ int	ft_builtin_redi(t_lex *lex, int file, int child)
 		if (tmp->type == 1)
 			exit(1);
 		tmp = tmp->next;
-		if(file != 1)
-			return(file);
+		if (file != 1)
+			return (file);
 	}
 	return (1);
 }

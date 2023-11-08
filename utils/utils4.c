@@ -78,3 +78,18 @@ char	*ft_get_env(char *str, char **env)
 	}
 	return (ret);
 }
+
+char	**ft_free_char(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || str[i] == NULL)
+		return ;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	return (str);
+}

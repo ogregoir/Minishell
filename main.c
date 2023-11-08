@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/03 23:24:55 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:02:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ void	print_lexer(t_lex *lex)
 	}
 }
 
-int check_err(t_lex *lex)
+int	check_err(t_lex *lex)
 {
-	t_lex *tmp;
-	
+	t_lex	*tmp;
+
 	tmp = lex;
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
-	if(tmp->type == 1)
-		{
+	if (tmp->type == 1)
+	{
 		ft_error("", "", "syntax error near unexpected token `|'", 1);
 		return (1);
-		}
+	}
 	return (0);
 }
 
@@ -61,16 +61,15 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		str = ft_split(rl_line_buffer, ' ');
 	if (!lex)
 		lex = ft_lexer(str, lex, data);
-	//print_lexer(lex);
 	lex = dollar_lexer(lex, data);
 	if (!lex || check_err(lex) == 1)
 		return ;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
 		ft_strlen(lex->content) == 4)
-		{
-			ft_exit(lex, data);
-			return ;
-		}
+	{
+		ft_exit(lex, data);
+		return ;
+	}
 	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
 		ft_strlen(lex->content) == 2)
 	{
@@ -114,7 +113,7 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	data = malloc(sizeof(t_global));
 	non_canonique();
-	signal(SIGQUIT, ft_controles);	
+	signal(SIGQUIT, ft_controles);
 	signal(SIGINT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
@@ -123,14 +122,15 @@ int	main(int argc, char **argv, char **env)
 	while (rl_line_buffer != NULL)
 	{
 		add_history(rl_line_buffer);
-	
 		if (ft_strncmp("cat", rl_line_buffer, ft_strlen(rl_line_buffer)) == 0)
 			signal(SIGINT, ft_ctrlb);
 		free(input);
 		if (input == NULL)
-			exit(data->error_code);
+			exit(data->error_code);	
 		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
 	}
+	data->envmini = ft_free_char(data->envmini);
+	data->env_exp = ft_free_char(data->env_exp);
 	return (data->error_code);
 }

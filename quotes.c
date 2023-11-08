@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 03:38:01 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/04 15:12:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,6 @@ t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 			break ;
 		i = 0;
 	}
-	str[j] = NULL;
+	//free_str
 	return (lex);
 }

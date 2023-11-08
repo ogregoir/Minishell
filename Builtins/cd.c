@@ -45,7 +45,7 @@ char	*ft_forward(char *buf, char *line)
 	return (newbuf);
 }
 
-int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
+int	ft_verif_cd(t_lex *lex, t_global *data)
 {
 	char	*buf;
 
@@ -54,28 +54,19 @@ int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
 	{
 		if (ft_variable_exist(data, "HOME") == 1)
 		{
-			ft_error("cd: HOME not set\n", NULL, NULL, 1);
+			ft_error("cd: HOME not set", "", "", 1);
 			return (1);
 		}
 		else
 		{
 			buf = ft_strdup(getenv("HOME"));
-			return (ft_access_cd(data, buf, lex->content, oldbuf));
+			chdir(buf);
+			return (2);
 		}
 	}
-	else
-		lex = lex->next;
+	lex = lex->next;
 	if (lex->next)
 		return (1);
-	return (0);
-}
-
-int	ft_verif_cd2(t_lex *lex, t_global *data, char *oldbuf)
-{
-	if (ft_verif_cd(lex, data, oldbuf) == 1)
-		return (1);
-	else if (!lex->next)
-		return (ft_verif_cd(lex, data, oldbuf));
 	return (0);
 }
 
@@ -87,8 +78,10 @@ int	ft_cd(t_global *data, t_lex *lex)
 	buf = NULL;
 	buf = getcwd(buf, 100);
 	oldbuf = ft_strdup(buf);
-	if (ft_verif_cd2(lex, data, oldbuf) != 0)
-		return (ft_verif_cd2(lex, data, oldbuf));
+	if (ft_verif_cd(lex, data) == 1)
+		return (1);
+	else if (ft_verif_cd(lex, data) == 2)
+		return (0);
 	lex = lex->next;
 	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)
 	{

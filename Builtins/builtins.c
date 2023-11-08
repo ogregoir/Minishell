@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/10/26 20:18:53 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/06 17:46:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_exit(t_lex *lex, t_global *data)
 	{
 		ft_putendl_fd("minishell: numeric argument required", 2);
 		data->error_code = 2;
+		
 		exit (2);
 	}
 	if (lex->next->content[0] == '-')
