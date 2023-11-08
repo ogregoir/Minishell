@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/02 00:04:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/07 23:57:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_find_path(char *arg, int i, t_global *data)
 		i = 0;
 	}
 	if (data->envmini[j] == NULL)
-		ft_error("Didn't find a path", NULL, NULL, 1); //<- à vérifier
+		ft_error("Didn't find a path", "", "", 1);
 	cmd = ft_split(data->envmini[j], ':');
 	cmd[0] = ft_strtrim(cmd[0], "PATH=");
 	ret = ft_find_cmd(cmd, arg);

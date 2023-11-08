@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/06 17:41:31 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/08 02:00:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ int	ft_check_nbr(char *str)
 void	ft_free_split(char **split)
 {
 	int		i;
-	char	*tmp;
 
 	i = 0;
+	if(!split)
+		return ;
 	while (split[i] != NULL)
 	{
-		tmp = split[i];
+		free(split[i]);
+		split[i] = NULL;
 		i++;
-		free(tmp);
 	}
 	free(split);
 	split = NULL;

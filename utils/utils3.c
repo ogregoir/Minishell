@@ -12,14 +12,6 @@
 
 #include "../minishell.h"
 
-void	free_list(t_lex *lex)
-{
-	while (lex->next)
-	{
-		free(lex->content);
-		lex = lex->next;
-	}
-}
 
 char	*ft_last_ele(t_lex *lex)
 {

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 19:50:20 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:17:43 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 			str = go_next(str, s);
 			if (str != NULL || s != NULL)
 				lex = ft_check_type(str, lex, i, 0, data);
+			if(str != NULL)
+				free(str);
 			return (lex);
 		}
 		j++;
@@ -70,15 +72,16 @@ static int	copy_text(char *str)
 	return (0);
 }
 
-char	*check_next2(char *str, char *s, int l)
+char	*check_next2(char *str, int l)
 {
+	char *ret;
 	l = copy_text(str);
 	if (l == 0)
 		return (str);
 	else
 	{
-		s = ft_substr(str, 0, l);
-		return (s);
+		ret = ft_substr(str, 0, l);
+		return (ret);
 	}
 	return (NULL);
 }
@@ -95,15 +98,13 @@ char	*check_next(char *str, int j, int l, t_global *data)
 		{
 			if (j < 2 && ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
 				l++;
-			s = ft_substr(str, 0, l + 1);
 			if (j == 2)
 				return (str);
+			s = ft_substr(str, 0, l + 1);
 			return (s);
 		}
 		else
-		{
-			return (check_next2(str, s, l));
-		}
+			return (check_next2(str, l));
 		l++;
 	}
 	return (s);

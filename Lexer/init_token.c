@@ -30,13 +30,12 @@ static void	ft_init_token2(t_global *data, int j)
 	}
 	else if (j == 6 || j == 7 || j == 8)
 	{
-		data->token[j].token = malloc(sizeof(char *) * 1);
 		data->token[j].len = 1;
 		data->token[j].type = j;
 		if (j == 6)
-			data->token[6].token = "'";
+			data->token[6].token = ft_strdup("'");
 		else if (j == 7)
-			data->token[7].token = "\"";
+			data->token[7].token = ft_strdup("\"");
 		else
 			data->token[8].token = NULL;
 	}

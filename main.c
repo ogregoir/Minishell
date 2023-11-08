@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/08 00:02:02 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/03 23:24:55 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +43,18 @@ int	check_err(t_lex *lex)
 	return (0);
 }
 
+void ft_free_list(t_lex *lex)
+{
+	t_lex* tmp;
+
+   while (lex != NULL)
+    {
+       tmp = lex;
+       lex = lex->next;
+       free(tmp);
+    }
+}
+
 static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
 	char	**str;
@@ -74,17 +87,23 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		ft_strlen(lex->content) == 2)
 	{
 		data->error_code = ft_cd(data, lex);
+		ft_free_split(str);
+		ft_free_list(lex);
 		return ;
 	}
 	if (ft_strncmp(lex->content, "unset", 5) == 0 && \
 		ft_strlen(lex->content) == 5)
 	{
 		data->error_code = ft_unset(lex, data);
+		ft_free_split(str);
+		ft_free_list(lex);
 		return ;
 	}
 	if (ft_strncmp(lex->content, "export", 6) == 0)
 	{
 		data->error_code = ft_export(lex, data);
+		ft_free_split(str);
+		ft_free_list(lex);
 		return ;
 	}
 	if (ft_export3(data, lex, str) == 1)
@@ -98,7 +117,21 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if (lex->next && lex->type == 1)
 		lex = lex->next;
 	ft_not_builtin(lex, data);
+	ft_free_split(str);
+	ft_free_list(lex);
 	return ;
+}
+
+void ft_free_global(t_global *data)
+{
+	int i;
+	
+	i = 0;
+	while(i <= 8)
+	{
+		free(data->token[i].token);
+		i++;
+	}
 }
 
 int	main(int argc, char **argv, char **env)
@@ -111,8 +144,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (!env[0])
 		exit(1);
-	data = malloc(sizeof(t_global));
 	non_canonique();
+	data = malloc(sizeof(t_global));
 	signal(SIGQUIT, ft_controles);
 	signal(SIGINT, ft_controles);
 	ft_init_token(data);
@@ -126,7 +159,10 @@ int	main(int argc, char **argv, char **env)
 			signal(SIGINT, ft_ctrlb);
 		free(input);
 		if (input == NULL)
-			exit(data->error_code);	
+		{
+			ft_free_global(data);
+			exit(data->error_code);
+		}
 		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
 	}
