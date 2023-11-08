@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 03:38:01 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/07 23:43:59 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 			break ;
 		i = 0;
 	}
-	str[j] = NULL;
+	ft_free_split(str);
+	free(line);
 	return (lex);
 }

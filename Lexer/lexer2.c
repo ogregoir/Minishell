@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 18:12:41 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:44:26 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data)
 	str = go_next(str, s);
 	if (str != NULL || s != NULL)
 		lex = ft_check_type(str, lex, 0, 0, data);
+	if(str != NULL)
+		free(str);
 	return (lex);
 }
 
@@ -56,12 +58,14 @@ int	ft_nbr_space(char **str)
 	return (j);
 }
 
-t_lex	*ft_join(t_lex *lex, t_global *data)
+t_lex	*ft_join(t_lex *tofree, t_global *data)
 {
 	t_lex	*tmp;
+	t_lex	*lex;
 	char	*str;
 
 	tmp = NULL;
+	lex = tofree;
 	while (lex->next)
 	{
 		while (lex->next && ft_strncmp(lex->content, " ", 1) == 0 && \
@@ -117,5 +121,6 @@ t_lex	*ft_join(t_lex *lex, t_global *data)
 		tmp = ft_lstnew(lex->content, lex->type);
 	else if (ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
 		addcontent(tmp, lex->content, lex->type);
+	ft_free_list(tofree);
 	return (tmp);
 }

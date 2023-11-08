@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/02 00:04:25 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/07 22:26:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,15 @@ int	ft_check_nbr(char *str)
 void	ft_free_split(char **split)
 {
 	int		i;
-	char	*tmp;
 
 	i = 0;
+	if(!split)
+		return ;
 	while (split[i] != NULL)
 	{
-		tmp = split[i];
+		free(split[i]);
+		split[i] = NULL;
 		i++;
-		free(tmp);
 	}
 	free(split);
 	split = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 14:30:29 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/08 00:24:23 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,31 @@ void	ft_dollar(t_lex *lex, t_global *data)
 	}
 }
 
-void	ft_free_oldpwd(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-			env[i] = NULL;
-		i++;
-	}
-}
-
 char	**create_env(char **env, t_global *data)
 {
 	char	**envmini;
 	int		i;
+	int		j;
 
 	i = 0;
 	while (env[i])
 		i++;
 	data->size_env = i;
-	envmini = malloc(sizeof(char **) * i + 1);
+	envmini = malloc(sizeof(char *) * (i + 1));
+	j = 0;
 	i = 0;
-	while (env[i])
+	while (j < data->size_env - 1)
 	{
-		envmini[i] = ft_strdup(env[i]);
-		i++;
-	}
-	ft_free_oldpwd(envmini);
+		if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
+			{
+				envmini[i] = ft_strdup(env[j]);
+				i++;
+			}
+		else
+			j++;
+		j++;
+}
+	envmini[i] = NULL;
 	return (envmini);
 }
 

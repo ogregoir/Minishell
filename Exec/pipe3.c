@@ -145,6 +145,7 @@ void	pipex(t_lex *lex, t_global *datas, int nbrpipe)
 		i++;
 	}
 	close_pipe(fd, data.pipenbr);
+	free(pid);
 	unlink("temp");
 }
 
