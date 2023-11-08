@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/04 15:10:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/08 06:47:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,40 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
-void	ft_free_oldpwd(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-			env[i] = NULL;
-		i++;
-	}
-}
-
 char	**create_env(char **env, t_global *data)
 {
 	char	**envmini;
 	int		i;
+	int		j;
+	int		size;
 
 	i = 0;
-	while (env[i])
-		i++;
-	data->size_env = i;
-	envmini = malloc(sizeof(char **) * i + 1);
-	i = 0;
+	size = 0;
+	/*if (!env)
+	{
+		envmini = malloc(sizeof(char **) + 1);
+		envmini[i] = NULL;
+		return (envmini);
+	}*/
 	while (env[i])
 	{
-		envmini[i] = ft_strdup(env[i]);
+		if (ft_strncmp("OLDPWD=", env[i], 7) != 0)
+            size++;
 		i++;
 	}
-	ft_free_oldpwd(envmini);
+	data->size_env = size;
+	envmini = malloc(sizeof(char *) * (size + 1));
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (ft_strncmp("OLDPWD=", env[i], 7) != 0)
+		{
+			envmini[j] = ft_strdup(env[i]);
+			j++;
+		}
+		i++;
+	}
+	envmini[j] = NULL;
 	return (envmini);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/08 01:59:58 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/08 05:00:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,7 @@ void	ft_error(char *arg, char *str, char *s, int pid);
 void	ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
 
-//void	ft_free_oldpwd(char **env);
-void	ft_free_char(char **str);
+void	ft_free_char(t_global *data);
 //void	ft_print_sv(t_global *data);
 
 #endif

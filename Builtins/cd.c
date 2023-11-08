@@ -18,13 +18,13 @@ char	*ft_back(char *buf)
 	char	*newbuf;
 
 	i = ft_strlen(buf);
-	newbuf = malloc((ft_strlen(buf)) - 1);
 	while (buf[i] != 47)
 		i--;
 	if (i == 0)
 		newbuf = ft_substr(buf, 0, 1);
 	else
 		newbuf = ft_substr(buf, 0, i);
+	free (buf);
 	return (newbuf);
 }
 
@@ -42,6 +42,8 @@ char	*ft_forward(char *buf, char *line)
 	}
 	else
 		newbuf = ft_strjoin(temp, line);
+	free (temp);
+	free (bis);
 	return (newbuf);
 }
 
@@ -61,6 +63,7 @@ int	ft_verif_cd(t_lex *lex, t_global *data)
 		{
 			buf = ft_strdup(getenv("HOME"));
 			chdir(buf);
+			free (buf);
 			return (2);
 		}
 	}
@@ -86,7 +89,10 @@ int	ft_cd(t_global *data, t_lex *lex)
 	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)
 	{
 		if (ft_strlen(lex->content) == 1)
+		{
+			free (buf);
 			return (0);
+		}
 		else
 			buf = ft_back(buf);
 	}
@@ -96,6 +102,7 @@ int	ft_cd(t_global *data, t_lex *lex)
 		buf = ft_forward(buf, lex->content);
 	else
 	{
+		free (buf);
 		ft_error("cd: ", lex->content, ": No such file or directory\n", 0);
 		return (1);
 	}

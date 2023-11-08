@@ -79,17 +79,24 @@ char	*ft_get_env(char *str, char **env)
 	return (ret);
 }
 
-char	**ft_free_char(char **str)
+void	ft_free_char(t_global *data)
 {
 	int	i;
 
 	i = 0;
-	if (!str || str[i] == NULL)
+	if (!data->envmini || data->envmini[i] == NULL)
 		return ;
-	while (str[i])
+	while (data->envmini[i])
 	{
-		free(str[i]);
+		free(data->envmini[i]);
 		i++;
 	}
-	return (str);
+	i = 0;
+	if (data->env_exp || data->env_exp[i] == NULL)
+		return ;
+	while (data->env_exp[i])
+	{
+		free(data->env_exp);
+		i++;
+	}
 }

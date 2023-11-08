@@ -166,7 +166,6 @@ int	main(int argc, char **argv, char **env)
 		check_line(data, rl_line_buffer, &lex);
 		input = readline("minishell: ");
 	}
-	data->envmini = ft_free_char(data->envmini);
-	data->env_exp = ft_free_char(data->env_exp);
+	ft_free_char(data);
 	return (data->error_code);
 }
