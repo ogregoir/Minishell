@@ -99,7 +99,6 @@ void	ft_moove_env(char *oldbuf, char *str, t_global *data)
 
 int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
 {
-	(void)data;
 	if (access(buf, F_OK | R_OK) == 0 && buf != NULL)
 	{
 		ft_moove_env(oldbuf, "OLDPWD=", data);
