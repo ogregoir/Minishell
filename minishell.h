@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/08 05:00:59 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/10 05:32:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_lex	*check_dollar(t_lex *lex, t_global *data, char *s);
 t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 void	ft_free_list(t_lex *lex);
 
-
 	/*Builtins*/
 int		ft_builtin(char *content, int type);
 void	exec_builtin_pipe(int file, t_global *data, t_lex *lex);
@@ -96,7 +95,6 @@ int		ft_pwd(int file);
 int		ft_env(t_lex *lex, t_global *data, int file);
 int		ft_echo(t_lex *lex, int file);
 int		ft_cd(t_global *data, t_lex *lex);
-int		ft_verif_cd(t_lex *lex, t_global *data);
 int		ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf);
 int		ft_export(t_lex *lex, t_global *data);
 void	ft_export2(char *str, t_global *data);
@@ -166,6 +164,8 @@ void	ft_init_token(t_global *data);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
 
 void	ft_free_char(t_global *data);
+void	ft_free_list(t_lex *lex);
+void	ft_free_global(t_global *data);
 //void	ft_print_sv(t_global *data);
 
 #endif

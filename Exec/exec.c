@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/07 23:57:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 03:56:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 char	*ft_find_path(char *arg, int i, t_global *data)
 {
 	char	**cmd;
+	char	*temp;
 	int		j;
 	char	*path;
 	char	*ret;
@@ -53,9 +54,12 @@ char	*ft_find_path(char *arg, int i, t_global *data)
 	if (data->envmini[j] == NULL)
 		ft_error("Didn't find a path", "", "", 1);
 	cmd = ft_split(data->envmini[j], ':');
-	cmd[0] = ft_strtrim(cmd[0], "PATH=");
+	temp = ft_strdup(cmd[0]);
+	free(cmd[0]);
+	cmd[0] = ft_strdup(temp);
 	ret = ft_find_cmd(cmd, arg);
 	ft_free_split(cmd);
+	free(temp);
 	return (ret);
 }
 

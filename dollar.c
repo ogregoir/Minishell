@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/08 00:24:23 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 05:09:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ char	**create_env(char **env, t_global *data)
 	while (j < data->size_env - 1)
 	{
 		if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
-			{
-				envmini[i] = ft_strdup(env[j]);
-				i++;
-			}
+		{
+			envmini[i] = ft_strdup(env[j]);
+			i++;
+		}
 		else
 			j++;
 		j++;
-}
+	}
 	envmini[i] = NULL;
 	return (envmini);
 }

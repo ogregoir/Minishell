@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/08 06:47:13 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/08 16:16:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,40 +63,30 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
-char	**create_env(char **env, t_global *data)
+char    **create_env(char **env, t_global *data)
 {
-	char	**envmini;
-	int		i;
-	int		j;
-	int		size;
+    char    **envmini;
+    int        i;
+    int        j;
 
-	i = 0;
-	size = 0;
-	/*if (!env)
-	{
-		envmini = malloc(sizeof(char **) + 1);
-		envmini[i] = NULL;
-		return (envmini);
-	}*/
-	while (env[i])
-	{
-		if (ft_strncmp("OLDPWD=", env[i], 7) != 0)
-            size++;
-		i++;
-	}
-	data->size_env = size;
-	envmini = malloc(sizeof(char *) * (size + 1));
-	i = 0;
-	j = 0;
-	while (env[i])
-	{
-		if (ft_strncmp("OLDPWD=", env[i], 7) != 0)
-		{
-			envmini[j] = ft_strdup(env[i]);
-			j++;
-		}
-		i++;
-	}
-	envmini[j] = NULL;
-	return (envmini);
+    i = 0;
+    while (env[i])
+        i++;
+    data->size_env = i;
+    envmini = malloc(sizeof(char *) * (i + 1));
+    j = 0;
+    i = 0;
+    while (j < data->size_env)
+    {
+        if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
+        {
+            envmini[i] = ft_strdup(env[j]);
+            i++;
+            j++;
+        }
+        else
+            j++;
+    }
+    envmini[i] = NULL;
+    return (envmini);
 }
