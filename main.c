@@ -51,8 +51,9 @@ void ft_free_list(t_lex *lex)
     {
        tmp = lex;
        lex = lex->next;
-       free(tmp);
-    }
+	   free(tmp->content);
+	   tmp->content = NULL;
+	}
 }
 
 static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
@@ -60,7 +61,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	char	**str;
 	int		l;
 
-	lex = NULL;
 	l = 0;
 	if (l == 1)
 		return ;
@@ -75,7 +75,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if (!lex)
 		lex = ft_lexer(str, lex, data);
 	lex = dollar_lexer(lex, data);
-	//print_lexer(lex);
 	if (!lex || check_err(lex) == 1)
 		return ;
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
@@ -118,7 +117,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if (lex->next && lex->type == 1)
 		lex = lex->next;
 	ft_not_builtin(lex, data);
-	ft_free_split(str);
 	ft_free_list(lex);
 	return ;
 }
@@ -137,7 +135,7 @@ void ft_free_global(t_global *data)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_lex		lex;
+	t_lex		*lex;
 	t_global	*data;
 	char		*input;
 
@@ -145,6 +143,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (!env[0])
 		exit(1);
+	lex = NULL;
 	non_canonique();
 	data = malloc(sizeof(t_global));
 	signal(SIGQUIT, ft_controles);	
@@ -164,7 +163,7 @@ int	main(int argc, char **argv, char **env)
 			ft_free_global(data);
 			exit(data->error_code);
 		}
-		check_line(data, rl_line_buffer, &lex);
+		check_line(data, rl_line_buffer, lex);
 		input = readline("minishell: ");
 	}
 	ft_free_global(data);

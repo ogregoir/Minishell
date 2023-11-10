@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/07 23:57:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:57:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 		i++;
 		free(tmp2);
 	}
+	ft_free_split(cmd);
 	ft_error(arg, ": command not found", "", 0);
 	return (NULL);
 }
@@ -36,6 +37,7 @@ char	*ft_find_cmd(char **cmd, char *arg)
 char	*ft_find_path(char *arg, int i, t_global *data)
 {
 	char	**cmd;
+	char	*trim;
 	int		j;
 	char	*path;
 	char	*ret;
@@ -53,7 +55,10 @@ char	*ft_find_path(char *arg, int i, t_global *data)
 	if (data->envmini[j] == NULL)
 		ft_error("Didn't find a path", "", "", 1);
 	cmd = ft_split(data->envmini[j], ':');
-	cmd[0] = ft_strtrim(cmd[0], "PATH=");
+	trim = ft_strtrim(cmd[0], "PATH=");
+	free(cmd[0]);
+	cmd[0] = ft_strdup(trim);
+	free(trim);
 	ret = ft_find_cmd(cmd, arg);
 	ft_free_split(cmd);
 	return (ret);

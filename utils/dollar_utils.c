@@ -72,17 +72,17 @@ char	*ft_convert_dollar(char *input, char *err_code, int size, t_global *data)
 		}
 	}
 	ft_strncpy(linepos, input, ft_strlen(input));
+	free(err_code);
+	free(cpy);
 	return (line);
 }
 
-t_lex	*dollar_lexer(t_lex *tofree, t_global *data)
+t_lex	*dollar_lexer(t_lex *lex, t_global *data)
 {
 	char	*tmp2;
 	t_lex	*tmp;
-	t_lex	*lex;
 
 	tmp = NULL;
-	lex = tofree;
 	while (lex)
 	{
 		if (lex->type == 0)
@@ -101,6 +101,8 @@ t_lex	*dollar_lexer(t_lex *tofree, t_global *data)
 					tmp = ft_lstnew(tmp2, 8);
 				else
 					addcontent(tmp, tmp2, 8);
+				if(lex->next && lex->next->next)
+					lex = lex->next;
 			}
 		}
 		else if (!tmp)
@@ -109,6 +111,5 @@ t_lex	*dollar_lexer(t_lex *tofree, t_global *data)
 			addcontent(tmp, lex->content, lex->type);
 		lex = lex->next;
 	}
-	ft_free_list(tofree);
 	return (tmp);
 }

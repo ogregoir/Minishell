@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/07 22:26:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:17:12 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_free_split(char **split)
 		split[i] = NULL;
 		i++;
 	}
+	split[i] = NULL;
 	free(split);
 	split = NULL;
 }
