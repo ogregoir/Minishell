@@ -12,7 +12,6 @@
 
 #include "../minishell.h"
 
-
 char	*ft_last_ele(t_lex *lex)
 {
 	char	*ret;

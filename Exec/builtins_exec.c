@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/03 11:33:37 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:55:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_builtin(char *content, int type)
+int	ft_builtin(char *content, int type)
 {
 	if (ft_strncmp(content, "echo", 4) == 0 && ft_strlen(content) == 4)
 		return (0);
@@ -29,7 +29,7 @@ int ft_builtin(char *content, int type)
 	return (1);
 }
 
-void ft_exec_main(int file, t_lex *lex, t_global *data)
+void	ft_exec_main(int file, t_lex *lex, t_global *data)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 &&
 		ft_strlen(lex->content) == 4)
@@ -44,13 +44,11 @@ void ft_exec_main(int file, t_lex *lex, t_global *data)
 	else if (ft_strncmp(lex->content, "env", 3) == 0 &&
 			 ft_strlen(lex->content) == 3)
 		data->error_code = ft_env(lex, data, file);
-	else if (lex->type == 0)
-		data->error_code = ft_dollar_env(lex, data);
 }
 
-void check_file(t_lex *lex)
+void	check_file(t_lex *lex)
 {
-	t_lex *tmp;
+	t_lex	*tmp;
 
 	tmp = lex;
 	while (tmp)
@@ -70,10 +68,10 @@ void check_file(t_lex *lex)
 	}
 }
 
-t_lex *ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
 {
-	int file;
-	int old;
+	int	file;
+	int	old;
 
 	file = 1;
 	if (child == 1)

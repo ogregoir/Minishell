@@ -99,5 +99,7 @@ void	ft_export2(char *str, t_global *data)
 			return ;
 		ft_insert_env(data, str, i);
 	}
+	if (s != NULL)
+		free(s);
 	maj_env_exp(data, str, i);
 }

@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,63 +6,61 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/06 17:06:29 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:35:36 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_lexer(t_lex *lex)
+int	check_err(t_lex *lex)
 {
 	t_lex	*tmp;
 
 	tmp = lex;
-	while (tmp)
+	while (tmp->next)
+		tmp = tmp->next;
+	if (tmp->type == 1)
 	{
-		printf("-------------------\n");
-		printf("%s\n", tmp->content);
-		printf("%u\n", tmp->type);
-		printf("-------------------\n");
-		tmp = tmp->next;
-	}
-}
-
-int check_err(t_lex *lex)
-{
-	t_lex *tmp;
-	
-	tmp = lex;
-	while(tmp->next)
-		tmp = tmp->next;
-	if(tmp->type == 1)
-		{
 		ft_error("", "", "syntax error near unexpected token `|'", 1);
 		return (1);
-		}
+	}
 	return (0);
 }
 
-void ft_free_list(t_lex *lex)
+int	ft_check_builtins(t_global *data, t_lex *lex)
 {
-	t_lex* tmp;
-
-   while (lex != NULL)
-    {
-       tmp = lex;
-       lex = lex->next;
-	   free(tmp->content);
-	   tmp->content = NULL;
+	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
+		ft_strlen(lex->content) == 4)
+	{
+		ft_exit(lex, data);
+		return (0);
 	}
+	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
+		ft_strlen(lex->content) == 2)
+	{
+		data->error_code = ft_cd(data, lex);
+		return (0);
+	}
+	if (ft_strncmp(lex->content, "unset", 5) == 0 && \
+		ft_strlen(lex->content) == 5)
+	{
+		data->error_code = ft_unset(lex, data);
+		return (0);
+	}
+	if (ft_strncmp(lex->content, "export", 6) == 0 && \
+		ft_strlen(lex->content) == 6)
+	{
+		data->error_code = ft_export(lex, data);
+		return (0);
+	}
+	return (1);
 }
 
 static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
 	char	**str;
-	int		l;
 
-	l = 0;
-	if (l == 1)
-		return ;
+	lex = NULL;
 	if (ft_detect_quotes(rl_line_buffer) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
@@ -77,31 +74,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	lex = dollar_lexer(lex, data);
 	if (!lex || check_err(lex) == 1)
 		return ;
-	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
-		ft_strlen(lex->content) == 4)
-		{
-			ft_exit(lex, data);
-			return ;
-		}
-	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
-		ft_strlen(lex->content) == 2)
+	if (ft_check_builtins(data, lex) == 0)
 	{
-		data->error_code = ft_cd(data, lex);
-		ft_free_split(str);
-		ft_free_list(lex);
-		return ;
-	}
-	if (ft_strncmp(lex->content, "unset", 5) == 0 && \
-		ft_strlen(lex->content) == 5)
-	{
-		data->error_code = ft_unset(lex, data);
-		ft_free_split(str);
-		ft_free_list(lex);
-		return ;
-	}
-	if (ft_strncmp(lex->content, "export", 6) == 0)
-	{
-		data->error_code = ft_export(lex, data);
 		ft_free_split(str);
 		ft_free_list(lex);
 		return ;
@@ -121,18 +95,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	return ;
 }
 
-void ft_free_global(t_global *data)
-{
-	int i;
-	
-	i = 0;
-	while(i <= 8)
-	{
-		free(data->token[i].token);
-		i++;
-	}
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_lex		*lex;
@@ -146,7 +108,7 @@ int	main(int argc, char **argv, char **env)
 	lex = NULL;
 	non_canonique();
 	data = malloc(sizeof(t_global));
-	signal(SIGQUIT, ft_controles);	
+	signal(SIGQUIT, ft_controles);
 	signal(SIGINT, ft_controles);
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
@@ -166,6 +128,6 @@ int	main(int argc, char **argv, char **env)
 		check_line(data, rl_line_buffer, lex);
 		input = readline("minishell: ");
 	}
-	ft_free_global(data);
-	exit(data->error_code);
+	ft_free_char(data);
+	return (data->error_code);
 }

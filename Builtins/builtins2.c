@@ -38,14 +38,14 @@ void	ft_unset2(char *str, t_global *data)
 	int	i;
 
 	i = 0;
-	if (str == NULL)
+	if (str == NULL || str[0] == '\0')
 		return ;
-	while (data->envmini[i])
+	while (data->envmini[i] != NULL)
 	{
 		if (ft_strncmp(data->envmini[i], str, ft_strlen(str)) == 0)
 		{
 			free (data->envmini[i]);
-			while (data->envmini[i])
+			while (data->envmini[i] != NULL)
 			{
 				data->envmini[i] = data->envmini[i + 1];
 				i++;
@@ -70,24 +70,30 @@ int	ft_unset(t_lex *lex, t_global *data)
 void	ft_moove_env(char *oldbuf, char *str, t_global *data)
 {
 	int			i;
+	char		**new_envmini;
 
-	i = 0;
-	while (data->envmini[i] != NULL)
+	i = -1;
+	while (data->envmini[++i] != NULL)
 	{
-		if (ft_strncmp(data->envmini[i], str, 7) == 0)
+		if (ft_strncmp(data->envmini[i], str, ft_strlen(str)) == 0)
 		{
 			free(data->envmini[i]);
 			data->envmini[i] = ft_strjoin(str, oldbuf);
-			data->envmini[i + 1] = NULL;
 			return ;
 		}
+	}
+	i = 0;
+	new_envmini = malloc(sizeof(char *) * (data->size_env + 2));
+	while (data->envmini[i])
+	{
+		new_envmini[i] = ft_strdup(data->envmini[i]);
 		i++;
 	}
-	if (data->envmini[i] == NULL)
-	{
-		data->envmini[i] = ft_strjoin(str, oldbuf);
-		data->envmini[i + 1] = NULL;
-	}
+	new_envmini[i] = ft_strjoin(str, oldbuf);
+	new_envmini[i + 1] = NULL;
+	ft_free_split(data->envmini);
+	data->envmini = new_envmini;
+	data->size_env += 2;
 }
 
 int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
@@ -98,11 +104,14 @@ int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
 		ft_moove_env(buf, "PWD=", data);
 		chdir(buf);
 		free(buf);
+		free(oldbuf);
 		return (0);
 	}
 	else
 	{
-		ft_error("cd :", line, ": No such file or directory\n", 0);
+		free(oldbuf);
+		free(buf);
+		ft_error("cd : ", line, ": No such file or directory", 1);
 		return (1);
 	}
 }

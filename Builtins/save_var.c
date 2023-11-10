@@ -32,7 +32,7 @@ int	ft_verif_exp(t_lex *lex, t_global *data)
 
 void	ft_save_env_exp2(t_global *data, char **str, int j, int i)
 {
-	int	l;
+	int		l;
 
 	l = 0;
 	while (data->env_exp[l])
@@ -78,10 +78,11 @@ int	ft_export3(t_global *data, t_lex *lex, char **str)
 		}
 		return (2);
 	}
-	lex = lex->next;
+	ft_save_env_exp(data, str);
 	if (lex->next != NULL)
+	{
+		lex = lex->next;
 		ft_export3(data, lex, str);
-	else
-		ft_save_env_exp(data, str);
+	}
 	return (0);
 }
