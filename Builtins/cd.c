@@ -44,7 +44,7 @@ char	*ft_forward(char *buf, char *line)
 	else
 		newbuf = ft_strjoin(temp, line);
 	free (temp);
-	if (bis != NULL)
+	if (bis)
 		free (bis);
 	free (buf);
 	return (newbuf);

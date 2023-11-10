@@ -103,13 +103,14 @@ int	ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf)
 		ft_moove_env(oldbuf, "OLDPWD=", data);
 		ft_moove_env(buf, "PWD=", data);
 		chdir(buf);
-		free (buf);
+		free(buf);
 		free(oldbuf);
 		return (0);
 	}
 	else
 	{
 		free(oldbuf);
+		free(buf);
 		ft_error("cd : ", line, ": No such file or directory", 1);
 		return (1);
 	}
