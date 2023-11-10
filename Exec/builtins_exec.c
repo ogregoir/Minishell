@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/06 17:55:11 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/10 15:47:17 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
 			file = fd[i + 1][1];
 			ft_exec_main(file, lex, data);
 		}
-		exit(0);
+		exit(data->error_code);
 	}
 	else
 	{

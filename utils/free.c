@@ -15,12 +15,15 @@
 void	ft_free_list(t_lex *lex)
 {
 	t_lex	*tmp;
+	t_lex	*nextele;
 
-	while (lex != NULL)
+	tmp = lex;
+	while (tmp != NULL)
 	{
-		tmp = lex;
-		lex = lex->next;
-		free(tmp);
+		nextele = tmp->next;
+        free(tmp->content);
+        free(tmp);
+        tmp = nextele;
 	}
 }
 

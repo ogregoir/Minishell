@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/10 05:32:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/10 15:14:20 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
 int		ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
-char	*ft_last_ele(t_lex *lex);
+int		ft_last_ele(t_lex *lex, char *str);
 char	**create_env(char **env, t_global *data);
 int		ft_variable_exist(t_global *data, char *str);
 int		ft_len_malloc(char *input, char *err_code, int size, t_global *data);

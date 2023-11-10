@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/08 00:44:26 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 15:21:09 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ t_lex	*ft_join(t_lex *tofree, t_global *data)
 					ft_strlen(lex->next->content) == 1)
 			{
 				if (!tmp)
-					tmp = ft_lstnew(lex->content, lex->type);
+					tmp = ft_lstnew(ft_strdup(lex->content), lex->type);
 				else
-					addcontent(tmp, lex->content, lex->type);
+					addcontent(tmp, ft_strdup(lex->content), lex->type);
 			}
 			else if (lex->next)
 			{
@@ -104,23 +104,26 @@ t_lex	*ft_join(t_lex *tofree, t_global *data)
 			tmp = check_dollar(tmp, data, "?");
 		else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || \
 			ft_strlen(lex->content) != 1))
-			tmp = ft_lstnew(lex->content, lex->type);
+			tmp = ft_lstnew(ft_strdup(lex->content), lex->type);
 		else if (ft_strncmp(lex->content, " ", 1) != 0 || \
 			ft_strlen(lex->content) != 1)
-			addcontent(tmp, lex->content, lex->type);
+			addcontent(tmp, ft_strdup(lex->content), lex->type);
 		if (lex->next)
 			lex = lex->next;
 	}
 	if (ft_strncmp(lex->content, " ", 1) == 0 && \
 		ft_strlen(lex->content) == 1)
-		return (tmp);
+		{
+			ft_free_list(tofree);
+			return (tmp);
+		}
 	if (lex->type == 0 && \
 		ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
 		tmp = check_dollar(tmp, data, "?");
-	else if (!tmp && ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
-		tmp = ft_lstnew(lex->content, lex->type);
-	else if (ft_strncmp(ft_last_ele(tmp), str, ft_strlen(str) != 0))
-		addcontent(tmp, lex->content, lex->type);
+	else if (!tmp && ft_last_ele(tmp, str) == 1)
+		tmp = ft_lstnew(ft_strdup(lex->content), lex->type);
+	else if (ft_last_ele(tmp, str) == 1)
+		addcontent(tmp, ft_strdup(lex->content), lex->type);
 	ft_free_list(tofree);
 	return (tmp);
 }

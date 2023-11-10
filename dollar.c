@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 13:38:32 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:38:59 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**create_env(char **env, t_global *data)
 	envmini = malloc(sizeof(char *) * (i + 1));
 	j = 0;
 	i = 0;
-	while (j < data->size_env)
+	while (j < data->size_env - 1)
 	{
 		if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
 		{
@@ -51,7 +51,7 @@ char	**create_env(char **env, t_global *data)
 		else
 			j++;
 		j++;
-}
+	}
 	envmini[i] = NULL;
 	return (envmini);
 }

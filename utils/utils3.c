@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_last_ele(t_lex *lex)
+int	ft_last_ele(t_lex *lex, char *str)
 {
 	char	*ret;
 	t_lex	*tmp;
@@ -21,7 +21,13 @@ char	*ft_last_ele(t_lex *lex)
 	while (tmp->next)
 		tmp = tmp->next;
 	ret = ft_strdup(tmp->content);
-	return (ret);
+	if(ft_strncmp(ret, str, ft_strlen(str) != 0))
+		{
+			free(ret);
+			return(1);
+		}
+	free(ret);
+	return(0);
 }
 
 int	ft_variable_exist(t_global *data, char *str)

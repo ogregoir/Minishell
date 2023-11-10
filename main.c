@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/10 13:35:36 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 16:15:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		return ;
 	if (ft_check_builtins(data, lex) == 0)
 	{
-		ft_free_split(str);
+		if(str)
+			free(str);
 		ft_free_list(lex);
 		return ;
 	}
@@ -91,6 +92,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if (lex->next && lex->type == 1)
 		lex = lex->next;
 	ft_not_builtin(lex, data);
+	if(str)
+		free(str);
 	ft_free_list(lex);
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 04:07:32 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/10 14:37:30 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*go_next(char *str, char *s)
 t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 {
 	char	*s;
+	char	*next;
 
 	s = NULL;
 	if (str == NULL)
@@ -44,11 +45,12 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 				lex = ft_lstnew(s, data->token[j].type);
 			else
 				addcontent(lex, s, data->token[j].type);
-			str = go_next(str, s);
-			if (str != NULL || s != NULL)
-				lex = ft_check_type(str, lex, i, 0, data);
+			next = go_next(str, s);
 			if(str != NULL)
 				free(str);
+			if (next != NULL || s != NULL)
+				lex = ft_check_type(next, lex, i, 0, data);
+			free(next);
 			return (lex);
 		}
 		j++;
@@ -99,7 +101,7 @@ char	*check_next(char *str, int j, int l, t_global *data)
 			if (j < 2 && ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
 				l++;
 			if (j == 2)
-				return (str);
+				return (ft_strdup(str));
 			s = ft_substr(str, 0, l + 1);
 			return (s);
 		}

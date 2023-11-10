@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/08 02:00:45 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/10 16:14:24 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 
 	i = 0;
 	j = ft_malloc_quote(line);
-	str = malloc(sizeof(char *) * j + 1);
+	str = malloc(sizeof(char *) * (j + 1));
 	j = 0;
 	while (line[i] != '\0')
 	{
@@ -112,7 +112,7 @@ t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 				lex = ft_lstnew(str[j], 8);
 			else
 				addcontent(lex, str[j], 8);
-			line = ft_substr(line, i, ft_strlen(line));
+			line = ft_substrfree(line, i, ft_strlen(line));
 			i = 0;
 		}
 		if (line[i] == '\0')
@@ -135,12 +135,12 @@ t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
 			i = ft_strlen(str[j - 1]) + 2;
 		else 
 			i = ft_strlen(str[j - 1]);
-		line = ft_substr(line, i, ft_strlen(line));
+		line = ft_substrfree(line, i, ft_strlen(line));
 		if ((line[0] == 34 || line[0] == 39) && ft_strlen(line) == 1)
 			break ;
 		i = 0;
 	}
-	ft_free_split(str);
+	free(str);
 	free(line);
 	return (lex);
 }
