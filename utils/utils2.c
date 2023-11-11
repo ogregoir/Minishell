@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 16:04:40 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:57:23 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_len_malloc2(char *input, int size, t_global *data)
 			size = size + len;
 		input = end;
 		free(name);
+		free(env);
 	}
 	else
 		size = size + 1;

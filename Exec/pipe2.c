@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/11 00:35:44 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:58:56 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int check_redi_in(t_lex *lex)
 
 void ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, int file)
 {
+	check_dir(lex);
 	if (file != 0 && ft_builtin(lex->content, 1) != 0)
 	{
 		if (lex->next && lex->next->next  && lex->next->type == 4)

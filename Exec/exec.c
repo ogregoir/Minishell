@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 13:37:11 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:44:54 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*ft_find_cmd(char **cmd, char *arg)
 		free(tmp2);
 	}
 	ft_free_split(cmd);
-	ft_error(arg, ": command not found", "", 0);
+	ft_error(arg, ": command not found", "", 1);
+	exit(127);
 	return (NULL);
 }
 
@@ -106,8 +107,9 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	exit(127);
 }
 
-void	ft_not_builtin(t_lex *lex, t_global *data)
+void	ft_exec(t_lex *lex, t_global *data)
 {
+\
 	if (lex->type != 8 && lex->type != 4)
 		return ;
 	data->error_code = detect_pipe(lex, data);
