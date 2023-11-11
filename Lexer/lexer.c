@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 14:37:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 02:35:14 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 	char	*next;
 
 	s = NULL;
+	next = NULL;
 	if (str == NULL)
 		return (lex);
 	while (data->token[j].token != NULL)
@@ -46,11 +47,12 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
 			else
 				addcontent(lex, s, data->token[j].type);
 			next = go_next(str, s);
-			if(str != NULL)
-				free(str);
+		//	if(str != NULL)
+		//		free(str);
 			if (next != NULL || s != NULL)
 				lex = ft_check_type(next, lex, i, 0, data);
-			free(next);
+			if(next != NULL)
+				free(next);
 			return (lex);
 		}
 		j++;
@@ -79,7 +81,7 @@ char	*check_next2(char *str, int l)
 	char *ret;
 	l = copy_text(str);
 	if (l == 0)
-		return (str);
+		return (ft_strdup(str));
 	else
 	{
 		ret = ft_substr(str, 0, l);

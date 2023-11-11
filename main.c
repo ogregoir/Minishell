@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/10 16:15:30 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 02:39:06 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		str = ft_split(rl_line_buffer, ' ');
 	if (!lex)
 		lex = ft_lexer(str, lex, data);
+	//print_lexer(lex);
 	lex = dollar_lexer(lex, data);
 	if (!lex || check_err(lex) == 1)
 		return ;

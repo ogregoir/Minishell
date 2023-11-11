@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 15:21:09 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 02:37:35 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,25 @@
 
 t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data)
 {
+	char *new;
+
+	new = NULL;
 	s = check_next(str, j, 0, data);
-	if (s == NULL)
+	if (!s)
 		return (lex);
 	if (!lex)
 		lex = ft_lstnew(s, TOKEN_TEXT);
 	else
 		addcontent(lex, s, TOKEN_TEXT);
-	str = go_next(str, s);
-	if (str != NULL || s != NULL)
-		lex = ft_check_type(str, lex, 0, 0, data);
-	if(str != NULL)
-		free(str);
+	new = go_next(str, s);
+	if(ft_strlen(new) == 0)
+		{
+			free(new);
+			return(lex);
+		}
+	if (new != NULL || s != NULL)
+		lex = ft_check_type(new, lex, 0, 0, data);
+	free(new);
 	return (lex);
 }
 

@@ -108,6 +108,8 @@ t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data)
 	while (line[i])
 	{
 		lex = ft_check_type(line[i], lex, 0, 0, data);
+		free(line[i]);
+		line[i] = NULL;
 		i++;
 	}
 	return (lex);

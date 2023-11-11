@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/10 15:14:20 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/10 23:57:27 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,5 +167,6 @@ void	ft_free_char(t_global *data);
 void	ft_free_list(t_lex *lex);
 void	ft_free_global(t_global *data);
 //void	ft_print_sv(t_global *data);
+void	print_lexer(t_lex *lex);
 
 #endif

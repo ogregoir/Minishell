@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/07 22:09:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/11 00:35:44 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ void close_pipe(int **fd, int pipenbr)
 
 	j = 0;
 	while (j <= pipenbr)
-	{
+	{	
 		close(fd[j][0]);
 		close(fd[j][1]);
 		free(fd[j]);
+		fd[j] = NULL;
 		j++;
 	}
 	free(fd);

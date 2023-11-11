@@ -99,7 +99,10 @@ void	ft_pipex_main(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, 
 		if (lex->next)
 		{
 			if (lex->next->type == 3 || lex->next->type == 5 || lex->next->type == 2|| lex->next->type == 4)
-				ft_pipex_main(fd, i, lex, data, global, check_here_doc(lex, global));
+				{
+					ft_pipex_main(fd, i, lex, data, global, check_here_doc(lex, global));
+					return ;
+				}
 			if (lex->next->type == 8 && lex->type != 4 )
 				ft_pipex_in(fd, lex, data);
 		}

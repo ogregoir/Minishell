@@ -94,9 +94,9 @@ t_lex	*dollar_lexer(t_lex *tofree, t_global *data)
 			if (ft_strlen(lex->content) == 1)
 			{
 				if (!tmp)
-					tmp = ft_lstnew("$", 8);
+					tmp = ft_lstnew(ft_strdup("$"), 8);
 				else
-					addcontent(tmp, "$", 8);
+					addcontent(tmp, ft_strdup("$"), 8);
 			}
 			else
 			{
