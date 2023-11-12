@@ -38,8 +38,9 @@ char	*ft_convert_dollar(char *input, char *err_code, int size, t_global *data)
 		if (input[0] == '?')
 		{
 			ft_strncpy(linepos, err_code, ft_strlen(err_code));
-			linepos += ft_strlen(err_code);
 			input++;
+			if(input[0] != '\0')
+				linepos += ft_strlen(err_code);
 		}
 		else if (input[0] != '\0')
 		{
@@ -59,11 +60,10 @@ char	*ft_convert_dollar(char *input, char *err_code, int size, t_global *data)
 					linepos += ft_strlen(env);
 				}
 				else
-				{
-					ft_strncpy(linepos, name, ft_strlen(name));
 					linepos += len;
-				}
 				input = end;
+				free(env);
+				free(name);
 			}
 			else
 			{
@@ -73,7 +73,7 @@ char	*ft_convert_dollar(char *input, char *err_code, int size, t_global *data)
 		}
 	}
 	ft_strncpy(linepos, input, ft_strlen(input));
-	linepos[len - 1] = '\0';
+	linepos[len] = '\0';
 	free(err_code);
 	free(cpy);
 	return (line);
@@ -105,8 +105,6 @@ t_lex	*dollar_lexer(t_lex *tofree, t_global *data)
 					tmp = ft_lstnew(tmp2, 8);
 				else
 					addcontent(tmp, tmp2, 8);
-				if(lex->next && lex->next->next)
-					lex = lex->next;
 			}
 		}
 		else
