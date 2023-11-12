@@ -26,6 +26,19 @@ int	ft_already_exists(t_global *data, char *str, int i)
 	return (1);
 }
 
+int	verif_export(t_lex *lex)
+{
+	while (lex->next != NULL)
+	{
+		lex = lex->next;
+		if (ft_isalpha(lex->next->content[0]) == 0)
+			return (1);
+		if (ft_strchr(lex->content, 61) == 0)
+			return (1);
+	}
+	return (0);
+}
+
 int	ft_export(t_lex *lex, t_global *data)
 {
 	int	i;
@@ -40,8 +53,9 @@ int	ft_export(t_lex *lex, t_global *data)
 		}
 		return (0);
 	}
-	if (ft_isalpha(lex->next->content[0]) == 0)
-		return (1);
+	if (verif_export(lex) == 1)
+		return (0);
+	printf("ahhh %d\n", verif_export(lex) == 1);
 	while (lex->next != NULL)
 	{
 		lex = lex->next;
