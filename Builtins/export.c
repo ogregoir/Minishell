@@ -61,12 +61,9 @@ void	ft_insert_env(t_global *data, char *str, int i)
 		j++;
 	}
 	new_envmini = malloc(sizeof(char *) * (data->size_env + 2));
-	j = 0;
-	while (data->envmini[j])
-	{
+	j = -1;
+	while (data->envmini[++j])
 		new_envmini[j] = ft_strdup(data->envmini[j]);
-		j++;
-	}
 	new_envmini[j] = ft_strdup(str);
 	new_envmini[j + 1] = NULL;
 	ft_free_split(data->envmini);

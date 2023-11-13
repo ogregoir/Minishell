@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/11 18:57:23 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:59:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,14 @@ char    **create_env(char **env, t_global *data)
     }
     envmini[i] = NULL;
     return (envmini);
+}
+
+int	ft_strlen_char(t_global *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env_exp[i])
+		i++;
+	return (i);
 }
