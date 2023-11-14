@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/13 18:59:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/13 20:22:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	main(int argc, char **argv, char **env)
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
 	data->env_exp = malloc(sizeof(char *) * 1);
-	data->env_exp[0] = NULL;
 	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
 	{
