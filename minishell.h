@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/13 19:59:31 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/14 02:01:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,6 @@ void	ft_free_global(t_global *data);
 void	print_lexer(t_lex *lex);
 int		verif_export(t_lex *lex);
 int		ft_strlen_char(t_global *data);
+char	*ft_already_exists2(t_global *data, char *str, int i);
 
 #endif

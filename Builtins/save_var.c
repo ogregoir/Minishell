@@ -27,7 +27,41 @@ t_lex	*record_exp(t_lex *lex)
 
 void	ft_save_env_exp3(t_global *data, t_lex *lex, int count)
 {	
+	char	**n_env;
+	int 	l;
+	int		i;
+	int		j;
 
+	j = 0;
+	l = -1;
+	n_env = malloc(sizeof(char *) * (count + ft_strlen_char(data) + 1));
+	while (data->env_exp[++l])
+		n_env[j++] = ft_strdup(data->env_exp[l]);
+	n_env[j] = NULL;
+	while (lex)
+	{
+		l = -1;
+		i = 0;
+		while (lex->content[i] != 61)
+			i++;
+		while (n_env[++l])
+		{
+			if (ft_strncmp(n_env[l], lex->content, i) == 0)
+			{
+				free(n_env[l]);
+				n_env[l] = ft_strdup(lex->content);
+				break ;
+			}
+		}
+		if (n_env[l] == NULL)
+			n_env[j++] = ft_strdup(lex->content);
+		n_env[j] = NULL;
+		lex = lex->next;
+	}
+	if (!n_env)
+		return ;
+	ft_free_split(data->env_exp);
+	data->env_exp = n_env;
 }
 
 int	ft_save_env_exp2(t_global *data, t_lex *lex)
@@ -53,7 +87,7 @@ int	ft_save_env_exp2(t_global *data, t_lex *lex)
 }
 
 void	ft_save_env_exp(t_global *data, t_lex *lex)
-{/**/
+{
 	int		count;
 	int		i;
 
@@ -61,7 +95,7 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 	i = 0;
 	count = ft_save_env_exp2(data, lex);
 	printf("count = %d\n", count);
-	data = ft_save_env_exp3(data, lex, count);
+	ft_save_env_exp3(data, lex, count);
 	while (data->env_exp[i++])
 		printf("dt %s\n", data->env_exp[i]);
 	//printf("lex->content %s\n", lex->content);
