@@ -21,9 +21,9 @@ void	ft_free_list(t_lex *lex)
 	while (tmp != NULL)
 	{
 		nextele = tmp->next;
-        free(tmp->content);
-        free(tmp);
-        tmp = nextele;
+		free(tmp->content);
+		free(tmp);
+		tmp = nextele;
 	}
 }
 
@@ -64,10 +64,10 @@ void	ft_free_char(t_global *data)
 	}
 }
 
-void ft_free_global(t_global *data)
+void	ft_free_global(t_global *data)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i <= 8)
 	{

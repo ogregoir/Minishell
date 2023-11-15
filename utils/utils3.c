@@ -21,13 +21,13 @@ int	ft_last_ele(t_lex *lex, char *str)
 	while (tmp->next)
 		tmp = tmp->next;
 	ret = ft_strdup(tmp->content);
-	if(ft_strncmp(ret, str, ft_strlen(str) != 0))
-		{
-			free(ret);
-			return(1);
-		}
+	if (ft_strncmp(ret, str, ft_strlen(str) != 0))
+	{
+		free(ret);
+		return (1);
+	}
 	free(ret);
-	return(0);
+	return (0);
 }
 
 int	ft_variable_exist(t_global *data, char *str)

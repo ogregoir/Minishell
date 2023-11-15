@@ -40,8 +40,8 @@ int	ft_export(t_lex *lex, t_global *data)
 		}
 		return (0);
 	}
-	if (verif_export(lex) == 1)
-		return (0);
+	if (ft_isalpha(lex->next->content[0]) == 0)
+		return (1);
 	while (lex->next != NULL)
 	{
 		lex = lex->next;
@@ -103,7 +103,8 @@ int	ft_echo(t_lex *lex, int file)
 		if (!lex->next || lex->type == 4)
 			break ;
 		lex = lex->next;
-		if (lex->type == 3 || lex->type == 5 || lex->type == 1 || lex->type == 4)
+		if (lex->type == 3 || lex->type == 5 \
+		|| lex->type == 1 || lex->type == 4)
 			break ;
 	}
 	if (nl == 0)

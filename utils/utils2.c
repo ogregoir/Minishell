@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/13 19:59:12 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/15 15:53:38 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,30 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
-char    **create_env(char **env, t_global *data)
+char	**create_env(char **env, t_global *data)
 {
-    char    **envmini;
-    int        i;
-    int        j;
-
-    i = 0;
-    while (env[i])
-        i++;
-    data->size_env = i;
-    envmini = malloc(sizeof(char *) * (i + 1));
-    j = 0;
-    i = 0;
-    while (j < data->size_env)
-    {
-        if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
-        {
-            envmini[i] = ft_strdup(env[j]);
-            i++;
-            j++;
-        }
-        else
-            j++;
-    }
-    envmini[i] = NULL;
-    return (envmini);
-}
-
-int	ft_strlen_char(t_global *data)
-{
-	int	i;
+	char	**envmini;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (data->env_exp[i])
+	while (env[i])
 		i++;
-	return (i);
+	data->size_env = i;
+	envmini = malloc(sizeof(char *) * (i + 1));
+	j = 0;
+	i = 0;
+	while (j < data->size_env)
+	{
+		if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
+		{
+			envmini[i] = ft_strdup(env[j]);
+			i++;
+			j++;
+		}
+		else
+			j++;
+	}
+	envmini[i] = NULL;
+	return (envmini);
 }

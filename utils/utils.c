@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/11 19:03:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:54:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_free_split(char **split)
 	int		i;
 
 	i = 0;
-	if(!split)
+	if (!split)
 		return ;
 	while (split[i] != NULL)
 	{

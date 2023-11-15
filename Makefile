@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/11/10 05:23:22 by marvin           ###   ########.fr        #
+#    Updated: 2023/11/15 16:01:58 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS	=	main.c \
 			Exec/builtins_exec.c \
 			Exec/exec.c \
 			Exec/here_doc.c \
+			Exec/here_doc_utils.c \
 			Exec/pipe.c \
 			Exec/pipe2.c \
 			Exec/pipe3.c \
@@ -29,6 +30,7 @@ SRCS	=	main.c \
 			Lexer/lexerquotes.c \
 			utils/builtins_utils.c \
 			utils/dollar_utils.c \
+			utils/dollar_lexer.c \
 			utils/free.c \
 			utils/utils.c \
 			utils/utils2.c \

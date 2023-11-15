@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/11 02:46:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:43:34 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exit2(t_lex *lex, t_global *data)
 		exit (data->error_code);
 }
 
-void	 ft_exit(t_lex *lex, t_global *data)
+void	ft_exit(t_lex *lex, t_global *data)
 {
 	int	i;
 

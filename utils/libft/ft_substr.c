@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 14:33:37 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/11 02:25:49 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:44:32 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-
 char	*ft_substrfree(char *s, unsigned int start, size_t len)
 {
 	char		*str;
@@ -79,6 +78,7 @@ char	*ft_substrfree(char *s, unsigned int start, size_t len)
 	free(s);
 	return (str);
 }
+
 char	*ft_substr_free(char *s, unsigned int start, size_t len)
 {
 	char		*str;

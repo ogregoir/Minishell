@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/14 02:01:37 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/15 17:37:35 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ typedef struct s_lex
 	int				type;
 }t_lex;
 
+typedef struct s_dollar
+{
+	char	*dollar;//
+	char	*cpy;//
+	char	*env;//
+	char	*name;//
+	char	*end;
+	char	*line;//
+	char	*linepos;
+	char	*err_code;//
+	int		len;
+}t_dollar;
+
 typedef struct s_global
 {
 	char		**envmini;
@@ -70,6 +83,7 @@ typedef struct s_global
 	t_listtest	*token;
 	int			**fd;
 	int			*pid;
+	int			file;
 	int			error_code;
 }t_global;
 
@@ -100,15 +114,13 @@ int		ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf);
 int		ft_export(t_lex *lex, t_global *data);
 void	ft_export2(char *str, t_global *data);
 int		ft_verif_exp(t_lex *lex, t_global *data);
-int		ft_export3(t_lex *n_lex, t_global *data, char **str);
-t_lex	*record_exp(t_lex *lex);
+int		ft_export3(t_global *data, t_lex *lex, char **temp);
 int		ft_already_exists(t_global *data, char *str, int i);
 int		ft_unset(t_lex *lex, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file, int child);
 int		ft_multi_redi(t_lex *tmp);
 void	close_redi(int out, int file);
 int		ft_search_token(t_lex *lex);
-t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i);
 
 	/*Utils*/
 void	ft_free_split(char **split);
@@ -123,22 +135,22 @@ int		ft_variable_exist(t_global *data, char *str);
 int		ft_len_malloc(char *input, char *err_code, int size, t_global *data);
 char	*ft_strncpy(char *str, char *src, int i);
 char	*ft_get_env(char *str, char **env);
+char	*ft_convert_dollar(char *input, int size, t_global *data);
 
 	/*EXEC*/
-void	ft_exec(t_lex *lex, t_global *data);
+int		ft_exec(t_lex *lex, t_global *data);
 int		detect_pipe(t_lex *lex, t_global *data);
 int		ft_check_cmd(t_lex *lex, t_global *data);
 void	check_file(t_lex *lex);
 void	check_dir(t_lex *lex);
-
-
-
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_create_tmp(char *line, int temp);
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
-void	ft_pipex_child(int **fd, int i, t_lex *lex, t_pipe *data, t_global *global, int file);
+void	ft_pipex_child(int i, t_lex *lex, t_pipe *data, t_global *global);
 int		check_here_doc(t_lex *lex, t_global *data);
-
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i);
 
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
@@ -172,8 +184,5 @@ void	ft_free_list(t_lex *lex);
 void	ft_free_global(t_global *data);
 //void	ft_print_sv(t_global *data);
 void	print_lexer(t_lex *lex);
-int		verif_export(t_lex *lex);
-int		ft_strlen_char(t_global *data);
-char	*ft_already_exists2(t_global *data, char *str, int i);
 
 #endif

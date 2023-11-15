@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 15:47:17 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:41:41 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ int	ft_builtin(char *content, int type)
 
 void	ft_exec_main(int file, t_lex *lex, t_global *data)
 {
-	if (ft_strncmp(lex->content, "echo", 4) == 0 &&
+	if (ft_strncmp(lex->content, "echo", 4) == 0 && \
 		ft_strlen(lex->content) == 4)
 		data->error_code = ft_echo(lex, file);
-	else if (ft_strncmp(lex->content, "pwd", 3) == 0 &&
-			 ft_strlen(lex->content) == 3)
+	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && \
+		ft_strlen(lex->content) == 3)
 		data->error_code = ft_pwd(file);
 	else if (ft_strncmp(lex->content, "export", 6) == 0)
 		data->error_code = ft_export(lex, data);
 	else if (ft_strncmp(lex->content, "unset", 5) == 0)
 		data->error_code = ft_unset(lex, data);
-	else if (ft_strncmp(lex->content, "env", 3) == 0 &&
-			 ft_strlen(lex->content) == 3)
+	else if (ft_strncmp(lex->content, "env", 3) == 0 && \
+		ft_strlen(lex->content) == 3)
 		data->error_code = ft_env(lex, data, file);
 }
 
@@ -57,9 +57,10 @@ void	check_file(t_lex *lex)
 		{
 			if (access(tmp->next->content, F_OK) != 0)
 			{
-				if(tmp->type == 3 || tmp->type == 5)
+				if (tmp->type == 3 || tmp->type == 5)
 					break ;
-				ft_error(tmp->next->content,": No such file or directory", "",0);
+				ft_error(tmp->next->content, \
+				": No such file or directory", "", 0);
 			}
 			if (access(tmp->next->content, W_OK | R_OK) != 0)
 				ft_error(tmp->next->content, ": Permission denied", "", 0);
@@ -68,7 +69,7 @@ void	check_file(t_lex *lex)
 	}
 }
 
-t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
+t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i)
 {
 	int	file;
 	int	old;
@@ -85,7 +86,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int **fd, int i)
 		}
 		else
 		{
-			file = fd[i + 1][1];
+			file = data->fd[i + 1][1];
 			ft_exec_main(file, lex, data);
 		}
 		exit(data->error_code);
