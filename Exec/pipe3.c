@@ -144,8 +144,8 @@ void	ft_pipex_main(int i, t_lex *lex, t_pipe *data, t_global *g)
 				ft_pipex_in(g->fd, lex, data);
 		}
 	}
-	else if (data->in == 0)
-		dup2(g->fd[i][0], STDIN_FILENO);
+	else if (data->in == 0 && i > 0)
+			dup2(g->fd[i][0], STDIN_FILENO);
 	close_pipe(g->fd, data->pipenbr);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/15 17:39:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:06:07 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	char	**str;
 
 	lex = NULL;
-	if (ft_detect_quotes(rl_line_buffer) == 1)
+	if(rl_line_buffer[0] == '\0')
+		return ;
+	if (ft_detect_quotes(rl_line_buffer, 0, 0, 0) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
 		if (lex->next)

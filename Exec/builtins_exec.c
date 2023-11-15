@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/15 15:41:41 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 19:02:56 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	check_file(t_lex *lex)
 	t_lex	*tmp;
 
 	tmp = lex;
-	while (tmp)
+	while (tmp && tmp->type != 1)
 	{
 		if (tmp->next && tmp->type >= 2 && tmp->type <= 5 && tmp->type != 4)
 		{

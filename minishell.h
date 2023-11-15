@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/15 17:37:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:05:36 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	ft_free_split(char **split);
 int		ft_check_nbr(char *str);
 t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
-int		ft_detect_quotes(char *line);
+int		ft_detect_quotes(char *line, int i, int nbr_s, int nbr_d);
 char	*ft_strdup2(const char *src, int n);
 int		ft_last_ele(t_lex *lex, char *str);
 char	**create_env(char **env, t_global *data);
