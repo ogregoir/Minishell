@@ -46,8 +46,7 @@ char	*ft_already_exists2(t_global *data, char *str, int i)
 
 void	ft_insert_env(t_global *data, char *str, int i)
 {
-	int		j;
-	char	**new_envmini;
+	int	j;
 
 	j = 0;
 	while (data->envmini[j] != NULL)
@@ -60,15 +59,8 @@ void	ft_insert_env(t_global *data, char *str, int i)
 		}
 		j++;
 	}
-	new_envmini = malloc(sizeof(char *) * (data->size_env + 2));
-	j = -1;
-	while (data->envmini[++j])
-		new_envmini[j] = ft_strdup(data->envmini[j]);
-	new_envmini[j] = ft_strdup(str);
-	new_envmini[j + 1] = NULL;
-	ft_free_split(data->envmini);
-	data->envmini = new_envmini;
-	data->size_env += 2;
+	data->envmini[j] = ft_strdup(str);
+	data->envmini[j + 1] = NULL;
 }
 
 int	ft_search_i(char *str)

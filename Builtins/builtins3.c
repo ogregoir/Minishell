@@ -71,21 +71,8 @@ int	ft_echo_nl(t_lex **lex)
 	return (1);
 }
 
-int	ft_echo(t_lex *lex, int file)
+void	ft_echo2(t_lex *lex, int file, int nl)
 {
-	int	nl;
-
-	nl = 0;
-	if (!lex->next)
-	{
-		printf("\n");
-		return (0);
-	}
-	lex = lex->next;
-	nl = ft_echo_nl(&lex);
-	if (!lex)
-		return (0);
-	dup2(file, STDOUT_FILENO);
 	while (lex)
 	{
 		if (lex->next && lex->next->next && (lex->type == 3 || lex->type == 5))
@@ -101,10 +88,29 @@ int	ft_echo(t_lex *lex, int file)
 		if (!lex->next || lex->type == 4)
 			break ;
 		lex = lex->next;
-		if (lex->type == 3 || lex->type == 5 || lex->type == 1 || lex->type == 4)
+		if (lex->type == 3 || lex->type == 5 \
+		|| lex->type == 1 || lex->type == 4)
 			break ;
 	}
 	if (nl == 0)
-		ft_putendl_fd("", file);
+	ft_putendl_fd("", file);
+}
+
+int	ft_echo(t_lex *lex, int file)
+{
+	int	nl;
+
+	nl = 0;
+	if (!lex->next)
+	{
+		printf("\n");
+		return (0);
+	}
+	lex = lex->next;
+	nl = ft_echo_nl(&lex);
+	if (!lex)
+		return (0);
+	dup2(file, STDOUT_FILENO);
+	ft_echo2(lex, file, nl);
 	return (0);
 }

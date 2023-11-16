@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/11 18:44:54 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:46:03 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ char	*ft_find_cmd(char **cmd, char *arg)
 	return (NULL);
 }
 
-char	*ft_find_path(char *arg, int i, t_global *data)
+char	*ft_find_path(char *arg, int i, t_global *data, int j)
 {
 	char	**cmd;
 	char	*temp;
-	int		j;
 	char	*path;
 	char	*ret;
 
-	j = -1;
 	path = "PATH=";
 	while (data->envmini[++j])
 	{
@@ -87,7 +85,7 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	int		i;
 
 	i = 0;
- 	arg = malloc(sizeof(char *) * (ft_nbr_text(lex) + 1));
+	arg = malloc(sizeof(char *) * (ft_nbr_text(lex) + 1));
 	while (lex && (lex->type == 8 || lex->type == 0))
 	{
 		arg[i] = ft_strdup(lex->content);
@@ -97,7 +95,7 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	arg[i] = NULL;
 	if (access(arg[0], X_OK | F_OK) != 0)
 	{
-		cmd = ft_find_path(arg[0], 0, data);
+		cmd = ft_find_path(arg[0], 0, data, -1);
 		if (cmd == NULL)
 			exit(127);
 		execve(cmd, arg, data->envmini);
@@ -107,10 +105,11 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 	exit(127);
 }
 
-void	ft_exec(t_lex *lex, t_global *data)
+int	ft_exec(t_lex *lex, t_global *data)
 {
-\
 	if (lex->type != 8 && lex->type != 4)
-		return ;
+		return(data->error_code) ;
 	data->error_code = detect_pipe(lex, data);
+	return(data->error_code);
+
 }

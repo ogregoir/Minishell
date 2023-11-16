@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 06:16:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 06:51:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,30 +64,30 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
-char    **create_env(char **env, t_global *data)
+char	**create_env(char **env, t_global *data)
 {
-    char    **envmini;
-    int        i;
-    int        j;
+	char	**envmini;
+	int		i;
+	int		j;
 
-    i = 0;
-    while (env[i])
-        i++;
-    data->size_env = i;
-    envmini = malloc(sizeof(char *) * (i + 1));
-    j = 0;
-    i = 0;
-    while (j < data->size_env)
-    {
-        if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
-        {
-            envmini[i] = ft_strdup(env[j]);
-            i++;
-            j++;
-        }
-        else
-            j++;
-    }
-    envmini[i] = NULL;
-    return (envmini);
+	i = 0;
+	while (env[i])
+		i++;
+	data->size_env = i;
+	envmini = malloc(sizeof(char *) * (i + 1));
+	j = 0;
+	i = 0;
+	while (j < data->size_env)
+	{
+		if (ft_strncmp(env[j], "OLDPWD=", 7) != 0)
+		{
+			envmini[i] = ft_strdup(env[j]);
+			i++;
+			j++;
+		}
+		else
+			j++;
+	}
+	envmini[i] = NULL;
+	return (envmini);
 }

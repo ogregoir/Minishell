@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/16 06:30:33 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 06:57:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,42 +56,52 @@ int	ft_check_builtins(t_global *data, t_lex *lex)
 	return (1);
 }
 
-t_lex	*check_quote_line(t_lex *lex, char *rl_line_buffer, t_global *data, char **str)
+static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 {
-	if (ft_detect_quotes(rl_line_buffer) == 1)
+	char	**str;
+
+	lex = NULL;
+	if(rl_line_buffer[0] == '\0')
+		return ;
+	if (ft_detect_quotes(rl_line_buffer, 0, 0, 0) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
 		if (lex->next)
 			lex = ft_join(lex, data);
 	}
+	else
+		str = ft_split(rl_line_buffer, ' ');
 	if (!lex)
 		lex = ft_lexer(str, lex, data);
 	lex = dollar_lexer(lex, data);
-	return (lex);
-}
-
-static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
-{
-	char	**str;
-	
-	str = ft_split(rl_line_buffer, ' ');
-	lex = check_quote_line(lex, rl_line_buffer, data, str);
-	if (rl_line_buffer[0] == '\0')
-		return ;
 	if (!lex || check_err(lex) == 1)
 		return ;
 	if (ft_export3(lex, data, str) == 0)
-		return ;
+	{
+		//ft_free_list(lex);
+		return;
+	}
 	lex = record_exp(lex);
 	if (ft_check_builtins(data, lex) == 0)
 	{
-		if (str)
-			ft_free_split(str);
+		if(str)
+			free(str);
 		ft_free_list(lex);
 		return ;
 	}
-	ft_free_split(str);
-	ft_exec(lex, data);
+	if (ft_export3(data, lex, str) == 1)
+		return ;
+	else
+		data->error_code = ft_export3(data, lex, str);
+	if (data->error_code == 0)
+		return ;
+	if (rl_line_buffer[0] == '\0')
+		return ;
+	if (lex->next && lex->type == 1)
+		lex = lex->next;
+	data->error_code = ft_exec(lex, data);
+	if(str)
+		free(str);
 	ft_free_list(lex);
 	return ;
 }
@@ -114,7 +124,6 @@ int	main(int argc, char **argv, char **env)
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
 	data->env_exp = malloc(sizeof(char *) * 1);
-	data->env_exp[0] = NULL;
 	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
 	{
