@@ -3,24 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:17:35 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 08:16:19 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 10:43:53 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_detect_quotes(char *line)
+int	ft_detect_quotes2(int nbr_d, int nbr_s)
 {
-	int	i;
-	int	nbr_s;
-	int	nbr_d;
+	if (nbr_d == 0 && nbr_s == 0)
+		return (0);
+	nbr_s = nbr_s % 2;
+	nbr_d = nbr_d % 2;
+	if (nbr_d == 0 && nbr_s == 0)
+		return (1);
+	ft_error("Invalid numbers of quotes", "", "", 1);
+	exit (1);
+	return (0);
+}
 
-	i = 0;
-	nbr_s = 0;
-	nbr_d = 0;
+int	ft_detect_quotes(char *line, int i, int nbr_s, int nbr_d)
+{
 	while (line[i])
 	{
 		if (line[i] == 34)
@@ -28,6 +34,8 @@ int	ft_detect_quotes(char *line)
 			i++;
 			while (line[i] && line[i] != 34)
 				i++;
+			if (line[i] == 34)
+				nbr_d++;
 			nbr_d++;
 		}
 		else if (line[i] == 39)
@@ -35,20 +43,14 @@ int	ft_detect_quotes(char *line)
 			i++;
 			while (line[i] && line[i] != 39)
 				i++;
+			if (line[i] == 39)
+				nbr_s++;
 			nbr_s++;
 		}
-		else
+		if (line[i] != '\0')
 			i++;
 	}
-	if (nbr_d == 0 && nbr_s == 0)
-		return (0);
-	nbr_s = nbr_s % 2;
-	nbr_d = nbr_d % 2;
-	if (nbr_d == 0 && nbr_s == 0)
-		return (1);
-	ft_error("Invalid numbers of quotes\n", NULL, NULL, 1);
-	exit (1);
-	return (0);
+	return (ft_detect_quotes2(nbr_d, nbr_s));
 }
 
 int	ft_check_nbr(char *str)

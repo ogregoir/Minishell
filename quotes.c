@@ -6,19 +6,17 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/10 16:14:24 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:15:40 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_search_quote(char *line, char c)
+char	*ft_search_quote(char *line, char c, int i)
 {
-	int		i;
 	char	*str;
 	int		j;
 
-	i = 0;
 	while (line[i])
 	{
 		if (line[i] == c)
@@ -69,12 +67,12 @@ char	*ft_check_quote(char *line, int i)
 
 	if (line[i] == 34)
 	{
-		str = ft_search_quote(line, 34);
+		str = ft_search_quote(line, 34, 0);
 		return (str);
 	}
 	else if (line[i] == 39)
 	{
-		str = ft_search_quote(line, 39);
+		str = ft_search_quote(line, 39, 0);
 		return (str);
 	}
 	else
@@ -92,13 +90,11 @@ char	*ft_check_quote(char *line, int i)
 	return (line);
 }
 
-t_lex	*ft_quote(char *line, t_lex *lex, t_global *data)
+t_lex	*ft_quote(char *line, t_lex *lex, t_global *data, int i)
 {
 	char	**str;
-	int		i;
 	int		j;
 
-	i = 0;
 	j = ft_malloc_quote(line);
 	str = malloc(sizeof(char *) * (j + 1));
 	j = 0;

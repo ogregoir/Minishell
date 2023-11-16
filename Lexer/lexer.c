@@ -3,61 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 08:28:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 16:18:02 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*go_next(char *str, char *s)
+void	ft_check_type2(char *str, int j, t_global *data, t_lex **lex)
 {
-	char	*ret;
+	char	*next;
+	char	*s;
 	int		i;
 
+	next = NULL;
+	s = NULL;
 	i = 0;
-	ret = NULL;
-	if (str == NULL)
-		return (ret);
-	while (str[i] && str[i] == s[i])
-		i++;
-	if (i >= 1)
-		ret = ft_substr(str, i, ft_strlen(str));
-	return (ret);
+	s = check_next(str, j, 0, data);
+	if (!(*lex))
+		(*lex) = ft_lstnew(s, data->token[j].type);
+	else
+		addcontent((*lex), s, data->token[j].type);
+	next = go_next(str, s);
+	if (next != NULL || s != NULL)
+		(*lex) = ft_check_type(next, (*lex), i, data);
+	if (next != NULL)
+		free(next);
 }
 
-t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data)
+t_lex	*ft_check_type(char *str, t_lex *lex, int j, t_global *data)
 {
-	char	*s;
-	char	*next;
-
-	s = NULL;
-	next = NULL;
 	if (str == NULL)
 		return (lex);
 	while (data->token[j].token != NULL)
 	{
 		if (ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
 		{
-			s = check_next(str, j, 0, data);
-			if (!lex)
-				lex = ft_lstnew(s, data->token[j].type);
-			else
-				addcontent(lex, s, data->token[j].type);
-			next = go_next(str, s);
-		//	if(str != NULL)
-		//		free(str);
-			if (next != NULL || s != NULL)
-				lex = ft_check_type(next, lex, i, 0, data);
-			if(next != NULL)
-				free(next);
+			ft_check_type2(str, j, data, &lex);
 			return (lex);
 		}
 		j++;
 	}
-	lex = ft_text(s, str, j, lex, data);
+	lex = ft_text(str, j, lex, data);
 	return (lex);
 }
 
@@ -78,7 +67,8 @@ static int	copy_text(char *str)
 
 char	*check_next2(char *str, int l)
 {
-	char *ret;
+	char	*ret;
+
 	l = copy_text(str);
 	if (l == 0)
 		return (ft_strdup(str));
@@ -100,7 +90,8 @@ char	*check_next(char *str, int j, int l, t_global *data)
 		if (ft_isalnum(str[l]) == 0 && str[l] != ' ' \
 		&& str[l] != 47 && check_text(str[l]) == 1)
 		{
-			if (j < 2 && ft_strncmp(str, data->token[j].token, data->token[j].len) == 0)
+			if (j < 2 && ft_strncmp(str, data->token[j].token, \
+			data->token[j].len) == 0)
 				l++;
 			if (j == 2)
 				return (ft_strdup(str));

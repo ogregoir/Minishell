@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/16 08:16:54 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 16:19:33 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "utils/libft/libft.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
 
 typedef enum s_test
 {
@@ -53,6 +53,7 @@ typedef struct s_pipe
 {
 	int	in;
 	int	pipenbr;
+	int	out;
 }t_pipe;
 
 typedef struct s_lex
@@ -64,14 +65,14 @@ typedef struct s_lex
 
 typedef struct s_dollar
 {
-	char	*dollar;//
-	char	*cpy;//
-	char	*env;//
-	char	*name;//
+	char	*dollar;
+	char	*cpy;
+	char	*env;
+	char	*name;
 	char	*end;
-	char	*line;//
+	char	*line;
 	char	*linepos;
-	char	*err_code;//
+	char	*err_code;
 	int		len;
 }t_dollar;
 
@@ -88,10 +89,8 @@ typedef struct s_global
 }t_global;
 
 	/*Lexer*/
-t_lex	*ft_check_type(char *str, t_lex *lex, int i, int j, t_global *data);
 char	*check_next(char *str, int j, int l, t_global *data);
-void	ft_variables_env(char *line);
-t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data);
+t_lex	*ft_text(char *str, int j, t_lex *lex, t_global *data);
 t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data);
 char	*go_next(char *str, char *s);
 int		check_text(int text);
@@ -100,6 +99,8 @@ t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data);
 t_lex	*check_dollar(t_lex *lex, t_global *data, char *s);
 t_lex	*dollar_lexer(t_lex *lex, t_global *data);
 void	ft_free_list(t_lex *lex);
+t_lex	*ft_check_type(char *str, t_lex *lex, int j, t_global *data);
+char	*go_next(char *str, char *s);
 
 	/*Builtins*/
 int		ft_builtin(char *content, int type);
@@ -127,7 +128,6 @@ void	ft_free_split(char **split);
 int		ft_check_nbr(char *str);
 t_lex	*ft_lstnew(char *content, t_token_type i);
 void	addcontent(t_lex *list, char *content, t_token_type i);
-int		ft_detect_quotes(char *line);
 char	*ft_strdup2(const char *src, int n);
 int		ft_last_ele(t_lex *lex, char *str);
 char	**create_env(char **env, t_global *data);
@@ -136,6 +136,8 @@ int		ft_len_malloc(char *input, char *err_code, int size, t_global *data);
 char	*ft_strncpy(char *str, char *src, int i);
 char	*ft_get_env(char *str, char **env);
 char	*ft_convert_dollar(char *input, int size, t_global *data);
+int		ft_detect_quotes(char *line, int i, int nbr_s, int nbr_d);
+int		check_err(t_lex *lex);
 
 	/*EXEC*/
 int		ft_exec(t_lex *lex, t_global *data);
@@ -148,19 +150,20 @@ int		ft_create_tmp(char *line, int temp);
 void	close_pipe(int **fd, int pipenbr);
 int		**create_fd(int pipenbr, int **fd);
 void	ft_pipe_create(int pipenbr, int **fd);
+void	ft_pipex_main(int i, t_lex *lex, t_pipe *data, t_global *g);
 void	ft_pipex_child(int i, t_lex *lex, t_pipe *data, t_global *global);
 int		check_here_doc(t_lex *lex, t_global *data);
 t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i);
-
+void	endl(char *s, int fd);
+void	ft_pipex_in(int **fd, t_lex *lex, t_pipe *data);
 int		check_redi(t_lex *lex);
 int		check_redi_in(t_lex *lex);
 int		openfile(char *content, int mod);
 
-
 	/*quotes*/
-t_lex	*ft_quote(char *line, t_lex *lex, t_global *data);
+t_lex	*ft_quote(char *line, t_lex *lex, t_global *data, int i);
 char	*ft_check_quote(char *line, int i);
-char	*ft_search_quote(char *line, char c);
+char	*ft_search_quote(char *line, char c, int i);
 t_lex	*ft_join(t_lex *lex, t_global *data);
 
 	/*CONTROLES*/
@@ -176,13 +179,12 @@ int		error_arguments(void);
 int		ft_dollar_env(t_lex *lex, t_global *data);
 
 void	ft_error(char *arg, char *str, char *s, int pid);
-void	ft_init_token(t_global *data);
+void	ft_init_token(t_global *data, char **env);
 void	ft_moove_env(char *oldbuf, char *str, t_global *data);
 
 void	ft_free_char(t_global *data);
 void	ft_free_list(t_lex *lex);
 void	ft_free_global(t_global *data);
-//void	ft_print_sv(t_global *data);
 void	print_lexer(t_lex *lex);
 int		ft_strlen_char(t_global *data);
 t_lex	*record_exp(t_lex *lex);

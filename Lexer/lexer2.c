@@ -6,15 +6,16 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/11 02:37:35 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:37:35 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data)
+t_lex	*ft_text(char *str, int j, t_lex *lex, t_global *data)
 {
-	char *new;
+	char	*new;
+	char	*s;
 
 	new = NULL;
 	s = check_next(str, j, 0, data);
@@ -25,13 +26,13 @@ t_lex	*ft_text(char *s, char *str, int j, t_lex *lex, t_global *data)
 	else
 		addcontent(lex, s, TOKEN_TEXT);
 	new = go_next(str, s);
-	if(ft_strlen(new) == 0)
-		{
-			free(new);
-			return(lex);
-		}
+	if (ft_strlen(new) == 0)
+	{
+		free(new);
+		return (lex);
+	}
 	if (new != NULL || s != NULL)
-		lex = ft_check_type(new, lex, 0, 0, data);
+		lex = ft_check_type(new, lex, 0, data);
 	free(new);
 	return (lex);
 }
@@ -119,11 +120,11 @@ t_lex	*ft_join(t_lex *tofree, t_global *data)
 			lex = lex->next;
 	}
 	if (ft_strncmp(lex->content, " ", 1) == 0 && \
-		ft_strlen(lex->content) == 1)
-		{
-			ft_free_list(tofree);
-			return (tmp);
-		}
+	ft_strlen(lex->content) == 1)
+	{
+		ft_free_list(tofree);
+		return (tmp);
+	}
 	if (lex->type == 0 && \
 		ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
 		tmp = check_dollar(tmp, data, "?");

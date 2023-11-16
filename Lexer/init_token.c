@@ -66,7 +66,7 @@ void	ft_init_token3(t_global *data, int j)
 	}
 }
 
-void	ft_init_token(t_global *data)
+void	ft_init_token(t_global *data, char **env)
 {
 	int	j;
 
@@ -76,6 +76,9 @@ void	ft_init_token(t_global *data)
 	data->envmini = NULL;
 	data->fd = NULL;
 	data->pid = NULL;
+	data->envmini = create_env(env, data);
+	data->env_exp = malloc(sizeof(char *) * 1);
+	data->env_exp[0] = NULL;
 	while (j != 9)
 	{
 		if (j == 2 || j == 3 || j == 4 || j == 5)
@@ -83,7 +86,6 @@ void	ft_init_token(t_global *data)
 		else
 			ft_init_token2(data, j);
 		j++;
-
 	}
 }
 
@@ -107,7 +109,7 @@ t_lex	*ft_lexer(char **line, t_lex *lex, t_global *data)
 	lex = NULL;
 	while (line[i])
 	{
-		lex = ft_check_type(line[i], lex, 0, 0, data);
+		lex = ft_check_type(line[i], lex, 0, data);
 		free(line[i]);
 		line[i] = NULL;
 		i++;

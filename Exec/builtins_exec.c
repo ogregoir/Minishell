@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/15 19:02:56 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:10:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,35 @@ void	check_file(t_lex *lex)
 	}
 }
 
+void	builtin_child(t_lex *lex, int i, int old, t_global *data)
+{
+	int	file;
+
+	file = 1;
+	if (check_redi(lex) == 1)
+	{
+		file = ft_builtin_redi(lex, file, 1);
+		old = dup(STDOUT_FILENO);
+		ft_exec_main(file, lex, data);
+		close_redi(old, file);
+	}
+	else
+	{
+		file = data->fd[i + 1][1];
+		ft_exec_main(file, lex, data);
+	}
+}
+
 t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i)
 {
 	int	file;
 	int	old;
 
 	file = 1;
+	old = 0;
 	if (child == 1)
 	{
-		if (check_redi(lex) == 1)
-		{
-			file = ft_builtin_redi(lex, file, 1);
-			old = dup(STDOUT_FILENO);
-			ft_exec_main(file, lex, data);
-			close_redi(old, file);
-		}
-		else
-		{
-			file = data->fd[i + 1][1];
-			ft_exec_main(file, lex, data);
-		}
+		builtin_child(lex, i, old, data);
 		exit(data->error_code);
 	}
 	else

@@ -41,8 +41,9 @@ int	ft_save_env_exp2(t_global *data, t_lex *lex)
 		l = 0;
 		while (data->env_exp[l] != NULL)
 		{
-			if (ft_strncmp(data->env_exp[l], lex->content, ft_strchri(lex->content, 61)) == 0)
-				break;
+			if (ft_strncmp(data->env_exp[l], lex->content, \
+			ft_strchri(lex->content, 61)) == 0)
+				break ;
 			l++;
 		}
 		if (data->env_exp[l] == NULL)
@@ -53,9 +54,9 @@ int	ft_save_env_exp2(t_global *data, t_lex *lex)
 }
 
 void	ft_save_env_exp(t_global *data, t_lex *lex)
-{	
+{
 	char	**n_env;
-	int 	l;
+	int		l;
 	int		i;
 	int		j;
 	int		count;
@@ -91,7 +92,7 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 		if (n_env[l] == NULL)
 		{
 			free(n_env[j]);
-			n_env[j++] = ft_strdup(lex->content);	
+			n_env[j++] = ft_strdup(lex->content);
 			n_env[j] = NULL;
 		}
 		lex = lex->next;
@@ -123,7 +124,7 @@ int	ft_export3(t_lex *lex, t_global *data)
 	if (ft_strchr(lex->content, 61) == 0)
 		return (1);
 	if (verif_export(lex) == 0)
-	{	
+	{
 		ft_save_env_exp(data, lex);
 		return (0);
 	}

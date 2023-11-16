@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexerquotes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:23:43 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 08:28:27 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 16:17:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 t_lex	*ft_lexer_quotes2(t_lex *lex, char *s, int j, t_global *data)
 {
@@ -40,12 +39,12 @@ t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data)
 				lex = ft_lexer_quotes2(lex, s, j, data);
 				line = go_next(line, s);
 				if (line != NULL || s != NULL)
-					lex = ft_check_type(line, lex, i, 0, data);
+					lex = ft_check_type(line, lex, i, data);
 				return (lex);
 			}
 			j++;
 		}
-		lex = ft_text(s, line, j, lex, data);
+		lex = ft_text(line, j, lex, data);
 	}
 	return (lex);
 }

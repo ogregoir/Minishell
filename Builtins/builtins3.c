@@ -96,7 +96,7 @@ void	ft_echo2(t_lex *lex, int file, int nl)
 			break ;
 	}
 	if (nl == 0)
-	ft_putendl_fd("", file);
+		ft_putendl_fd("", file);
 }
 
 int	ft_echo(t_lex *lex, int file)

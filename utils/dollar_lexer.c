@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:00:37 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 08:08:35 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 11:01:19 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_dollar_err(t_dollar *d, char *input)
 {
 	ft_strncpy(d->linepos, d->err_code, ft_strlen(d->err_code));
 	input++;
-	if(input[0] != '\0')
+	if (input[0] != '\0')
 		d->linepos += ft_strlen(d->err_code);
 	return (input);
 }
@@ -76,21 +76,21 @@ char	*ft_convert_dollar2(t_dollar *d, char *input, t_global *data)
 		*d->linepos = '$';
 		d->linepos += 1;
 	}
-	return(input);
+	return (input);
 }
 
 char	*ft_convert_dollar(char *input, int size, t_global *data)
 {
-    t_dollar *d;
-	char	*ret;
+	t_dollar	*d;
+	char		*ret;
 
 	d = malloc(sizeof(t_dollar));
-    init_dollar(d, input, size, data);
+	init_dollar(d, input, size, data);
 	while (1)
 	{
 		d->dollar = ft_strnstr(input, "$", ft_strlen(input));
 		if (d->dollar == NULL)
-			break ;	
+			break ;
 		ft_strncpy(d->linepos, input, (d->dollar - input));
 		d->linepos += d->dollar - input;
 		input = d->dollar + 1;

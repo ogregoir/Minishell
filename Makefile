@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/11/15 16:01:58 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/11/16 16:11:05 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,14 @@ SRCS	=	main.c \
 			Builtins/save_var.c \
 			Exec/builtins_exec.c \
 			Exec/exec.c \
+			Exec/exec_main.c \
+			Exec/exec_utils.c \
 			Exec/here_doc.c \
 			Exec/here_doc_utils.c \
 			Exec/pipe.c \
 			Exec/pipe2.c \
 			Exec/pipe3.c \
+			Exec/redi_child.c \
 			Lexer/init_token.c \
 			Lexer/lexer.c \
 			Lexer/lexer2.c \
