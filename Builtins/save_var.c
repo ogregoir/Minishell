@@ -119,7 +119,7 @@ int	verif_export(t_lex *lex)
 	return (0);
 }
 
-int	ft_export3(t_lex *lex, t_global *data, char **str)
+int	ft_export3(t_lex *lex, t_global *data)
 {
 	data->error_code = 0;
 	if (ft_strchr(lex->content, 61) == 0)
@@ -132,7 +132,7 @@ int	ft_export3(t_lex *lex, t_global *data, char **str)
 	if (lex->next != NULL)
 	{
 		lex = lex->next;
-		ft_export3(lex, data, str);
+		ft_export3(lex, data);
 	}
 	return (0);
 }

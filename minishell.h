@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/16 06:51:26 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 07:12:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf);
 int		ft_export(t_lex *lex, t_global *data);
 void	ft_export2(t_lex *lex, t_global *data);
 int		ft_verif_exp(t_lex *lex, t_global *data);
-int		ft_export3(t_global *data, t_lex *lex, char **temp);
+int		ft_export3(t_lex *lex, t_global *data);
 int		ft_already_exists(t_global *data, char *str, int i);
 int		ft_unset(t_lex *lex, t_global *data);
 int		ft_builtin_redi(t_lex *lex, int file, int child);
@@ -184,5 +184,7 @@ void	ft_free_list(t_lex *lex);
 void	ft_free_global(t_global *data);
 //void	ft_print_sv(t_global *data);
 void	print_lexer(t_lex *lex);
+int		ft_strlen_char(t_global *data);
+t_lex	*record_exp(t_lex *lex);
 
 #endif

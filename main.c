@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/16 07:03:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 07:11:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	lex = dollar_lexer(lex, data);
 	if (!lex || check_err(lex) == 1)
 		return ;
-	if (ft_export3(data, lex, str) == 0)
+	if (ft_export3(lex, data) == 0)
 		return;
-	//lex = record_exp(lex);
+	lex = record_exp(lex);
 	if (ft_check_builtins(data, lex) == 0)
 	{
 		if(str)
