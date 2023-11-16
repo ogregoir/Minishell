@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/16 06:57:47 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 07:03:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	char	**str;
 
 	lex = NULL;
-	if(rl_line_buffer[0] == '\0')
-		return ;
 	if (ft_detect_quotes(rl_line_buffer, 0, 0, 0) == 1)
 	{
 		lex = ft_quote(rl_line_buffer, lex, data);
@@ -76,12 +74,9 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	lex = dollar_lexer(lex, data);
 	if (!lex || check_err(lex) == 1)
 		return ;
-	if (ft_export3(lex, data, str) == 0)
-	{
-		//ft_free_list(lex);
+	if (ft_export3(data, lex, str) == 0)
 		return;
-	}
-	lex = record_exp(lex);
+	//lex = record_exp(lex);
 	if (ft_check_builtins(data, lex) == 0)
 	{
 		if(str)
@@ -89,16 +84,8 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 		ft_free_list(lex);
 		return ;
 	}
-	if (ft_export3(data, lex, str) == 1)
-		return ;
-	else
-		data->error_code = ft_export3(data, lex, str);
-	if (data->error_code == 0)
-		return ;
 	if (rl_line_buffer[0] == '\0')
 		return ;
-	if (lex->next && lex->type == 1)
-		lex = lex->next;
 	data->error_code = ft_exec(lex, data);
 	if(str)
 		free(str);

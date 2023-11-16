@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_verif_exp(t_lex *lex, t_global *data)
+t_lex	*record_exp(t_lex *lex)
 {
 	if (!lex->next)
 		return (lex);
@@ -101,22 +101,38 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 	data->env_exp = n_env;
 }
 
-int	ft_export3(t_global *data, t_lex *lex, char **str)
+int	verif_export(t_lex *lex)
 {
-	if (ft_verif_exp(lex, data) == 1)
+	if (lex->next == NULL)
 	{
-		if (lex->type == 1)
-		{
-			ft_error(lex->content, ": command not found", NULL, 1);
+		if (ft_strchr(lex->content, 61) == 0)
 			return (1);
-		}
-		return (2);
+		else
+			return (0);
 	}
-	ft_save_env_exp(data, str);
+	while (lex->next != NULL)
+	{
+		lex = lex->next;
+		if (ft_strchr(lex->content, 61) == 0)
+			return (1);
+	}
+	return (0);
+}
+
+int	ft_export3(t_lex *lex, t_global *data, char **str)
+{
+	data->error_code = 0;
+	if (ft_strchr(lex->content, 61) == 0)
+		return (1);
+	if (verif_export(lex) == 0)
+	{
+		ft_save_env_exp(data, lex);
+		return (0);
+	}
 	if (lex->next != NULL)
 	{
 		lex = lex->next;
-		ft_export3(data, lex, str);
+		ft_export3(lex, data, str);
 	}
 	return (0);
 }
