@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/13 20:22:36 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 06:30:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ static void	check_line(t_global *data, char *rl_line_buffer, t_lex *lex)
 	if (!lex || check_err(lex) == 1)
 		return ;
 	if (ft_export3(lex, data, str) == 0)
-	{
-		//ft_free_list(lex);
-		return;
-	}
+		return ;
 	lex = record_exp(lex);
 	if (ft_check_builtins(data, lex) == 0)
 	{
@@ -117,6 +114,7 @@ int	main(int argc, char **argv, char **env)
 	ft_init_token(data);
 	data->envmini = create_env(env, data);
 	data->env_exp = malloc(sizeof(char *) * 1);
+	data->env_exp[0] = NULL;
 	input = readline("minishell: ");
 	while (rl_line_buffer != NULL)
 	{

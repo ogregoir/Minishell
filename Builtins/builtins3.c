@@ -40,12 +40,10 @@ int	ft_export(t_lex *lex, t_global *data)
 		}
 		return (0);
 	}
-	if (verif_export(lex) == 1)
-		return (0);
 	while (lex->next != NULL)
 	{
 		lex = lex->next;
-		ft_export2(lex->content, data);
+		ft_export2(lex, data);
 	}
 	return (0);
 }

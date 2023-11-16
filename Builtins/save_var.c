@@ -25,26 +25,65 @@ t_lex	*record_exp(t_lex *lex)
 	return (lex);
 }
 
-void	ft_save_env_exp3(t_global *data, t_lex *lex, int count)
+int	ft_save_env_exp2(t_global *data, t_lex *lex)
+{
+	int		l;
+	int		ct;
+
+	ct = 0;
+	l = 0;
+	if (!lex->next)
+		return (1);
+	while (lex)
+	{
+		l = 0;
+		if (data->env_exp[0] != NULL)
+		{
+			while (data->env_exp[l] != NULL)
+			{
+				if (ft_strncmp(data->env_exp[l], lex->content, ft_strchri(lex->content, 61)) == 0)
+					break;
+				l++;
+			}
+		}
+		if (data->env_exp[l] == NULL)
+			ct++;
+		lex = lex->next;
+	}
+	return (ct);
+}
+
+void	ft_save_env_exp(t_global *data, t_lex *lex)
 {	
 	char	**n_env;
 	int 	l;
 	int		i;
 	int		j;
+	int		count;
 
+	count = ft_save_env_exp2(data, lex);
 	j = 0;
-	l = -1;
-	n_env = malloc(sizeof(char *) * (count + ft_strlen_char(data) + 1));
-	while (data->env_exp[++l])
+	l = 0;
+	if (!data->env_exp || !data->env_exp[0])
+		data->env_exp[0] = NULL;
+	n_env = NULL;
+	n_env = malloc(sizeof(char *) * (count + (ft_strlen_char(data)) + 1));
+	//n_env[0] = NULL;
+	while (data->env_exp[l] != NULL)
+	{
 		n_env[j++] = ft_strdup(data->env_exp[l]);
+		l++;
+	}
 	n_env[j] = NULL;
+	if (data->env_exp || data->env_exp[0] != NULL)
+		ft_free_split(data->env_exp);
 	while (lex)
 	{
-		l = -1;
+		l = 0;
 		i = 0;
 		while (lex->content[i] != 61)
 			i++;
-		while (n_env[++l])
+		while (n_env[l])
 		{
 			if (ft_strncmp(n_env[l], lex->content, i) == 0)
 			{
@@ -52,53 +91,16 @@ void	ft_save_env_exp3(t_global *data, t_lex *lex, int count)
 				n_env[l] = ft_strdup(lex->content);
 				break ;
 			}
-		}
-		if (n_env[l] == NULL)
-			n_env[j++] = ft_strdup(lex->content);
-		n_env[j] = NULL;
-		lex = lex->next;
-	}
-	if (!n_env)
-		return ;
-	ft_free_split(data->env_exp);
-	data->env_exp = n_env;
-}
-
-int	ft_save_env_exp2(t_global *data, t_lex *lex)
-{
-	int		l;
-	int		count;
-
-	l = 0;
-	count = 0;
-	while (lex)
-	{
-		while (data->env_exp[l])
-		{		
-			if (ft_strncmp(data->env_exp[l], lex->content, ft_strchri(lex->content, 61)) == 0)
-				break;
 			l++;
 		}
-		if (data->env_exp[l] == NULL)
-			count++;
+		if (n_env[l] == NULL)
+		{
+			n_env[j] = ft_strdup(lex->content);	
+			n_env[j + 1] = NULL;
+		}
 		lex = lex->next;
 	}
-	return (count);
-}
-
-void	ft_save_env_exp(t_global *data, t_lex *lex)
-{
-	int		count;
-	int		i;
-
-	count = 0;
-	i = 0;
-	count = ft_save_env_exp2(data, lex);
-	printf("count = %d\n", count);
-	ft_save_env_exp3(data, lex, count);
-	while (data->env_exp[i++])
-		printf("dt %s\n", data->env_exp[i]);
-	//printf("lex->content %s\n", lex->content);
+	data->env_exp = n_env;
 }
 
 int	verif_export(t_lex *lex)

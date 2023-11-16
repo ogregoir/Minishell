@@ -81,3 +81,13 @@ char	*ft_strncpy(char *str, char *src, int i)
 	}
 	return (str);
 }
+
+int	ft_strlen_char(t_global *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->env_exp[i])
+		i++;
+	return (i);
+}

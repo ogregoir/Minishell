@@ -86,28 +86,30 @@ int	ft_search_i(char *str)
 	return (i);
 }
 
-void	ft_export2(char *str, t_global *data)
+void	ft_export2(t_lex *lex, t_global *data)
 {
 	int		i;
 	char	*s;
 
-	i = ft_search_i(str);
+	i = ft_search_i(lex->content);
 	s = NULL;
-	if (ft_already_exists(data, str, i) != 1)
+	if (ft_already_exists(data, lex->content, i) != 1)
 	{
-		if (ft_strchri(str, 61) != -1)
-			s = ft_strdup(str);
-		else
-			s = ft_already_exists2(data, str, i);
-		ft_insert_env(data, s, i);
+		if (ft_strchri(lex->content, 61) != -1)
+			s = ft_strdup(lex->content);
+		if (ft_strchri(lex->content, 64) == -1)
+			s = ft_already_exists2(data, lex->content, i);
 	}
 	else
 	{
-		if (ft_strchri(str, 61) == -1)
+		if (ft_strchri(lex->content, 61) == -1)
 			return ;
-		ft_insert_env(data, str, i);
+		ft_insert_env(data, lex->content, i);
 	}
 	if (s != NULL)
+	{
+		ft_insert_env(data, s, i);
 		free(s);
-	maj_env_exp(data, str, i);
+	}
+	maj_env_exp(data, lex->content, i);
 }
