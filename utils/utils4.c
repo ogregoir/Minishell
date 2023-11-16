@@ -21,9 +21,9 @@ t_lex	*ft_lstnew(char *content, t_token_type i)
 	list = malloc(sizeof(t_lex));
 	if (!list)
 		return (0);
-	list -> content = content;
-	list -> type = i;
-	list -> next = NULL;
+	list->content = content;
+	list->type = i;
+	list->next = NULL;
 	return (list);
 }
 

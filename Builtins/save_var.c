@@ -34,17 +34,16 @@ int	ft_save_env_exp2(t_global *data, t_lex *lex)
 	l = 0;
 	if (!lex->next)
 		return (1);
+	if (data->env_exp || data->env_exp[0] != NULL)
+		data->env_exp[0] = NULL;
 	while (lex)
 	{
 		l = 0;
-		if (data->env_exp[0] != NULL)
+		while (data->env_exp[l] != NULL)
 		{
-			while (data->env_exp[l] != NULL)
-			{
-				if (ft_strncmp(data->env_exp[l], lex->content, ft_strchri(lex->content, 61)) == 0)
-					break;
-				l++;
-			}
+			if (ft_strncmp(data->env_exp[l], lex->content, ft_strchri(lex->content, 61)) == 0)
+				break;
+			l++;
 		}
 		if (data->env_exp[l] == NULL)
 			ct++;
@@ -64,8 +63,6 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 	count = ft_save_env_exp2(data, lex);
 	j = 0;
 	l = 0;
-	if (!data->env_exp || !data->env_exp[0])
-		data->env_exp[0] = NULL;
 	n_env = malloc(sizeof(char *) * (count + (ft_strlen_char(data)) + 1));
 	while (data->env_exp[l] != NULL)
 	{
@@ -93,8 +90,9 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 		}
 		if (n_env[l] == NULL)
 		{
-			n_env[j] = ft_strdup(lex->content);	
-			n_env[j + 1] = NULL;
+			free(n_env[j]);
+			n_env[j++] = ft_strdup(lex->content);	
+			n_env[j] = NULL;
 		}
 		lex = lex->next;
 	}
@@ -125,7 +123,7 @@ int	ft_export3(t_lex *lex, t_global *data)
 	if (ft_strchr(lex->content, 61) == 0)
 		return (1);
 	if (verif_export(lex) == 0)
-	{
+	{	
 		ft_save_env_exp(data, lex);
 		return (0);
 	}

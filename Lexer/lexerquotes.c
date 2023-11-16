@@ -6,11 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:23:43 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/10/27 15:01:40 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/16 08:28:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 t_lex	*ft_lexer_quotes2(t_lex *lex, char *s, int j, t_global *data)
 {

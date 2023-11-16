@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:00:37 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/15 17:31:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/16 08:08:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*ft_convert_dollar(char *input, int size, t_global *data)
 {
     t_dollar *d;
 	char	*ret;
-    
+
 	d = malloc(sizeof(t_dollar));
     init_dollar(d, input, size, data);
 	while (1)

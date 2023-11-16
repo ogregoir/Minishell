@@ -12,19 +12,6 @@
 
 #include "../minishell.h"
 
-void	maj_env_exp(t_global *data, char *str, int i)
-{
-	int	j;
-
-	j = 0;
-	while (data->env_exp[j] != NULL)
-	{
-		if (ft_strncmp(data->env_exp[j], str, i) == 0)
-			free(data->env_exp[j]);
-		j++;
-	}
-}
-
 char	*ft_already_exists2(t_global *data, char *str, int i)
 {
 	int		j;
@@ -46,7 +33,8 @@ char	*ft_already_exists2(t_global *data, char *str, int i)
 
 void	ft_insert_env(t_global *data, char *str, int i)
 {
-	int	j;
+	int		j;
+	char	**new_envmini;
 
 	j = 0;
 	while (data->envmini[j] != NULL)
@@ -59,8 +47,15 @@ void	ft_insert_env(t_global *data, char *str, int i)
 		}
 		j++;
 	}
-	data->envmini[j] = ft_strdup(str);
-	data->envmini[j + 1] = NULL;
+	new_envmini = malloc(sizeof(char *) * (data->size_env + 2));
+	j = -1;
+	while (data->envmini[++j])
+		new_envmini[j] = ft_strdup(data->envmini[j]);
+	new_envmini[j] = ft_strdup(str);
+	new_envmini[j + 1] = NULL;
+	ft_free_split(data->envmini);
+	data->envmini = new_envmini;
+	data->size_env += 2;
 }
 
 int	ft_search_i(char *str)
@@ -103,5 +98,4 @@ void	ft_export2(t_lex *lex, t_global *data)
 		ft_insert_env(data, s, i);
 		free(s);
 	}
-	maj_env_exp(data, lex->content, i);
 }

@@ -17,6 +17,8 @@ int	ft_already_exists(t_global *data, char *str, int i)
 	int		j;
 
 	j = 0;
+	if (!data->env_exp || data->env_exp[0] == NULL)
+		return (1);
 	while (data->env_exp[j] != NULL)
 	{
 		if (ft_strncmp(data->env_exp[j], str, i) == 0)
@@ -40,10 +42,11 @@ int	ft_export(t_lex *lex, t_global *data)
 		}
 		return (0);
 	}
-	while (lex->next != NULL)
+	lex = lex->next;
+	while (lex)
 	{
-		lex = lex->next;
 		ft_export2(lex, data);
+		lex = lex->next;
 	}
 	return (0);
 }
