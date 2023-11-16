@@ -66,9 +66,7 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 	l = 0;
 	if (!data->env_exp || !data->env_exp[0])
 		data->env_exp[0] = NULL;
-	n_env = NULL;
 	n_env = malloc(sizeof(char *) * (count + (ft_strlen_char(data)) + 1));
-	//n_env[0] = NULL;
 	while (data->env_exp[l] != NULL)
 	{
 		n_env[j++] = ft_strdup(data->env_exp[l]);
