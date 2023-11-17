@@ -16,7 +16,7 @@ t_lex	*record_exp(t_lex *lex)
 {
 	if (!lex->next)
 		return (lex);
-	while (lex->next)
+	while (lex)
 	{
 		if (ft_strchr(lex->content, 61) == 0)
 			return (lex);
@@ -53,48 +53,54 @@ int	ft_save_env_exp2(t_global *data, t_lex *lex)
 	return (ct);
 }
 
+char	**ft_copy_n_env(t_lex *lex, char **n_env)
+{
+	int	i;
+	int	l;
+
+	l = 0;
+	i = 0;
+	while (lex->content[i] != 61)
+		i++;
+	while (n_env[l])
+	{
+		if (ft_strncmp(n_env[l], lex->content, i) == 0)
+		{
+			free(n_env[l]);
+			n_env[l] = ft_strdup(lex->content);
+			break ;
+		}
+		l++;
+	}
+	if (n_env[l] == NULL)
+	{
+		free(n_env[l]);
+		n_env[l++] = ft_strdup(lex->content);
+		n_env[l] = NULL;
+	}
+	return (n_env);
+}
+
 void	ft_save_env_exp(t_global *data, t_lex *lex)
 {
 	char	**n_env;
 	int		l;
-	int		i;
-	int		j;
 	int		count;
 
 	count = ft_save_env_exp2(data, lex);
-	j = 0;
 	l = 0;
 	n_env = malloc(sizeof(char *) * (count + (ft_strlen_char(data)) + 1));
 	while (data->env_exp[l] != NULL)
 	{
-		n_env[j++] = ft_strdup(data->env_exp[l]);
+		n_env[l] = ft_strdup(data->env_exp[l]);
 		l++;
 	}
-	n_env[j] = NULL;
+	n_env[l] = NULL;
 	if (data->env_exp || data->env_exp[0] != NULL)
 		ft_free_split(data->env_exp);
 	while (lex)
 	{
-		l = 0;
-		i = 0;
-		while (lex->content[i] != 61)
-			i++;
-		while (n_env[l])
-		{
-			if (ft_strncmp(n_env[l], lex->content, i) == 0)
-			{
-				free(n_env[l]);
-				n_env[l] = ft_strdup(lex->content);
-				break ;
-			}
-			l++;
-		}
-		if (n_env[l] == NULL)
-		{
-			free(n_env[j]);
-			n_env[j++] = ft_strdup(lex->content);
-			n_env[j] = NULL;
-		}
+		n_env = ft_copy_n_env(lex, n_env);
 		lex = lex->next;
 	}
 	data->env_exp = n_env;
@@ -127,11 +133,11 @@ int	ft_export3(t_lex *lex, t_global *data)
 	{
 		ft_save_env_exp(data, lex);
 		return (0);
-	}
+	}	
 	if (lex->next != NULL)
 	{
 		lex = lex->next;
 		ft_export3(lex, data);
 	}
-	return (0);
+	return (1);
 }
