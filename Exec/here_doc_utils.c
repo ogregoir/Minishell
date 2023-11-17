@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 22:04:43 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/13 22:13:26 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 16:01:21 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	ft_create_tmp(char *line, int temp)
 		write(temp, &line[i], 1);
 		i++;
 	}
+	free(line);
 	return (temp);
 }
