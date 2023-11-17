@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 07:13:26 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/17 04:35:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,17 @@ char	**create_env(char **env, t_global *data)
 	}
 	envmini[i] = NULL;
 	return (envmini);
+}
+
+t_lex	*record_exp(t_lex *lex)
+{
+	if (!lex->next)
+		return (lex);
+	while (lex)
+	{
+		if (ft_strchr(lex->content, 61) == 0)
+			return (lex);
+		lex = lex->next;
+	}
+	return (lex);
 }

@@ -12,19 +12,6 @@
 
 #include "../minishell.h"
 
-t_lex	*record_exp(t_lex *lex)
-{
-	if (!lex->next)
-		return (lex);
-	while (lex)
-	{
-		if (ft_strchr(lex->content, 61) == 0)
-			return (lex);
-		lex = lex->next;
-	}
-	return (lex);
-}
-
 int	ft_save_env_exp2(t_global *data, t_lex *lex)
 {
 	int		l;
@@ -133,7 +120,7 @@ int	ft_export3(t_lex *lex, t_global *data)
 	{
 		ft_save_env_exp(data, lex);
 		return (0);
-	}	
+	}
 	if (lex->next != NULL)
 	{
 		lex = lex->next;
