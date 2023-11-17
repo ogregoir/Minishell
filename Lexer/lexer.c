@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 17:39:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 16:18:02 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:12:34 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_lex	*ft_check_type(char *str, t_lex *lex, int j, t_global *data)
 	return (lex);
 }
 
-static int	copy_text(char *str)
+int	copy_text(char *str)
 {
 	int	i;
 

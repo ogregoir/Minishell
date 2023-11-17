@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 14:33:37 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/15 18:31:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:25:43 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*ft_substrfree(char *s, unsigned int start, size_t len)
 		return (0);
 	ft_copys(len, j, s, str);
 	free(s);
+	s = NULL;
 	return (str);
 }
 

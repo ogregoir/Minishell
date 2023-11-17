@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 01:23:29 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:11:16 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ char	*ft_search_quote(char *line, char c, int i)
 				i++;
 				if (line[i] == c)
 				{
-					if (line[j + 1] == '$' && c == 39)
-						str = ft_substr(line, j + 1, i - 1);
-					else
-						str = ft_substr(line, j + 1, i - 1);
+					str = ft_substr(line, j + 1, i - 1);
 					return (str);
 				}
 			}

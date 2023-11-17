@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/17 04:33:59 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/17 15:25:28 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_lex	*create_lex(t_lex *lex, t_global *data, char **str)
 		return (lex);
 	if (ft_detect_quotes(rl_line_buffer, 0, 0, 0) == 1)
 	{
-		lex = ft_quote(rl_line_buffer, lex, data, malloc(sizeof(t_quotes)));
+		lex = ft_quote(rl_line_buffer, lex, 0, data);
 		if (lex->next)
 			lex = ft_join(lex, data, NULL, lex);
 	}
@@ -118,8 +118,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	if (!env[0])
-		exit(1);
 	lex = NULL;
 	input = NULL;
 	non_canonique();

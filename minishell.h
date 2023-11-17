@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/17 01:22:31 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:59:36 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	ft_free_list(t_lex *lex);
 t_lex	*ft_check_type(char *str, t_lex *lex, int j, t_global *data);
 char	*go_next(char *str, char *s);
 char	*ft_search_quote(char *line, char c, int i);
+int		copy_text(char *str);
 
 	/*Builtins*/
 int		ft_builtin(char *content, int type);
@@ -169,7 +170,7 @@ int		check_redi_in(t_lex *lex);
 int		openfile(char *content, int mod);
 
 	/*quotes*/
-t_lex	*ft_quote(char *line, t_lex *lex, t_global *data, t_quotes *q);
+t_lex	*ft_quote(char *line, t_lex *lex, int i, t_global *data);
 char	*ft_check_quote(char *line, int i);
 char	*ft_search_quote(char *line, char c, int i);
 t_lex	*ft_join(t_lex *tofree, t_global *data, t_lex *tmp, t_lex *lex);
