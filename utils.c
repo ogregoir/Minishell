@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 14:11:16 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 17:27:47 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,12 @@ t_lex	*ft_text(char *str, int j, t_lex *lex, t_global *data)
 		lex = ft_check_type(new, lex, 0, data);
 	free(new);
 	return (lex);
+}
+
+void	freeold(char *env, char *name)
+{
+	if (env)
+		free(env);
+	if (name)
+		free(name);
 }

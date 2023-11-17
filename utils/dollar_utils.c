@@ -24,6 +24,8 @@ void	dollar_lexer2(t_lex *lex, t_global *data, t_lex **tmp, char *tmp2)
 	else
 	{
 		tmp2 = ft_convert_dollar(lex->content, 0, data);
+		if (tmp2 == NULL)
+			return ;
 		if (!(*tmp))
 			(*tmp) = ft_lstnew(tmp2, 8);
 		else
