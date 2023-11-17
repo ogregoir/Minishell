@@ -6,7 +6,7 @@
 #    By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/29 14:53:43 by ogregoir          #+#    #+#              #
-#    Updated: 2023/11/16 16:11:05 by rgreiner         ###   ########.fr        #
+#    Updated: 2023/11/16 17:18:00 by rgreiner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS	=	main.c \
 			utils/utils4.c \
 			controles.c \
 			quotes.c \
+			utils.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

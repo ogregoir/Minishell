@@ -6,40 +6,11 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 16:15:40 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/17 01:10:15 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*ft_search_quote(char *line, char c, int i)
-{
-	char	*str;
-	int		j;
-
-	while (line[i])
-	{
-		if (line[i] == c)
-		{
-			j = i;
-			while (line[i])
-			{
-				i++;
-				if (line[i] == c)
-				{
-					if (line[j + 1] == '$' && c == 39)
-						str = ft_substr(line, j + 1, i - 1);
-					else
-						str = ft_substr(line, j + 1, i - 1);
-					return (str);
-				}
-			}
-		}
-		else
-			i++;
-	}
-	return (line);
-}
 
 static int	ft_malloc_quote(char *line)
 {
@@ -90,53 +61,64 @@ char	*ft_check_quote(char *line, int i)
 	return (line);
 }
 
-t_lex	*ft_quote(char *line, t_lex *lex, t_global *data, int i)
+void	init_quotes(t_quotes *q, char *line)
 {
-	char	**str;
-	int		j;
+	q->i = 0;
+	q->j = ft_malloc_quote(line);
+	q->str = malloc(sizeof(char *) * (q->j + 1));
+	q->j = 0;
+}
 
-	j = ft_malloc_quote(line);
-	str = malloc(sizeof(char *) * (j + 1));
-	j = 0;
-	while (line[i] != '\0')
+char	*ft_quotes2(t_lex **lex, char *line, t_global *data, t_quotes **q)
+{
+	(*q)->str[(*q)->j] = ft_check_quote(line, (*q)->i);
+	if (!(*lex) && line[(*q)->i] == 34 \
+	&& ft_strchri((*q)->str[(*q)->j], '$') >= 0 && \
+		ft_strlen((*q)->str[(*q)->j]) > 1)
+		(*lex) = ft_lstnew((*q)->str[(*q)->j], 0);
+	else if (line[(*q)->i] == 34 && ft_strchri((*q)->str[(*q)->j], '$') >= 0 && \
+	ft_strlen((*q)->str[(*q)->j]) > 1)
+		addcontent((*lex), (*q)->str[(*q)->j], 0);
+	else if (line[(*q)->i] != 34 && line[(*q)->i] != 39)
+		(*lex) = ft_lexer_quotes((*q)->str[(*q)->j], (*lex), (*q)->i, data);
+	else if (!(*lex) && (*q)->str[(*q)->j])
+		(*lex) = ft_lstnew((*q)->str[(*q)->j], 8);
+	else if ((*q)->str[(*q)->j])
+		addcontent((*lex), (*q)->str[(*q)->j], 8);
+	(*q)->j++;
+	if (line[(*q)->i] == 34 || line[(*q)->i] == 39)
+		(*q)->i = ft_strlen((*q)->str[(*q)->j - 1]) + 2;
+	else
+		(*q)->i = ft_strlen((*q)->str[(*q)->j - 1]);
+	line = ft_substrfree(line, (*q)->i, ft_strlen(line));
+	return (line);
+}
+
+t_lex	*ft_quote(char *line, t_lex *lex, t_global *data, t_quotes *q)
+{
+	init_quotes(q, line);
+	while (line[q->i] != '\0')
 	{
-		if (line[i] == ' ')
+		if (line[q->i] == ' ')
 		{
-			i++;
-			str[j] = ft_strdup(" ");
+			q->i++;
+			q->str[q->j] = ft_strdup(" ");
 			if (!lex)
-				lex = ft_lstnew(str[j], 8);
+				lex = ft_lstnew(q->str[q->j], 8);
 			else
-				addcontent(lex, str[j], 8);
-			line = ft_substrfree(line, i, ft_strlen(line));
-			i = 0;
+				addcontent(lex, q->str[q->j], 8);
+			line = ft_substrfree(line, q->i, ft_strlen(line));
+			q->i = 0;
 		}
-		if (line[i] == '\0')
+		if (line[q->i] == '\0')
 			break ;
-		str[j] = ft_check_quote(line, i);
-		if (!lex && line[i] == 34 && ft_strchri(str[j], '$') >= 0 && \
-			ft_strlen(str[j]) > 1)
-			lex = ft_lstnew(str[j], 0);
-		else if (line[i] == 34 && ft_strchri(str[j], '$') >= 0 && \
-			ft_strlen(str[j]) > 1)
-			addcontent(lex, str[j], 0);
-		else if (line[i] != 34 && line[i] != 39)
-			lex = ft_lexer_quotes(str[j], lex, i, data);
-		else if (!lex && str[j])
-			lex = ft_lstnew(str[j], 8);
-		else if (str[j])
-			addcontent(lex, str[j], 8);
-		j++;
-		if (line[i] == 34 || line[i] == 39)
-			i = ft_strlen(str[j - 1]) + 2;
-		else 
-			i = ft_strlen(str[j - 1]);
-		line = ft_substrfree(line, i, ft_strlen(line));
+		line = ft_quotes2(&lex, line, data, &q);
 		if ((line[0] == 34 || line[0] == 39) && ft_strlen(line) == 1)
 			break ;
-		i = 0;
+		q->i = 0;
 	}
-	free(str);
+	free(q->str);
 	free(line);
+	free(q);
 	return (lex);
 }
