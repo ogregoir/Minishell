@@ -84,7 +84,7 @@ void	ft_export2(t_lex *lex, t_global *data)
 	{
 		if (ft_strchri(lex->content, 61) != -1)
 			s = ft_strdup(lex->content);
-		if (ft_strchri(lex->content, 64) == -1)
+		if (ft_strchri(lex->content, 61) == -1)
 			s = ft_already_exists2(data, lex->content, i);
 	}
 	else
