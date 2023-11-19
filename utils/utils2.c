@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 04:35:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/19 03:09:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
+char	**ft_create_new_env(void)
+{
+	char	**envmini;
+	char	*buf;
+
+	buf = NULL;
+	envmini = malloc(sizeof(char *) * (3 + 1));
+	envmini[0] = ft_strjoin("PWD=", getcwd(buf, 100));
+	envmini[1] = ft_strdup("SHLVL=1");
+	envmini[2] = ft_strdup("_=/usr/bin/env");
+	envmini[3] = NULL;
+	return (envmini);
+}
+
 char	**create_env(char **env, t_global *data)
 {
 	char	**envmini;
@@ -71,6 +85,8 @@ char	**create_env(char **env, t_global *data)
 	int		j;
 
 	i = 0;
+	if (!env || env[0] == NULL)
+		return (ft_create_new_env());
 	while (env[i])
 		i++;
 	data->size_env = i;
@@ -83,10 +99,8 @@ char	**create_env(char **env, t_global *data)
 		{
 			envmini[i] = ft_strdup(env[j]);
 			i++;
-			j++;
 		}
-		else
-			j++;
+		j++;
 	}
 	envmini[i] = NULL;
 	return (envmini);

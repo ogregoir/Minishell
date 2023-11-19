@@ -58,10 +58,7 @@ int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
 	if (!lex->next || lex->next->content[0] == 126)
 	{
 		if (ft_variable_exist(data, "HOME") == 1)
-		{
-			ft_error("cd: HOME not set", "", "", 1);
 			return (1);
-		}
 		else
 		{
 			newbuf = getenv("HOME");
@@ -109,7 +106,11 @@ int	ft_cd(t_global *data, t_lex *lex)
 
 	buf = NULL;
 	if (ft_verif2(data, lex) == 0 || ft_verif2(data, lex) == 1)
+	{
+		if (ft_verif2(data, lex) == 0)
+			ft_error("cd: HOME not set", "", "", 1);
 		return (ft_verif2(data, lex));
+	}
 	buf = getcwd(buf, 100);
 	if (ft_strncmp(lex->content, ".", ft_strlen(lex->content)) == 0)
 		return (0);
