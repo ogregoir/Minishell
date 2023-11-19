@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/19 03:09:10 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/19 22:18:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 	return (size);
 }
 
-char	**ft_create_new_env(void)
+char	**ft_create_new_env(t_global *data)
 {
 	char	**envmini;
 	char	*buf;
@@ -75,6 +75,7 @@ char	**ft_create_new_env(void)
 	envmini[1] = ft_strdup("SHLVL=1");
 	envmini[2] = ft_strdup("_=/usr/bin/env");
 	envmini[3] = NULL;
+	data->size_env = 4;
 	return (envmini);
 }
 
@@ -86,7 +87,7 @@ char	**create_env(char **env, t_global *data)
 
 	i = 0;
 	if (!env || env[0] == NULL)
-		return (ft_create_new_env());
+		return (ft_create_new_env(data));
 	while (env[i])
 		i++;
 	data->size_env = i;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/19 02:42:33 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/19 22:57:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,14 @@ static void	check_line(t_global *data, t_lex *lex, char **str)
 	}
 	if (ft_check_builtins(data, lex) == 0)
 	{
-		if (str)
-			ft_free_split(str);
+		ft_free_split(str);
 		ft_free_list(lex);
 		return ;
 	}
 	if (ft_export3(lex, data) == 0)
 	{
-		ft_free_list(lex);
 		ft_free_split(str);
+		ft_free_list(lex);
 		return ;
 	}
 	lex = record_exp(lex);

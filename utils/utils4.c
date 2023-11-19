@@ -73,8 +73,22 @@ char	*ft_get_env(char *str, char **env)
 	while (env[i])
 	{
 		if (ft_strncmp(str, env[i], len) == 0)
-			ret = ft_strdup(env[i] + (len +1));
+			ret = ft_strdup(env[i] + (len + 1));
 		i++;
 	}
 	return (ret);
+}
+
+void	ft_free_data_envmini(t_global *data)
+{
+	int	i;
+
+	i = 0;
+	if (!data->envmini || data->envmini[0] == NULL)
+		return ;
+	while (data->envmini[i])
+	{
+		free(data->envmini[i]);
+		i++;
+	}
 }
