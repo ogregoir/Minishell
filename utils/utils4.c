@@ -73,7 +73,11 @@ char	*ft_get_env(char *str, char **env)
 	while (env[i])
 	{
 		if (ft_strncmp(str, env[i], len) == 0)
+		{
+			if (ret != NULL)
+				free (ret);
 			ret = ft_strdup(env[i] + (len +1));
+		}
 		i++;
 	}
 	return (ret);

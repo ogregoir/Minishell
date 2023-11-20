@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/17 17:00:36 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:30:48 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ static void	check_line(t_global *data, t_lex *lex, char **str)
 	}
 	if (ft_check_builtins(data, lex) == 0)
 	{
-		if (str)
-			ft_free_split(str);
+		ft_free_split(str);
 		ft_free_list(lex);
 		return ;
 	}
@@ -84,6 +83,7 @@ static void	check_line(t_global *data, t_lex *lex, char **str)
 	}
 	lex = record_exp(lex);
 	data->error_code = ft_exec(lex, data);
+	ft_check_dos(&data, 0, NULL);
 	if (str)
 		ft_free_split(str);
 	ft_free_list(lex);

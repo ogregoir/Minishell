@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:00:37 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 17:27:34 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:49:37 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,19 @@ void	free_dollar(t_dollar *d)
 		free(d->name);
 	if (d->line)
 		free(d->line);
-	if (d->dollar)
-		free(d->dollar);
 	free(d);
 }
 
-char	*ft_dollar_err(t_dollar *d, char *input)
+void	ft_only_dollar(t_dollar **d)
 {
-	ft_strncpy(d->linepos, d->err_code, ft_strlen(d->err_code));
-	input++;
-	if (input[0] != '\0')
-		d->linepos += ft_strlen(d->err_code);
-	return (input);
+	*(*d)->linepos = '$';
+	(*d)->linepos += 1;
 }
 
 char	*ft_convert_dollar2(t_dollar *d, char *input, t_global *data)
 {
+	if (d->len == 0)
+		return ('\0');
 	d->end = input;
 	while (*d->end && (ft_isalnum(*d->end) || *d->end == '_'))
 		d->end++;
@@ -73,10 +70,7 @@ char	*ft_convert_dollar2(t_dollar *d, char *input, t_global *data)
 		input = d->end;
 	}
 	else
-	{
-		*d->linepos = '$';
-		d->linepos += 1;
-	}
+		ft_only_dollar(&d);
 	return (input);
 }
 
@@ -88,7 +82,7 @@ char	*ft_convert_dollar(char *input, int size, t_global *data)
 	d = malloc(sizeof(t_dollar));
 	ret = NULL;
 	init_dollar(d, input, size, data);
-	while (1)
+	while (input && input[0] != '\0')
 	{
 		d->dollar = ft_strnstr(input, "$", ft_strlen(input));
 		if (d->dollar == NULL)
@@ -101,7 +95,8 @@ char	*ft_convert_dollar(char *input, int size, t_global *data)
 		else if (input[0] != '\0')
 			input = ft_convert_dollar2(d, input, data);
 	}
-	ft_strncpy(d->linepos, input, ft_strlen(input));
+	if (d->len != 0)
+		ft_strncpy(d->linepos, input, ft_strlen(input));
 	d->linepos[d->len] = '\0';
 	ret = ft_strdup(d->line);
 	free_dollar(d);

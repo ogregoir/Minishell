@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 14:07:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 04:35:24 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/20 10:27:06 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	ft_len_malloc2(char *input, int size, t_global *data)
 		env = ft_get_env(name, data->envmini);
 		if (env != NULL)
 			size = size + ft_strlen(env);
-		else
-			size = size + len;
 		input = end;
 		free(name);
 		free(env);
@@ -56,11 +54,11 @@ int	ft_len_malloc(char *input, char *err_code, int size, t_global *data)
 		{
 			size = size + ft_strlen(err_code);
 			input++;
+			size = size + ft_strlen(input);
 		}
 		else if (input[0] != '\0')
 			size = ft_len_malloc2(input, size, data);
 	}
-	size = size + ft_strlen(input);
 	return (size);
 }
 

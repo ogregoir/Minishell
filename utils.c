@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 18:08:02 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 17:27:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:30:11 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,41 @@ t_lex	*ft_text(char *str, int j, t_lex *lex, t_global *data)
 void	freeold(char *env, char *name)
 {
 	if (env)
+	{
 		free(env);
+		env = NULL;
+	}
 	if (name)
+	{
 		free(name);
+		name = NULL;
+	}
+}
+
+void	ft_check_dos(t_global **data, int i, char *buf)
+{
+	buf = getcwd(buf, 100);
+	if (buf != NULL)
+	{
+		if (ft_strncmp(buf, "/", 1) == 0 && ft_strlen(buf) == 1)
+		{
+			free(buf);
+			chdir("/");
+			return ;
+		}
+	}
+	if (buf == NULL)
+	{
+		while ((*data)->envmini[i])
+		{
+			if (ft_strncmp((*data)->envmini[i], "PWD", 3) == 0)
+			{
+				free((*data)->envmini[i]);
+				(*data)->envmini[i] = ft_strdup("PWD=/home");
+				chdir("/home");
+			}
+			i++;
+		}
+	}
+	free(buf);
 }

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:23:43 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 15:04:01 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:43:12 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data)
 				line = go_next(line, s);
 				if (line != NULL || s != NULL)
 					lex = ft_check_type(line, lex, i, data);
+				free (line);
 				return (lex);
 			}
 			j++;

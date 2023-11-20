@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/17 17:28:06 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:55:06 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,9 @@ char	*ft_convert_dollar(char *input, int size, t_global *data);
 int		ft_detect_quotes(char *line, int i, int nbr_s, int nbr_d);
 int		check_err(t_lex *lex);
 void	freeold(char *env, char *name);
+void	ft_check_dos(t_global **data, int i, char *buf);
+int		ft_isspace(int i);
+char	*ft_dollar_err(t_dollar *d, char *input);
 
 	/*EXEC*/
 int		ft_exec(t_lex *lex, t_global *data);

@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/15 15:43:34 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/19 11:08:49 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_pwd(int file)
 	char	*buf;
 
 	buf = NULL;
-	buf = getcwd(buf, 100);
+	buf = getcwd(buf, 1000);
 	if (file != 1)
 		dup2(file, STDOUT_FILENO);
 	ft_putendl_fd(buf, file);

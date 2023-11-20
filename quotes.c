@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 15:06:28 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:50:05 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,13 @@ t_lex	*ft_quote(char *line, t_lex *lex, int i, t_global *data)
 	}
 	free(line);
 	return (lex);
+}
+
+char	*ft_dollar_err(t_dollar *d, char *input)
+{
+	ft_strncpy(d->linepos, d->err_code, ft_strlen(d->err_code));
+	input++;
+	if (input[0] != '\0')
+		d->linepos += ft_strlen(d->err_code);
+	return (input);
 }
