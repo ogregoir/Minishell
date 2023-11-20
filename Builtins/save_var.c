@@ -83,8 +83,6 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 		l++;
 	}
 	n_env[l] = NULL;
-	if (data->env_exp || data->env_exp[0] != NULL)
-		ft_free_split(data->env_exp);
 	while (lex)
 	{
 		n_env = ft_copy_n_env(lex, n_env);

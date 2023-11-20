@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/20 10:30:48 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:59:00 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static void	check_line(t_global *data, t_lex *lex, char **str)
 	}
 	if (ft_export3(lex, data) == 0)
 	{
-		ft_free_list(lex);
 		ft_free_split(str);
+		ft_free_list(lex);
 		return ;
 	}
 	lex = record_exp(lex);

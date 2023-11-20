@@ -6,7 +6,7 @@
 /*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/20 10:55:06 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:58:45 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int		ft_echo(t_lex *lex, int file);
 int		ft_cd(t_global *data, t_lex *lex);
 int		ft_access_cd(t_global *data, char *buf, char *line, char *oldbuf);
 int		ft_export(t_lex *lex, t_global *data);
-void	ft_export2(t_lex *lex, t_global *data);
+char	**ft_export2(t_lex *lex, t_global *data);
 int		ft_verif_exp(t_lex *lex, t_global *data);
 int		ft_export3(t_lex *lex, t_global *data);
 int		ft_already_exists(t_global *data, char *str, int i);
@@ -201,5 +201,6 @@ void	ft_free_global(t_global *data);
 void	print_lexer(t_lex *lex);
 int		ft_strlen_char(t_global *data);
 t_lex	*record_exp(t_lex *lex);
+void	ft_free_data_envmini(t_global *data);
 
 #endif

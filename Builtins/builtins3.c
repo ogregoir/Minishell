@@ -45,7 +45,7 @@ int	ft_export(t_lex *lex, t_global *data)
 	lex = lex->next;
 	while (lex)
 	{
-		ft_export2(lex, data);
+		data->envmini = ft_export2(lex, data);
 		lex = lex->next;
 	}
 	return (0);

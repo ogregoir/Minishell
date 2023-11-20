@@ -82,3 +82,17 @@ char	*ft_get_env(char *str, char **env)
 	}
 	return (ret);
 }
+
+void	ft_free_data_envmini(t_global *data)
+{
+	int	i;
+
+	i = 0;
+	if (!data->envmini || data->envmini[0] == NULL)
+		return ;
+	while (data->envmini[i])
+	{
+		free(data->envmini[i]);
+		i++;
+	}
+}
