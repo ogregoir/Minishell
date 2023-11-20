@@ -88,6 +88,7 @@ void	ft_save_env_exp(t_global *data, t_lex *lex)
 		n_env = ft_copy_n_env(lex, n_env);
 		lex = lex->next;
 	}
+	ft_free_env_exp(data);
 	data->env_exp = n_env;
 }
 

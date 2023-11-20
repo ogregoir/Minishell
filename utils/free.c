@@ -75,3 +75,21 @@ void	ft_free_global(t_global *data)
 		i++;
 	}
 }
+
+void	ft_free_env_exp(t_global *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->env_exp[0] == NULL || data->env_exp)
+	{
+		free(data->env_exp);
+		return ;
+	}
+	while (data->env_exp[i])
+	{
+		free(data->env_exp[i]);
+		i++;
+	}
+	free(data->env_exp);
+}

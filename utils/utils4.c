@@ -95,4 +95,5 @@ void	ft_free_data_envmini(t_global *data)
 		free(data->envmini[i]);
 		i++;
 	}
+	free(data->envmini);
 }
