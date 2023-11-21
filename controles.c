@@ -42,15 +42,19 @@ void	ft_ctrlc2(int sig)
 
 void	ft_ctrld(int sig)
 {
+	char	*str;
+
 	(void)sig;
-	printf("minishell: ");
-	rl_replace_line("", 0);
+	str = ft_strjoin("minishell: ", rl_line_buffer);
 	rl_redisplay();
+	printf("%s", str);
+	free(str);
 }
 
 void	ft_ctrlb(int sig)
 {
 	(void)sig;
+	printf("\n");
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_error = 131;
