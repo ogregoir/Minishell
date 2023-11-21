@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:37:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/13 22:44:04 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:28:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 int	ft_here_doc_open2(char *line, int temp, char *cmp)
 {
 	if (line != NULL)
@@ -25,7 +25,7 @@ int	ft_here_doc_open2(char *line, int temp, char *cmp)
 		free(line);
 	}
 	return (temp);
-}
+}*/
 
 void	ft_ctrl_here(int sig)
 {
@@ -80,7 +80,7 @@ int	ft_here_doc_pipe(t_lex *lex, t_global *data)
 	}
 	signal(SIGINT, SIG_IGN);
 	wait(&status);
-	signal(SIGINT, ft_controles);
+	signal(SIGINT, ft_ctrlc);
 	if (WEXITSTATUS(status) == 1)
 		return (-1);
 	file = open("temp", O_RDONLY);

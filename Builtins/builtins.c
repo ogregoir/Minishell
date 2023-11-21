@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:39:22 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/19 11:08:49 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 03:20:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit2(t_lex *lex, t_global *data)
+static void	ft_exit2(t_lex *lex)
 {
 	printf("exit\n");
 	if (lex->next == NULL)
-		exit (data->error_code);
+		exit (g_error);
 }
 
-void	ft_exit(t_lex *lex, t_global *data)
+void	ft_exit(t_lex *lex)
 {
 	int	i;
 
 	i = 0;
-	ft_exit2(lex, data);
+	ft_exit2(lex);
 	if (lex->next->next && lex->next->type == 8 && lex->next->next->type == 8)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		data->error_code = 1;
+		g_error = 1;
 		return ;
 	}
 	else if (ft_check_nbr(lex->next->content) == 1 && \
@@ -36,7 +36,7 @@ void	ft_exit(t_lex *lex, t_global *data)
 			lex->next->type == 8)
 	{
 		ft_putendl_fd("minishell: numeric argument required", 2);
-		data->error_code = 2;
+		g_error = 2;
 		exit (2);
 	}
 	if (lex->next->content[0] == '-')

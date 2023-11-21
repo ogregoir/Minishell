@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 15:49:47 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:21:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 int	check_redi_out(t_lex *lex)
 {
 	t_lex	*tmp;
@@ -24,7 +24,7 @@ int	check_redi_out(t_lex *lex)
 		tmp = tmp->next;
 	}
 	return (0);
-}
+}*/
 
 int	check_redi(t_lex *lex)
 {

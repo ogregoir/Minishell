@@ -70,7 +70,7 @@ int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
 	}
 	lex = lex->next;
 	if (lex->next)
-		return (1);
+		return (2);
 	return (0);
 }
 
@@ -107,13 +107,13 @@ int	ft_cd(t_global *data, t_lex *lex)
 	buf = NULL;
 	if (ft_verif2(data, lex) == 0 || ft_verif2(data, lex) == 1)
 	{
-		if (ft_verif2(data, lex) == 0)
+		if (ft_verif2(data, lex) == 1)
 			ft_error("cd: HOME not set", "", "", 1);
 		return (ft_verif2(data, lex));
 	}
-	buf = getcwd(buf, 100);
-	if (ft_strncmp(lex->content, ".", ft_strlen(lex->content)) == 0)
+	if (lex->next->content[0] == '.' && ft_strlen(lex->next->content) == 1)
 		return (0);
+	buf = getcwd(buf, 100);
 	oldbuf = ft_strdup(buf);
 	lex = lex->next;
 	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)

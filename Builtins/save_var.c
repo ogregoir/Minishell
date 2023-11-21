@@ -112,7 +112,6 @@ int	verif_export(t_lex *lex)
 
 int	ft_export3(t_lex *lex, t_global *data)
 {
-	data->error_code = 0;
 	if (ft_strchr(lex->content, 61) == 0)
 		return (1);
 	if (verif_export(lex) == 0)

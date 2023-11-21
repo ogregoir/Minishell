@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:35:07 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 13:37:37 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/20 23:34:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	ft_nbr_space(char **str)
 	return (j);
 }
 
-char	*ft_join2(t_lex **lex, t_global *data, char *str, t_lex **tmp)
+char	*ft_join2(t_lex **lex, char *str, t_lex **tmp)
 {
 	if ((*lex)->type == 0 && ft_strncmp((*lex)->content, "?", 1) && \
 		ft_strlen((*lex)->content) == 1)
-		(*tmp) = check_dollar((*tmp), data, "?");
+		(*tmp) = check_dollar((*tmp), "?");
 	else if ((*lex)->next && \
 			ft_strncmp((*lex)->next->content, " ", 1) == 0 && \
 			ft_strlen((*lex)->next->content) == 1)
@@ -83,7 +83,7 @@ t_lex	*ft_join4(t_lex *tmp, t_lex *lex, char *str, t_lex *tofree)
 	return (tmp);
 }
 
-t_lex	*ft_join(t_lex *tofree, t_global *data, t_lex *tmp, t_lex *lex)
+t_lex	*ft_join(t_lex *tofree, t_lex *tmp, t_lex *lex)
 {
 	char	*str;
 
@@ -95,10 +95,10 @@ t_lex	*ft_join(t_lex *tofree, t_global *data, t_lex *tmp, t_lex *lex)
 			lex = lex->next;
 		if ((ft_strncmp(lex->content, " ", 1) != 0) && \
 			(lex->type == 8 || lex->type == 0))
-			str = ft_join2(&lex, data, str, &tmp);
+			str = ft_join2(&lex, str, &tmp);
 		else if (lex->type == 0 && \
 			ft_strncmp(lex->content, "?", 1) && ft_strlen(lex->content) == 1)
-			tmp = check_dollar(tmp, data, "?");
+			tmp = check_dollar(tmp, "?");
 		else if (!tmp && (ft_strncmp(lex->content, " ", 1) != 0 || \
 			ft_strlen(lex->content) != 1))
 			tmp = ft_lstnew(ft_strdup(lex->content), lex->type);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 16:11:36 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:31:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_pipe_create(int pipenbr, int **fd)
 	}
 }
 
+/*
 int	check_redi_in(t_lex *lex)
 {
 	t_lex	*tmp;
@@ -66,4 +67,4 @@ int	check_redi_in(t_lex *lex)
 		tmp = tmp->next;
 	}
 	return (0);
-}
+}*/

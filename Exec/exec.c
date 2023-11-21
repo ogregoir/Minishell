@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/17 17:34:06 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 02:38:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 int	ft_exec(t_lex *lex, t_global *data)
 {
 	if (lex->type != 8 && lex->type != 4)
-		return (data->error_code);
-	data->error_code = detect_pipe(lex, data);
-	return (data->error_code);
+		return (g_error);
+	signal(SIGINT, &ft_ctrlc2);
+	signal(SIGQUIT, &ft_ctrlb);
+	g_error = detect_pipe(lex, data);
+	return (g_error);
 }

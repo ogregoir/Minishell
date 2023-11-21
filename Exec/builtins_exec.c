@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:32:41 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 13:10:58 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:26:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	ft_exec_main(int file, t_lex *lex, t_global *data)
 {
 	if (ft_strncmp(lex->content, "echo", 4) == 0 && \
 		ft_strlen(lex->content) == 4)
-		data->error_code = ft_echo(lex, file);
+		g_error = ft_echo(lex, file);
 	else if (ft_strncmp(lex->content, "pwd", 3) == 0 && \
 		ft_strlen(lex->content) == 3)
-		data->error_code = ft_pwd(file);
+		g_error = ft_pwd(file);
 	else if (ft_strncmp(lex->content, "export", 6) == 0)
-		data->error_code = ft_export(lex, data);
+		g_error = ft_export(lex, data);
 	else if (ft_strncmp(lex->content, "unset", 5) == 0)
-		data->error_code = ft_unset(lex, data);
+		g_error = ft_unset(lex, data);
 	else if (ft_strncmp(lex->content, "env", 3) == 0 && \
 		ft_strlen(lex->content) == 3)
-		data->error_code = ft_env(lex, data, file);
+		g_error = ft_env(lex, data, file);
 }
 
 void	check_file(t_lex *lex)
@@ -98,7 +98,7 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i)
 	if (child == 1)
 	{
 		builtin_child(lex, i, old, data);
-		exit(data->error_code);
+		exit(g_error);
 	}
 	else
 	{
@@ -107,6 +107,6 @@ t_lex	*ft_builtin_exec(t_global *data, t_lex *lex, int child, int i)
 		ft_exec_main(file, lex, data);
 		close_redi(old, file);
 	}
-	exit(data->error_code);
+	exit(g_error);
 	return (lex);
 }

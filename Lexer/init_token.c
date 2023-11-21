@@ -72,7 +72,6 @@ void	ft_init_token(t_global *data, char **env)
 
 	j = 0;
 	data->token = malloc(sizeof(t_listtest) * 9);
-	data->error_code = 0;
 	data->envmini = NULL;
 	data->fd = NULL;
 	data->pid = NULL;
@@ -89,14 +88,14 @@ void	ft_init_token(t_global *data, char **env)
 	}
 }
 
-t_lex	*check_dollar(t_lex *lex, t_global *data, char *s)
+t_lex	*check_dollar(t_lex *lex, char *s)
 {
 	if (ft_strncmp(s, "?", 1) == 0 && ft_strlen(s) == 1)
 	{
 		if (!lex)
-			lex = ft_lstnew(ft_itoa(data->error_code), 8);
+			lex = ft_lstnew(ft_itoa(g_error), 8);
 		else
-			addcontent(lex, ft_itoa(data->error_code), 8);
+			addcontent(lex, ft_itoa(g_error), 8);
 	}
 	return (lex);
 }

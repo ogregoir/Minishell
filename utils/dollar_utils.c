@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 int	check_env(t_lex *lex, t_global *data)
 {
 	if (ft_strncmp(lex->content, "$?", 2) == 0)
@@ -19,7 +19,7 @@ int	check_env(t_lex *lex, t_global *data)
 	if (ft_get_env(lex->content + 1, data->envmini) == NULL)
 		return (1);
 	return (0);
-}
+}*/
 
 void	dollar_lexer2(t_lex *lex, t_global *data, t_lex **tmp, char *tmp2)
 {

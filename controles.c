@@ -21,19 +21,32 @@ void	non_canonique(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &original);
 }
 
-void	ft_ctrlc(void)
+void	ft_ctrlc(int sig)
 {
+	(void)sig;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_error = 130;
 }
 
-void	ft_ctrld(void)
+void	ft_ctrlc2(int sig)
 {
+	(void)sig;
+	ft_putstr_fd("\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_error = 130;
+}
+
+void	ft_ctrld(int sig)
+{
+	(void)sig;
 	printf("minishell: ");
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_error = 127;
 }
 
 void	ft_ctrlb(int sig)
@@ -41,14 +54,5 @@ void	ft_ctrlb(int sig)
 	(void)sig;
 	rl_replace_line("", 0);
 	rl_redisplay();
-}
-
-void	ft_controles(int sig)
-{
-	if (sig == SIGINT)
-		ft_ctrlc();
-	else if (sig == SIGQUIT)
-		ft_ctrld();
-	else
-		return ;
+	g_error = 131;
 }

@@ -6,36 +6,38 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/20 14:35:49 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 02:47:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_error;
 
 int	ft_check_builtins(t_global *data, t_lex *lex)
 {
 	if (ft_strncmp(lex->content, "exit", 4) == 0 && \
 		ft_strlen(lex->content) == 4)
 	{
-		ft_exit(lex, data);
+		ft_exit(lex);
 		return (0);
 	}
 	if (ft_strncmp(lex->content, "cd", 2) == 0 && \
 		ft_strlen(lex->content) == 2)
 	{
-		data->error_code = ft_cd(data, lex);
+		g_error = ft_cd(data, lex);
 		return (0);
 	}
 	if (ft_strncmp(lex->content, "unset", 5) == 0 && \
 		ft_strlen(lex->content) == 5)
 	{
-		data->error_code = ft_unset(lex, data);
+		g_error = ft_unset(lex, data);
 		return (0);
 	}
 	if (ft_strncmp(lex->content, "export", 6) == 0 && \
 		ft_strlen(lex->content) == 6)
 	{
-		data->error_code = ft_export(lex, data);
+		g_error = ft_export(lex, data);
 		return (0);
 	}
 	return (1);
@@ -49,7 +51,7 @@ t_lex	*create_lex(t_lex *lex, t_global *data, char **str)
 	{
 		lex = ft_quote(rl_line_buffer, lex, 0, data);
 		if (lex->next)
-			lex = ft_join(lex, data, NULL, lex);
+			lex = ft_join(lex, NULL, lex);
 	}
 	else
 		str = ft_split(rl_line_buffer, ' ');
@@ -82,7 +84,7 @@ static void	check_line(t_global *data, t_lex *lex, char **str)
 		return ;
 	}
 	lex = record_exp(lex);
-	data->error_code = ft_exec(lex, data);
+	g_error = ft_exec(lex, data);
 	ft_check_dos(&data, 0, NULL);
 	if (str)
 		ft_free_split(str);
@@ -96,15 +98,15 @@ void	shell(char *input, t_global *data, t_lex *lex)
 	while (rl_line_buffer != NULL)
 	{
 		add_history(rl_line_buffer);
-		if (ft_strncmp("cat", rl_line_buffer, ft_strlen(rl_line_buffer)) == 0)
-			signal(SIGINT, ft_ctrlb);
 		free(input);
 		if (input == NULL)
 		{
 			ft_free_global(data);
-			exit(data->error_code);
+			exit(g_error);
 		}
 		check_line(data, lex, NULL);
+		signal(SIGQUIT, &ft_ctrld);
+		signal(SIGINT, &ft_ctrlc);
 		input = readline("minishell: ");
 	}
 	ft_free_char(data);
@@ -122,9 +124,9 @@ int	main(int argc, char **argv, char **env)
 	input = NULL;
 	non_canonique();
 	data = malloc(sizeof(t_global));
-	signal(SIGQUIT, ft_controles);
-	signal(SIGINT, ft_controles);
+	signal(SIGQUIT, &ft_ctrld);
+	signal(SIGINT, &ft_ctrlc);
 	ft_init_token(data, env);
 	shell(input, data, lex);
-	return (data->error_code);
+	return (g_error);
 }

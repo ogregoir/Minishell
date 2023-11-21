@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:00:37 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/20 10:49:37 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:37:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_dollar(t_dollar *d, char *input, int size, t_global *data)
 {
-	d->err_code = ft_itoa(data->error_code);
+	d->err_code = ft_itoa(g_error);
 	d->cpy = ft_strdup(input);
 	d->len = ft_len_malloc(d->cpy, d->err_code, size, data);
 	d->line = malloc(sizeof(char *) * (d->len + 1));

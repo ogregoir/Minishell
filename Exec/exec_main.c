@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:59:38 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/16 16:08:51 by rgreiner         ###   ########.fr       */
+/*   Updated: 2023/11/21 04:27:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	exec_loop(t_lex *lex, t_global *datas, t_pipe data, int i)
 		if (lex->next && lex->next->next && lex->type == 4)
 			lex = lex->next->next;
 		if (pid[i] == 0 && ft_builtin(lex->content, 1) != 0)
-			datas->error_code = ft_check_cmd(lex, datas);
+			g_error = ft_check_cmd(lex, datas);
 		while (lex && lex->type != 1)
 			lex = lex->next;
 	}
@@ -84,5 +84,7 @@ int	detect_pipe(t_lex *lex, t_global *data)
 	pipex(lex, data, i, -1);
 	while (wait(&status) > 0)
 		;
-	return (WEXITSTATUS(status));
+	if (g_error != 130)
+		g_error = WEXITSTATUS(status);
+	return (g_error);
 }
