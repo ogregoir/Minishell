@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_lexer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgreiner <rgreiner@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 16:00:37 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:37:04 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 10:49:58 by rgreiner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_only_dollar(t_dollar **d)
 char	*ft_convert_dollar2(t_dollar *d, char *input, t_global *data)
 {
 	if (d->len == 0)
-		return ('\0');
+		return ("\0");
 	d->end = input;
 	while (*d->end && (ft_isalnum(*d->end) || *d->end == '_'))
 		d->end++;
