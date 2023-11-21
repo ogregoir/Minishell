@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 15:02:15 by ogregoir          #+#    #+#             */
-/*   Updated: 2023/11/21 15:00:51 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:23:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_lex	*create_lex(t_lex *lex, t_global *data, char **str)
 		return (lex);
 	if (ft_detect_quotes(rl_line_buffer, 0, 0, 0) == 1)
 	{
-		lex = ft_quote(rl_line_buffer, lex, 0, data);
+		lex = ft_quote(ft_strdup(rl_line_buffer), lex, 0, data);
 		if (lex->next)
 			lex = ft_join(lex, NULL, lex);
 	}
