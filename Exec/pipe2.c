@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 15:18:39 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:31:49 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:20:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,3 @@ void	ft_pipe_create(int pipenbr, int **fd)
 		j++;
 	}
 }
-
-/*
-int	check_redi_in(t_lex *lex)
-{
-	t_lex	*tmp;
-
-	tmp = lex;
-	while (tmp)
-	{
-		if (tmp->type == 2)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}*/

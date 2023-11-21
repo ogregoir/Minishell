@@ -6,26 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 09:37:09 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:28:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:20:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/*
-int	ft_here_doc_open2(char *line, int temp, char *cmp)
-{
-	if (line != NULL)
-	{
-		if (ft_strcmp(line, cmp) == 0)
-			return (0);
-		if (ft_strlen(line) > 1 && getenv(line + 1) != NULL)
-			temp = ft_create_tmp(getenv(line + 1), temp);
-		else
-			temp = ft_create_tmp(line, temp);
-		free(line);
-	}
-	return (temp);
-}*/
 
 void	ft_ctrl_here(int sig)
 {

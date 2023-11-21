@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:59:38 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:27:02 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:15:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	detect_pipe(t_lex *lex, t_global *data)
 	pipex(lex, data, i, -1);
 	while (wait(&status) > 0)
 		;
-	if (g_error != 130)
+	if (g_error != 130 && g_error != 131)
 		g_error = WEXITSTATUS(status);
 	return (g_error);
 }

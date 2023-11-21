@@ -6,25 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 10:11:22 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:21:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:20:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/*
-int	check_redi_out(t_lex *lex)
-{
-	t_lex	*tmp;
-
-	tmp = lex;
-	while (tmp)
-	{
-		if (tmp->type == 3 || tmp->type == 5)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}*/
 
 int	check_redi(t_lex *lex)
 {

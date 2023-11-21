@@ -46,7 +46,6 @@ void	ft_ctrld(int sig)
 	printf("minishell: ");
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_error = 127;
 }
 
 void	ft_ctrlb(int sig)

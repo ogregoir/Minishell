@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 12:46:31 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 02:38:54 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:10:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,11 @@ int	ft_check_cmd(t_lex *lex, t_global *data)
 
 int	ft_exec(t_lex *lex, t_global *data)
 {
-	if (lex->type != 8 && lex->type != 4)
-		return (g_error);
+	g_error = 0;
 	signal(SIGINT, &ft_ctrlc2);
 	signal(SIGQUIT, &ft_ctrlb);
+	if (lex->type != 8 && lex->type != 4)
+		return (g_error);
 	g_error = detect_pipe(lex, data);
 	return (g_error);
 }

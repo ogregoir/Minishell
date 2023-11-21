@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:25:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 04:36:04 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/21 15:21:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,6 @@ void	close_redi(int out, int file)
 		close(out);
 	}
 }
-/*
-int	ft_search_token(t_lex *lex)
-{
-	t_lex	*tmp;
-
-	tmp = lex;
-	while (tmp)
-	{
-		if (tmp->type == 1)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}*/
 
 int	ft_multi_redi(t_lex *tmp)
 {
