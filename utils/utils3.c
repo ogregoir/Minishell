@@ -38,7 +38,7 @@ int	ft_variable_exist(t_global *data, char *str)
 	while (data->envmini[i])
 	{
 		if (ft_strncmp(data->envmini[i], str, ft_strlen(str)) == 0)
-			return (0); 
+			return (0);
 		i++;
 	}
 	return (1);

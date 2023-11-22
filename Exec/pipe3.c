@@ -33,6 +33,8 @@ void	exec_here_doc(t_lex *lex, t_global *g, int i, t_pipe *data)
 		dup2(g->file, STDIN_FILENO);
 		close_pipe(g->fd, data->pipenbr);
 	}
+	if (lex->next && (lex->next->type == 3 || lex->next->type == 5))
+		dup2(g->file, STDIN_FILENO);
 	g->file = 0;
 	ft_pipex_main(i, lex, data, g);
 }
