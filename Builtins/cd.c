@@ -74,29 +74,23 @@ int	ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf)
 	return (0);
 }
 
-int	ft_verif2(t_global *data, t_lex *lex)
+char	*ft_back2(t_lex *lex, char *buf)
 {
-	char	*buf;
-	char	*oldbuf;
+	char	*new_buf;
 
-	buf = NULL;
-	buf = getcwd(buf, 100);
-	oldbuf = ft_strdup(buf);
-	if (ft_verif_cd(lex, data, oldbuf) == 1)
+	new_buf = NULL;
+	if (ft_strlen(lex->content) == 2)
 	{
-		free (buf);
-		free (oldbuf);
-		return (1);
+		new_buf = ft_back(buf);
+		return (new_buf);
 	}
-	else if (ft_verif_cd(lex, data, oldbuf) == 2)
+	else if (lex->content[2] == 47)
 	{
 		free(buf);
-		free (oldbuf);
-		return (0);
+		new_buf = ft_strdup(lex->content);
+		return (new_buf);
 	}
-	free (buf);
-	free (oldbuf);
-	return (2);
+	return (buf);
 }
 
 int	ft_cd(t_global *data, t_lex *lex)
@@ -116,8 +110,8 @@ int	ft_cd(t_global *data, t_lex *lex)
 	buf = getcwd(buf, 100);
 	oldbuf = ft_strdup(buf);
 	lex = lex->next;
-	if (ft_strncmp(lex->content, "..", ft_strlen(lex->content)) == 0)
-		buf = ft_back(buf);
+	if (ft_strncmp(lex->content, "..", 2) == 0)
+		buf = ft_back2(lex, buf);
 	else if (lex->content[0] == 47)
 	{
 		free (buf);

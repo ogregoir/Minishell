@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 02:20:01 by marvin            #+#    #+#             */
-/*   Updated: 2023/11/21 04:39:10 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/23 05:02:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int		ft_export(t_lex *lex, t_global *data);
 int		ft_echo(t_lex *lex, int file);
 
 int		ft_cd(t_global *data, t_lex *lex);
+int		ft_verif_cd(t_lex *lex, t_global *data, char *oldbuf);
 
 char	**ft_export2(t_lex *lex, t_global *data);
 
@@ -169,6 +170,7 @@ t_lex	*ft_lexer_quotes(char *line, t_lex *lex, int i, t_global *data);
 void	close_redi(int out, int file);
 int		ft_multi_redi(t_lex *tmp);
 int		ft_builtin_redi(t_lex *lex, int file, int child);
+int		ft_verif2(t_global *data, t_lex *lex);
 
 char	*ft_convert_dollar(char *input, int size, t_global *data);
 

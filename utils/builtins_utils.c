@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 16:25:53 by rgreiner          #+#    #+#             */
-/*   Updated: 2023/11/21 15:21:17 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/23 05:01:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,29 @@ int	ft_builtin_redi(t_lex *lex, int file, int child)
 			return (file);
 	}
 	return (1);
+}
+
+int	ft_verif2(t_global *data, t_lex *lex)
+{
+	char	*buf;
+	char	*oldbuf;
+
+	buf = NULL;
+	buf = getcwd(buf, 100);
+	oldbuf = ft_strdup(buf);
+	if (ft_verif_cd(lex, data, oldbuf) == 1)
+	{
+		free (buf);
+		free (oldbuf);
+		return (1);
+	}
+	else if (ft_verif_cd(lex, data, oldbuf) == 2)
+	{
+		free(buf);
+		free (oldbuf);
+		return (0);
+	}
+	free (buf);
+	free (oldbuf);
+	return (2);
 }
